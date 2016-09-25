@@ -15,7 +15,7 @@
  :post-date-format   "yyyy-MM-dd"
  :sass-src           nil
  :sass-dest          nil
- :theme              "blue"
+ :theme              "blue_centered"
  :resources          ["img"]
  :keep-files         [".git"]
  :disqus?            true
@@ -23,5 +23,5 @@
  :ignored-files      [#"\.#.*" #".*\.swp$"]
  :posts-per-page     5
  :blocks-per-preview 2
- :previews?          false
+ :previews?          true
  :clean-urls?        true}

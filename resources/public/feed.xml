@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Sun, 25 Sep 2016 15:30:31 +0100
+Sun, 25 Sep 2016 21:10:28 +0100
 </lastBuildDate>
 <generator>
 clj-rss
@@ -25,132 +25,21 @@ http://colinyates.co.uk/posts-output/2016-09-25-hello-again/
 http://colinyates.co.uk/posts-output/2016-09-25-hello-again/
 </link>
 <title>
-Yet another post
+Blogging, the sequel!
 </title>
 <description>
-&lt;h3&gt;&lt;a name=&quot;this&amp;#95;post&amp;#95;not&amp;#95;fetch&amp;#95;enough&quot;&gt;&lt;/a&gt;This Post Not Fetch Enough&lt;/h3&gt;&lt;p&gt;some stuff happened&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;and a quote appeared &lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2&gt;&lt;a name=&quot;a&amp;#95;fresh&amp;#95;start&quot;&gt;&lt;/a&gt;A fresh start&lt;/h2&gt;&lt;p&gt;So, er yeah. I haven't really blogged for a &lt;i&gt;long&lt;/i&gt; time - this time it will be different. I promise.&lt;/p&gt;&lt;p&gt;Hmm, I am already sceptical. It is well known that 'trying harder' never works, so what is different this time? Well, I have some objectives which are &lt;a href='https://en.wikipedia.org/wiki/SMART_criteria'&gt;SMART&lt;/a&gt;:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;S&lt;/strong&gt;pecific&lt;/li&gt;&lt;li&gt;&lt;strong&gt;M&lt;/strong&gt;easurable&lt;/li&gt;&lt;li&gt;&lt;strong&gt;A&lt;/strong&gt;greed upon&lt;/li&gt;&lt;li&gt;&lt;strong&gt;R&lt;/strong&gt;ealistic&lt;/li&gt;&lt;li&gt;&lt;strong&gt;T&lt;/strong&gt;ime-based&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;In a democracy of 1 it is pretty easy to meet the 'Agreed upon' criteria. So, what is my goal? To publish one 'meaty' blog post a week. By 'meaty' I mean a reaction to some non-trivial event in real life, probably work related.&lt;/p&gt;&lt;p&gt;What sorts of things will I ramble on about? Primarily technical I think, specifically around the Functional Programming and Enterprise landscape.&lt;/p&gt;&lt;p&gt;I care very passionately about Software Engineering and critical thinking as oppose to doing it &lt;code&gt;because Google&lt;/code&gt;. That will almost certainly creep in throughout the blog.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;jekyll,&amp;#95;so&amp;#95;long&quot;&gt;&lt;/a&gt;Jekyll, so long&lt;/h2&gt;&lt;p&gt;My previous blog was built using the excellent &lt;a href='https://jekyllrb.com'&gt;jekyll&lt;/a&gt;. The handful of posts can be found &lt;a href='https://github.com/yatesco/yatesco.github.io'&gt;on github&lt;/a&gt;. I fully intended to use it, but having upgraded to MacOS Sierra, installing jekyll was an exercise in pain.&lt;/p&gt;&lt;p&gt;&lt;code&gt;jekyll&lt;/code&gt; itself had moved to using &lt;code&gt;bundler&lt;/code&gt; which I don't object to at all. The thing I &lt;i&gt;do&lt;/i&gt; object to though is a gazillion &lt;code&gt;gem install&lt;/code&gt;s, failing on the somewhat infamous &lt;a href='http://www.nokogiri.org/tutorials/installing_nokogiri.html'&gt;Nokogiri&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Their &lt;a href='https://github.com/sparklemotion/nokogiri'&gt;GitHub&lt;/a&gt; issues list contains a number of helpful pointers when using &lt;code&gt;brew&lt;/code&gt;, but unfortunately I am using &lt;a href='https://www.macports.org'&gt;macports&lt;/a&gt; and after 3 hours or so of trying different incantations I gave up.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;cryogen&quot;&gt;&lt;/a&gt;Cryogen&lt;/h2&gt;&lt;p&gt;I had noticed &lt;a href='http://cryogenweb.org'&gt;Cryogen&lt;/a&gt; before but &lt;code&gt;jekyll&lt;/code&gt; was sufficient at the time, now I thought it deserved another look. And I am glad I did. Features?:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;tags&lt;/li&gt;&lt;li&gt;feeds&lt;/li&gt;&lt;li&gt;markdown (or that funny AsciiDoc ;-)&lt;/li&gt;&lt;li&gt;ridiculously trivial &lt;code&gt;disqus&lt;/code&gt; &lt;a href='http://cryogenweb.org/docs/configuration.html'&gt;integration&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Clojure (which I use full time at work)&lt;/li&gt;&lt;li&gt;lein&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Some not-so-great bits:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;the site is generated (following convention) in &lt;code&gt;resources\public&lt;/code&gt; so actually deploying the site requires an extra step or two. The solution can be as simple as having one git repo for the source and one for &lt;code&gt;resources\public&lt;/code&gt; which &lt;code&gt;GitHub Pages&lt;/code&gt; then serves.&lt;/li&gt;&lt;li&gt;the web site is generated automatically but you still need to refresh the web browser. I might investigate the most excellent &lt;a href='https://github.com/bhauman/lein-figwheel'&gt;figwheel&lt;/a&gt; to see if that can be integrated&lt;/li&gt;&lt;li&gt;it doesn't support &lt;code&gt;org-mode&lt;/code&gt;. I can hardly hold it to account for that, and given &lt;code&gt;org-mode&lt;/code&gt;'s excellent export modes it should be trivial to sort it out.&lt;/li&gt;&lt;li&gt;the default theme means &lt;code&gt;literal&lt;/code&gt; and &lt;a href='https://www.google.co.uk/search?q=happy+cat&amp;client=safari&amp;rls=en&amp;tbm=isch&amp;tbo=u&amp;source=univ&amp;sa=X&amp;ved=0ahUKEwj&amp;ndash;dfIpKvPAhXqDcAKHY01BaAQsAQIHQ&amp;biw=1324&amp;bih=902'&gt;links&lt;/a&gt; aren't easily distinguished.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;An alternative to GitHub Pages is to host your own static server and &lt;code&gt;rsync&lt;/code&gt; it across, which is what I am doing.&lt;/p&gt;&lt;p&gt;Actually, because my &lt;code&gt;yak shaver&lt;/code&gt; was feeling particularly sharp I decided to use &lt;a href='https://circleci.com'&gt;circleci&lt;/a&gt; to deploy it which was as &lt;a href='https://github.com/yatesco/blog-cryogen/blob/master/circle.yml'&gt;trivial&lt;/a&gt; as:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;deployment:
+  push&amp;#95;to&amp;#95;server:
+    branch: master
+    commands:
+      - rsync -avz resources/public/ coliny@colinyates.co.uk:html/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;i&gt;make sure to create a new key pair for your remote server, &lt;code&gt;ssh-copy-id&lt;/code&gt; to your remote server and then add the private key to your &lt;code&gt;circleci&lt;/code&gt; project&lt;/i&gt;&lt;/p&gt;&lt;p&gt;As the ever-growing engineer I notice a few upgrades to my process:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;rather than commit the entire &lt;code&gt;resources\public&lt;/code&gt; I could just commit the &lt;code&gt;resources\templates&lt;/code&gt; directory and have &lt;code&gt;circleci&lt;/code&gt; run &lt;code&gt;lein run&lt;/code&gt; before deployment&lt;/li&gt;&lt;li&gt;having the &lt;code&gt;rsync&lt;/code&gt; call in &lt;code&gt;circle.yml&lt;/code&gt; feels a bit yucky. Better to have a commited script which &lt;code&gt;circleci&lt;/code&gt; calls.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Anyways, it was relatively harmless and the blog is off to a flying start.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;the&amp;#95;future!&quot;&gt;&lt;/a&gt;The Future!&lt;/h3&gt;&lt;p&gt;Watch this space ;-).&lt;/p&gt;
 </description>
 <enclosure>
 
 </enclosure>
 <pubDate>
 Sun, 25 Sep 2016 00:00:00 +0100
-</pubDate>
-</item>
-<item>
-<guid>
-http://colinyates.co.uk/posts-output/2016-01-07-docs/
-</guid>
-<link>
-http://colinyates.co.uk/posts-output/2016-01-07-docs/
-</link>
-<title>
-Quick Start Guide
-</title>
-<description>
-&lt;p&gt;This intro only documents a subset of Cryogen's features. For additional documentation please see the &lt;a href='http://cryogenweb.org'&gt;cryogen site&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;features&quot;&gt;&lt;/a&gt;Features&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;Blog posts and pages with Markdown (default) or AsciiDoc&lt;/li&gt;&lt;li&gt;Tags&lt;/li&gt;&lt;li&gt;Table of contents generation&lt;/li&gt;&lt;li&gt;Plain HTML page templates&lt;/li&gt;&lt;li&gt;Code syntax highlighting&lt;/li&gt;&lt;li&gt;Disqus support&lt;/li&gt;&lt;li&gt;Sitemap generation&lt;/li&gt;&lt;li&gt;RSS feed generation&lt;/li&gt;&lt;li&gt;Sass/SCSS compilation&lt;/li&gt;&lt;/ul&gt;&lt;h2&gt;&lt;a name=&quot;prerequisites&quot;&gt;&lt;/a&gt;Prerequisites&lt;/h2&gt;&lt;p&gt;You will need &lt;a href='https://github.com/technomancy/leiningen'&gt;Leiningen&lt;/a&gt; 2.5.0 or above installed.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;usage&quot;&gt;&lt;/a&gt;Usage&lt;/h2&gt;&lt;h3&gt;&lt;a name=&quot;creating&amp;#95;a&amp;#95;new&amp;#95;site&quot;&gt;&lt;/a&gt;Creating a New Site&lt;/h3&gt;&lt;p&gt;A new site can be created using the Cryogen template as follows:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;lein new cryogen my-blog
-&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;&lt;a name=&quot;running&amp;#95;the&amp;#95;server&quot;&gt;&lt;/a&gt;Running the Server&lt;/h3&gt;&lt;p&gt;The web server can be started from the &lt;code&gt;my-blog&lt;/code&gt; directory using the &lt;code&gt;lein-ring&lt;/code&gt; plugin:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;lein ring server
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The server will watch for changes in the &lt;code&gt;resources/templates&lt;/code&gt; folder and recompile the content automatically.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;site&amp;#95;configuration&quot;&gt;&lt;/a&gt;Site Configuration&lt;/h3&gt;&lt;p&gt;The site configuration file is found at &lt;code&gt;templates/config.edn&lt;/code&gt;, this file looks as follows:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;clojure&quot;&gt;{:site-title         &amp;quot;My Awesome Blog&amp;quot;
- :author             &amp;quot;Bob Bobbert&amp;quot;
- :description        &amp;quot;This blog is awesome&amp;quot;
- :site-url           &amp;quot;http://blogawesome.com/&amp;quot;
- :post-root          &amp;quot;posts&amp;quot;
- :page-root          &amp;quot;pages&amp;quot;
- :post-root-uri      &amp;quot;posts-output&amp;quot;
- :page-root-uri      &amp;quot;pages-output&amp;quot;
- :tag-root-uri       &amp;quot;tags-output&amp;quot;
- :blog-prefix        &amp;quot;/blog&amp;quot;
- :rss-name           &amp;quot;feed.xml&amp;quot;
- :rss-filters        &amp;#91;&amp;quot;cryogen&amp;quot;&amp;#93;
- :recent-posts       3
- :post-date-format   &amp;quot;yyyy-MM-dd&amp;quot;
- :sass-src           nil
- :sass-dest          nil
- :theme              &amp;quot;blue&amp;quot;
- :resources          &amp;#91;&amp;quot;img&amp;quot;&amp;#93;
- :keep-files         &amp;#91;&amp;quot;.git&amp;quot;&amp;#93;
- :disqus?            false
- :disqus-shortname   &amp;quot;&amp;quot;
- :ignored-files      &amp;#91;#&amp;quot;\.#.&amp;#42;&amp;quot; #&amp;quot;.&amp;#42;\.swp$&amp;quot;&amp;#93;
- :posts-per-page     5
- :blocks-per-preview 2
- :previews?          false
- :clean-urls?        true}
-
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For information about each key please see the &lt;a href='http://cryogenweb.org/docs/configuration.html'&gt;&quot;Configuration&quot;&lt;/a&gt; portion of the Cryogen documentation site.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;switching&amp;#95;between&amp;#95;markdown&amp;#95;and&amp;#95;asciidoc&quot;&gt;&lt;/a&gt;Switching between Markdown and AsciiDoc&lt;/h3&gt;&lt;p&gt;Cryogen comes with Markdown support as default. If you want to use AsciiDoc instead, open the &lt;code&gt;project.clj&lt;/code&gt; in your created blog (e.g. &lt;code&gt;my-blog&lt;/code&gt;), and change the line in &lt;code&gt;:dependencies&lt;/code&gt; that says &lt;code&gt;cryogen-markdown&lt;/code&gt; to &lt;code&gt;cryogen-asciidoc&lt;/code&gt;. Instead of looking for files ending in &lt;code&gt;.md&lt;/code&gt; in the &lt;code&gt;resources/templates/md&lt;/code&gt; directory, the compiler will now look for files ending in &lt;code&gt;.asc&lt;/code&gt; in the &lt;code&gt;resources/templates/asc&lt;/code&gt; directory.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;selecting&amp;#95;a&amp;#95;theme&quot;&gt;&lt;/a&gt;Selecting a Theme&lt;/h3&gt;&lt;p&gt;The Cryogen template comes with two themes in the &lt;code&gt;resources/templates/themes&lt;/code&gt; folder. To change your blog's theme, change the value of the &lt;code&gt;:theme&lt;/code&gt; key in &lt;code&gt;config.edn&lt;/code&gt;.&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;customizing&amp;#95;layouts&quot;&gt;&lt;/a&gt;Customizing Layouts&lt;/h3&gt;&lt;p&gt;Cryogen uses &lt;a href='https://github.com/yogthos/Selmer'&gt;Selmer&lt;/a&gt; templating engine for layouts. Please refer to its documentation to see the supported tags and filters for the layouts.&lt;/p&gt;&lt;p&gt;The layouts are contained in the &lt;code&gt;resources/templates/themes/{theme}/html&lt;/code&gt; folder of the project. By default, the &lt;code&gt;base.html&lt;/code&gt; layout is used to provide the general layout for the site. This is where you would add static resources such as CSS and JavaScript assets as well as define headers and footers for your site.&lt;/p&gt;&lt;p&gt;Each page layout should have a name that matches the &lt;code&gt;:layout&lt;/code&gt; key in the page metadata and end with &lt;code&gt;.html&lt;/code&gt;. Page layouts extend the base layout and should only contain the content relaveant to the page inside the &lt;code&gt;content&lt;/code&gt; block. For example, the &lt;code&gt;tag&lt;/code&gt; layout is located in &lt;code&gt;tag.html&lt;/code&gt; and looks as follows:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;xml&quot;&gt;{% extends &amp;quot;templates/html/layouts/base.html&amp;quot; %}
-{% block content %}
-&amp;lt;div id=&amp;quot;posts-by-tag&amp;quot;&amp;gt;
-    &amp;lt;h2&amp;gt;Posts tagged {{name}}&amp;lt;/h2&amp;gt;
-    &amp;lt;ul&amp;gt;
-    {% for post in posts %}
-        &amp;lt;li&amp;gt;
-            &amp;lt;a href=&amp;quot;{{post.uri}}&amp;quot;&amp;gt;{{post.title}}&amp;lt;/a&amp;gt;
-        &amp;lt;/li&amp;gt;
-    {% endfor %}
-    &amp;lt;/ul&amp;gt;
-&amp;lt;/div&amp;gt;
-{% endblock %}
-&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;&lt;a name=&quot;code&amp;#95;syntax&amp;#95;highlighting&quot;&gt;&lt;/a&gt;Code Syntax Highlighting&lt;/h3&gt;&lt;p&gt;Cryogen uses &lt;a href='https://highlightjs.org/'&gt;Highlight.js&lt;/a&gt; for code syntax highlighting. You can add more languages by replacing &lt;code&gt;templates/js/highlight.pack.js&lt;/code&gt; with a customized package from &lt;a href='https://highlightjs.org/download/'&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;The &lt;code&gt; initHighlightingOnLoad&lt;/code&gt; function is called in &lt;code&gt;{theme}/html/base.html&lt;/code&gt;.&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;xml&quot;&gt;&amp;lt;script&amp;gt;hljs.initHighlightingOnLoad&amp;#40;&amp;#41;;&amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a name=&quot;deploying&amp;#95;your&amp;#95;site&quot;&gt;&lt;/a&gt;Deploying Your Site&lt;/h2&gt;&lt;p&gt;The generated static content will be found under the &lt;code&gt;resources/public&lt;/code&gt; folder. Simply copy the content to a static folder for a server such as Nginx or Apache and your site is now ready for service.&lt;/p&gt;&lt;p&gt;A sample Nginx configuration that's placed in &lt;code&gt;/etc/nginx/sites-available/default&lt;/code&gt; can be seen below:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;server {
-  listen 80 default&amp;#95;server;
-  listen &amp;#91;::&amp;#93;:80 default&amp;#95;server ipv6only=on;
-  server&amp;#95;name localhost &amp;lt;yoursite.com&amp;gt; &amp;lt;www.yoursite.com&amp;gt;;
-
-  access&amp;#95;log  /var/log/blog&amp;#95;access.log;
-  error&amp;#95;log   /var/log/blog&amp;#95;error.log;
-
-  location / {
-    alias       /var/blog/;
-    error&amp;#95;page  404 = /404.html;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Simply set &lt;code&gt;yoursite.com&lt;/code&gt; to the domain of your site in the above configuration and ensure the static content is available at &lt;code&gt;/var/blog/&lt;/code&gt;. Finally, place your custom error page in the &lt;code&gt;/var/blog/404.html&lt;/code&gt; file.&lt;/p&gt;&lt;p&gt;More information on deployment can be found &lt;a href='http://cryogenweb.org/docs/deploying-to-github-pages.html'&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;some&amp;#95;sites&amp;#95;made&amp;#95;with&amp;#95;cryogen&quot;&gt;&lt;/a&gt;Some Sites Made With Cryogen&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href='http://carmenla.me/blog/index.html'&gt;Creator's blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://cryogenweb.org'&gt;Cryogen Documentation Site&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://yogthos.net/'&gt;Yogthos' blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://www.clojure.tn'&gt;Clojure :in Tunisia&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://dl1ely.github.io'&gt;dl1ely.github.io&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://jonase.github.io/nil-recur'&gt;nil/recur&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://tangrammer.github.io/'&gt;on the clojure move&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://blog.jethrokuan.com/'&gt;cognizance&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://www.agynamix.de'&gt;AGYNAMIX Site &amp; Blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://eresident.me'&gt;e-Resident Me&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='http://www.chadstovern.com'&gt;Chad Stovern's blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href='https://greative.jp/'&gt;Greative&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
-</description>
-<enclosure>
-
-</enclosure>
-<pubDate>
-Thu, 07 Jan 2016 00:00:00 +0000
-</pubDate>
-</item>
-<item>
-<guid>
-http://colinyates.co.uk/posts-output/2014-11-04-second-post/
-</guid>
-<link>
-http://colinyates.co.uk/posts-output/2014-11-04-second-post/
-</link>
-<title>
-Yet Another Post
-</title>
-<description>
-&lt;h3&gt;&lt;a name=&quot;this&amp;#95;post&amp;#95;so&amp;#95;fetch&quot;&gt;&lt;/a&gt;This Post So Fetch&lt;/h3&gt;&lt;p&gt;some more stuff happened&lt;/p&gt;
-</description>
-<enclosure>
-
-</enclosure>
-<pubDate>
-Tue, 04 Nov 2014 00:00:00 +0000
-</pubDate>
-</item>
-<item>
-<guid>
-http://colinyates.co.uk/posts-output/2014-03-10-first-post/
-</guid>
-<link>
-http://colinyates.co.uk/posts-output/2014-03-10-first-post/
-</link>
-<title>
-A Post
-</title>
-<description>
-&lt;h3&gt;&lt;a name=&quot;this&amp;#95;post&amp;#95;not&amp;#95;fetch&amp;#95;enough&quot;&gt;&lt;/a&gt;This Post Not Fetch Enough&lt;/h3&gt;&lt;p&gt;some stuff happened&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;and a quote appeared &lt;/p&gt;&lt;/blockquote&gt;
-</description>
-<enclosure>
-
-</enclosure>
-<pubDate>
-Mon, 10 Mar 2014 00:00:00 +0000
 </pubDate>
 </item>
 </channel>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Yet another post</title>
+    <title>Random musings: Blogging, the sequel!</title>
     <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-25-hello-again/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
@@ -38,6 +38,34 @@
                 </li>
                 
                 <li><a href="/feed.xml">RSS</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        More <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Links</li>
+                        <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                        <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Recent Posts</li>
+                        
+                        <li><a href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel!</a></li>
+                        
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Tags</li>
+                        
+                        <li><a href="/tags-output/broken promises/">broken promises</a></li>
+                        
+                        <li><a href="/tags-output/redemption/">redemption</a></li>
+                        
+                        
+                    </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
@@ -48,7 +76,7 @@
 
 
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             <div id="content">
                 
 <div id="post">
@@ -57,11 +85,16 @@
         <div class="col-lg-6">25 September 2016</div>
         
     </div>
-    <h2>Yet another post</h2>
+    <h2>Blogging, the sequel!</h2>
 </div>
 <div>
     
-    <h3><a name="this&#95;post&#95;not&#95;fetch&#95;enough"></a>This Post Not Fetch Enough</h3><p>some stuff happened</p><blockquote><p>and a quote appeared </p></blockquote>
+    <h2><a name="a&#95;fresh&#95;start"></a>A fresh start</h2><p>So, er yeah. I haven't really blogged for a <i>long</i> time - this time it will be different. I promise.</p><p>Hmm, I am already sceptical. It is well known that 'trying harder' never works, so what is different this time? Well, I have some objectives which are <a href='https://en.wikipedia.org/wiki/SMART_criteria'>SMART</a>:</p><ul><li><strong>S</strong>pecific</li><li><strong>M</strong>easurable</li><li><strong>A</strong>greed upon</li><li><strong>R</strong>ealistic</li><li><strong>T</strong>ime-based</li></ul><p>In a democracy of 1 it is pretty easy to meet the 'Agreed upon' criteria. So, what is my goal? To publish one 'meaty' blog post a week. By 'meaty' I mean a reaction to some non-trivial event in real life, probably work related.</p><p>What sorts of things will I ramble on about? Primarily technical I think, specifically around the Functional Programming and Enterprise landscape.</p><p>I care very passionately about Software Engineering and critical thinking as oppose to doing it <code>because Google</code>. That will almost certainly creep in throughout the blog.</p><h2><a name="jekyll,&#95;so&#95;long"></a>Jekyll, so long</h2><p>My previous blog was built using the excellent <a href='https://jekyllrb.com'>jekyll</a>. The handful of posts can be found <a href='https://github.com/yatesco/yatesco.github.io'>on github</a>. I fully intended to use it, but having upgraded to MacOS Sierra, installing jekyll was an exercise in pain.</p><p><code>jekyll</code> itself had moved to using <code>bundler</code> which I don't object to at all. The thing I <i>do</i> object to though is a gazillion <code>gem install</code>s, failing on the somewhat infamous <a href='http://www.nokogiri.org/tutorials/installing_nokogiri.html'>Nokogiri</a>.</p><p>Their <a href='https://github.com/sparklemotion/nokogiri'>GitHub</a> issues list contains a number of helpful pointers when using <code>brew</code>, but unfortunately I am using <a href='https://www.macports.org'>macports</a> and after 3 hours or so of trying different incantations I gave up.</p><h2><a name="cryogen"></a>Cryogen</h2><p>I had noticed <a href='http://cryogenweb.org'>Cryogen</a> before but <code>jekyll</code> was sufficient at the time, now I thought it deserved another look. And I am glad I did. Features?:</p><ul><li>tags</li><li>feeds</li><li>markdown (or that funny AsciiDoc ;-)</li><li>ridiculously trivial <code>disqus</code> <a href='http://cryogenweb.org/docs/configuration.html'>integration</a></li><li>Clojure (which I use full time at work)</li><li>lein</li></ul><p>Some not-so-great bits:</p><ul><li>the site is generated (following convention) in <code>resources\public</code> so actually deploying the site requires an extra step or two. The solution can be as simple as having one git repo for the source and one for <code>resources\public</code> which <code>GitHub Pages</code> then serves.</li><li>the web site is generated automatically but you still need to refresh the web browser. I might investigate the most excellent <a href='https://github.com/bhauman/lein-figwheel'>figwheel</a> to see if that can be integrated</li><li>it doesn't support <code>org-mode</code>. I can hardly hold it to account for that, and given <code>org-mode</code>'s excellent export modes it should be trivial to sort it out.</li><li>the default theme means <code>literal</code> and <a href='https://www.google.co.uk/search?q=happy+cat&client=safari&rls=en&tbm=isch&tbo=u&source=univ&sa=X&ved=0ahUKEwj&ndash;dfIpKvPAhXqDcAKHY01BaAQsAQIHQ&biw=1324&bih=902'>links</a> aren't easily distinguished.</li></ul><p>An alternative to GitHub Pages is to host your own static server and <code>rsync</code> it across, which is what I am doing.</p><p>Actually, because my <code>yak shaver</code> was feeling particularly sharp I decided to use <a href='https://circleci.com'>circleci</a> to deploy it which was as <a href='https://github.com/yatesco/blog-cryogen/blob/master/circle.yml'>trivial</a> as:</p><pre><code>deployment:
+  push&#95;to&#95;server:
+    branch: master
+    commands:
+      - rsync -avz resources/public/ coliny@colinyates.co.uk:html/
+</code></pre><p><i>make sure to create a new key pair for your remote server, <code>ssh-copy-id</code> to your remote server and then add the private key to your <code>circleci</code> project</i></p><p>As the ever-growing engineer I notice a few upgrades to my process:</p><ul><li>rather than commit the entire <code>resources\public</code> I could just commit the <code>resources\templates</code> directory and have <code>circleci</code> run <code>lein run</code> before deployment</li><li>having the <code>rsync</code> call in <code>circle.yml</code> feels a bit yucky. Better to have a commited script which <code>circleci</code> calls.</li></ul><p>Anyways, it was relatively harmless and the blog is off to a flying start.</p><h3><a name="the&#95;future!"></a>The Future!</h3><p>Watch this space ;-).</p>
 </div>
 
 <div id="post-tags">
@@ -77,8 +110,6 @@
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-01-07-docs/">Quick Start Guide &raquo;</a>
-        
     </div>
 
     
@@ -86,7 +117,7 @@
     <script type="text/javascript">
         var disqus_config = function () {
             this.page.url = "http://colinyates.co.uk/posts-output/2016-09-25-hello-again/";
-            this.page.identifier = "Yet another post";
+            this.page.identifier = "Blogging, the sequel!";
         };
         (function() {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -101,51 +132,6 @@
 
             </div>
         </div>
-
-        <div class="col-md-3">
-            <div id="sidebar">
-                <h3>Links</h3>
-                <ul id="links">
-                    <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
-                    <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
-                    
-                    <li><a href="/pages-output/another-page/">Another Page</a></li>
-                    
-                </ul>
-                
-                <div id="recent">
-                    <h3>Recent Posts</h3>
-                    <ul>
-                        
-                        <li><a href="/posts-output/2016-09-25-hello-again/">Yet another post</a></li>
-                        
-                        <li><a href="/posts-output/2016-01-07-docs/">Quick Start Guide</a></li>
-                        
-                        <li><a href="/posts-output/2014-11-04-second-post/">Yet Another Post</a></li>
-                        
-                    </ul>
-                </div>
-                
-                
-                <div id="tags">
-                    <h3>Tags</h3>
-                    <ul>
-                        
-                        <li><a href="/tags-output/broken promises/">broken promises</a></li>
-                        
-                        <li><a href="/tags-output/redemption/">redemption</a></li>
-                        
-                        <li><a href="/tags-output/cryogen/">cryogen</a></li>
-                        
-                        <li><a href="/tags-output/very fetch/">very fetch</a></li>
-                        
-                        <li><a href="/tags-output/not fetch/">not fetch</a></li>
-                        
-                    </ul>
-                </div>
-                
-            </div>
-        </div>
     </div>
     <footer>Copyright &copy; 2016 Colin Yates
         <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
@@ -156,3 +142,4 @@
 <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
+
