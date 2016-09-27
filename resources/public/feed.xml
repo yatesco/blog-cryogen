@@ -12,11 +12,79 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Sun, 25 Sep 2016 21:10:28 +0100
+Tue, 27 Sep 2016 23:11:25 +0100
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-27-lessons-learned/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-27-lessons-learned/
+</link>
+<title>
+Lessons learned from Java and Clojure
+</title>
+<description>
+&lt;h2&gt;&lt;a name=&quot;a&amp;#95;hard&amp;#95;day&quot;&gt;&lt;/a&gt;A hard day&lt;/h2&gt;&lt;p&gt;I learned the following lessons today:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Simplest is best&lt;/li&gt;&lt;li&gt;Evaluate your assumptions&lt;/li&gt;&lt;li&gt;Sometimes development is just &lt;i&gt;hard&lt;/i&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;In a nutshell, our production app records UI errors and submits them to the server where they are pushed to the &lt;code&gt;error-handler&lt;/code&gt;. Similarly, if an Exception is raised server side it is also pushed to the &lt;code&gt;error-handler&lt;/code&gt;. However, the errors that had been captured were all ridiculously long stack traces with no references to any of my code.&lt;/p&gt;&lt;p&gt;It was clear that rendering (either printing out or serialising to EDN) was causing something to blow its stack, however the call-site just wasn't there!&lt;/p&gt;&lt;p&gt;The top of the stack trace:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;java.lang.StackOverflowError: null
+ at java.util.regex.Pattern$GroupHead.match&amp;#40;Pattern.java:4658&amp;#41;
+ at java.util.regex.Pattern$Branch.match&amp;#40;Pattern.java:4604&amp;#41;
+ at java.util.regex.Pattern$Branch.match&amp;#40;Pattern.java:4602&amp;#41;
+ at java.util.regex.Pattern$BranchConn.match&amp;#40;Pattern.java:4568&amp;#41;
+ at java.util.regex.Pattern$GroupTail.match&amp;#40;Pattern.java:4717&amp;#41;
+ at java.util.regex.Pattern$Curly.match0&amp;#40;Pattern.java:4279&amp;#41;
+ at java.util.regex.Pattern$Curly.match&amp;#40;Pattern.java:4234&amp;#41;
+ at java.util.regex.Pattern$GroupHead.match&amp;#40;Pattern.java:4658&amp;#41;
+ at java.util.regex.Pattern$Branch.match&amp;#40;Pattern.java:4604&amp;#41;
+ at java.util.regex.Pattern$Branch.match&amp;#40;Pattern.java:4602&amp;#41;
+ at java.util.regex.Pattern$BmpCharProperty.match&amp;#40;Pattern.java:3798&amp;#41;
+ at java.util.regex.Pattern$Start.match&amp;#40;Pattern.java:3461&amp;#41;
+ at java.util.regex.Matcher.search&amp;#40;Matcher.java:1248&amp;#41;
+ at java.util.regex.Matcher.find&amp;#40;Matcher.java:664&amp;#41;
+ at java.util.Formatter.parse&amp;#40;Formatter.java:2549&amp;#41;
+ at java.util.Formatter.format&amp;#40;Formatter.java:2501&amp;#41;
+ at java.util.Formatter.format&amp;#40;Formatter.java:2455&amp;#41;
+ at java.lang.String.format&amp;#40;String.java:2940&amp;#41;
+ at clojure.core$format.invokeStatic&amp;#40;core.clj:5533&amp;#41;
+ at clojure.core$print&amp;#95;tagged&amp;#95;object.invokeStatic&amp;#40;core&amp;#95;print.clj:106&amp;#41;
+ at clojure.core$print&amp;#95;object.invokeStatic&amp;#40;core&amp;#95;print.clj:110&amp;#41;
+ at clojure.core$fn&amp;#95;&amp;#95;6044.invokeStatic&amp;#40;core&amp;#95;print.clj:113&amp;#41;
+ at clojure.core$fn&amp;#95;&amp;#95;6044.invoke&amp;#40;core&amp;#95;print.clj:113&amp;#41;
+ at clojure.lang.MultiFn.invoke&amp;#40;MultiFn.java:233&amp;#41;
+ at clojure.core$pr&amp;#95;on.invokeStatic&amp;#40;core.clj:3572&amp;#41;
+ at clojure.core$pr&amp;#95;on.invoke&amp;#40;core.clj:3566&amp;#41;
+ at clojure.core$print&amp;#95;map$fn&amp;#95;&amp;#95;6094.invoke&amp;#40;core&amp;#95;print.clj:212&amp;#41;
+ at clojure.core$print&amp;#95;sequential.invokeStatic&amp;#40;core&amp;#95;print.clj:59&amp;#41;
+ at clojure.core$print&amp;#95;map.invokeStatic&amp;#40;core&amp;#95;print.clj:208&amp;#41;
+ at clojure.core$fn&amp;#95;&amp;#95;6097.invokeStatic&amp;#40;core&amp;#95;print.clj:217&amp;#41;
+ at clojure.core$fn&amp;#95;&amp;#95;6097.invoke&amp;#40;core&amp;#95;print.clj:217&amp;#41;
+ at clojure.lang.MultiFn.invoke&amp;#40;MultiFn.java:233&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(&lt;i&gt;spot the repetition?&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;The bottom of the stack trace:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;java&quot;&gt; at clojure.core$pr.invoke&amp;#40;core.clj:3575&amp;#41;
+ at clojure.lang.AFn.applyToHelper&amp;#40;AFn.java:154&amp;#41;
+ at clojure.lang.RestFn.applyTo&amp;#40;RestFn.java:132&amp;#41;
+ at clojure.core$apply.invokeStatic&amp;#40;core.clj:646&amp;#41;
+ at clojure.core$pr&amp;#95;str.invokeStatic&amp;#40;core.clj:4580&amp;#41;
+ at clojure.core$pr&amp;#95;str.doInvoke&amp;#40;core.clj:4580&amp;#41;
+ at clojure.lang.RestFn.invoke&amp;#40;RestFn.java:408&amp;#41;
+ at cider.nrepl.print&amp;#95;method$eval53163$fn&amp;#95;&amp;#95;53164.invoke&amp;#40;print&amp;#95;method.clj:35&amp;#41;
+ at clojure.lang.MultiFn.invoke&amp;#40;MultiFn.java:233&amp;#41;
+ at
+...
+&lt;/code&gt;&lt;/pre&gt;NOTE: that ellipsis is actually in the stack trace itself, which is a big clue that it isn't complete.&lt;p&gt;Like all good engineers, after some navel gazing and talking to the duck I decided to call for &lt;a href='https://groups.google.com/d/topic/clojure/H4s5a6enftA/discussion'&gt;help&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;The great part was that I couldn't reproduce it locally....except I remember in the dim and distant past I saw a very similar stack trace when deploying the application with &lt;code&gt;DEBUG&lt;/code&gt; logging. I recall that it was wrapped up with the excellent &lt;a href='https://github.com/stuartsierra/component'&gt;component&lt;/a&gt; library, specifically during instantiation.&lt;/p&gt;&lt;p&gt;So, two different effects, onto the cause...&lt;/p&gt;&lt;h3&gt;&lt;a name=&quot;a&amp;#95;minor&amp;#95;diversion&quot;&gt;&lt;/a&gt;A minor diversion&lt;/h3&gt;&lt;p&gt;I had been meaning to rethink the &lt;code&gt;component&lt;/code&gt; library due to two major pain-points:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;if a component crashes then it typically kills your system so a &lt;code&gt;&amp;#40;reset&amp;#41;&lt;/code&gt; is necessary&lt;/li&gt;&lt;li&gt;sometimes &lt;code&gt;&amp;#40;reset&amp;#41;&lt;/code&gt; doesn't work, particularly if you have &lt;code&gt;protocols&lt;/code&gt; hanging around&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;And a third minor point - I felt that the component library wasn't great when you had sub-systems. Ideally I would want to include my sub-system component (map) into an outer map but there was no support for nesting. The best you could do was lexical scoping, e.g. &lt;code&gt;{:inner/a ....}&lt;/code&gt; which would be referenced by the outer system map.&lt;/p&gt;&lt;p&gt;And for completeness, I didn't actually have that much state but I did have an awful lot of &lt;code&gt;services&lt;/code&gt;, each of which was defined as a record.&lt;/p&gt;&lt;p&gt;Ultimately, I decided that a simply &lt;code&gt;start&lt;/code&gt; method which explicitly started the system in the correct order was sufficient.&lt;/p&gt;&lt;p&gt;A few hours hackery later and there was no sign of the &lt;code&gt;component&lt;/code&gt; library, and instead of 100s of lines of boilerplate spread out of a number of &lt;code&gt;.system.clj&lt;/code&gt; files I had a single &lt;code&gt;system.clj&lt;/code&gt; file complete with type safe dependency injection.&lt;/p&gt;&lt;p&gt;I was very pleasantly surprised at how much complexity it removed - the most dangerous sort of complexity that sneaks in sideways so it never feels painful at any one time, but looking at the system as a whole you realise how much complexity there is.&lt;/p&gt;&lt;p&gt;Oh, and &lt;code&gt;&amp;#40;reset&amp;#41;&lt;/code&gt; works fine now and if one of the services fails then no-worries, it all just works :-).&lt;/p&gt;&lt;p&gt;Anyway, back to the cause of the humongous stack trace.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;stack&amp;#95;traces&quot;&gt;&lt;/a&gt;Stack traces&lt;/h2&gt;&lt;p&gt;At first I was stumped as to what could be causing it. Thanks to two very friendly fellow Clojure devs I realised that actually what I was seeing was an incomplete picture, specifically I wasn't seeing the entire &lt;i&gt;depth&lt;/i&gt; of the tree (thanks Ragnar Dahlen).&lt;/p&gt;&lt;p&gt;And indeed, Java has a &lt;code&gt;MaxJavaStackTraceDepth&lt;/code&gt; property which dictates how many stack frames to include in a stack trace and is set to 1024 by default.&lt;/p&gt;&lt;p&gt;Unfortunately setting this to a larger value, or actually &lt;code&gt;-1&lt;/code&gt; which disables the threshold didn't make any difference. Mainly because I couldn't reproduce it in the first place! But even if it did I wouldn't have been satisfied - it was simply pushing the problem further away, not removing it.&lt;/p&gt;&lt;p&gt;Thinking it through a bit more I realised that the &lt;code&gt;error-handler&lt;/code&gt; serialises the entire state of the system and reports that alongside the error. Now, this &lt;i&gt;should&lt;/i&gt; be safe to do so as there is very little cached on the server. However, the UI &lt;code&gt;error-handler&lt;/code&gt; pushes its state to the server, and the UI state can be potentially huge...&lt;/p&gt;&lt;p&gt;So, a similar stack trace when serialising huge data structures in the &lt;code&gt;error-handler&lt;/code&gt; and a huge stack trace when starting the &lt;code&gt;component system&lt;/code&gt;. I see a theme....&lt;/p&gt;&lt;p&gt;And yep, tracing through the (now discarded) &lt;code&gt;component tree&lt;/code&gt; I could see that in &lt;code&gt;DEBUG&lt;/code&gt; mode I am mindlessly printing out something that could be unbounded.&lt;/p&gt;&lt;p&gt;The actual part of the code, if you are still reading :-), was in the &lt;code&gt;message handler&lt;/code&gt; which contains a list of 'message handlers.' The &lt;code&gt;message handler&lt;/code&gt; expects the handlers to be:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;clojure&quot;&gt;&amp;#40;defprotocol IHandleMessages
+  &amp;#40;id &amp;#91;this&amp;#93;&amp;#41;
+  &amp;#40;can-handle? &amp;#91;this message&amp;#93;&amp;#41;
+  &amp;#40;handle-message &amp;#91;this message opts&amp;#93;&amp;#41;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and when a &lt;code&gt;handler&lt;/code&gt; was registered the &lt;code&gt;message handler&lt;/code&gt; would &lt;code&gt;DEBUG&lt;/code&gt; the &lt;code&gt;handler&lt;/code&gt;. Changing that &lt;code&gt;DEBUG&lt;/code&gt; to &lt;code&gt;&amp;#40;api/id handler&amp;#41;&lt;/code&gt; should be sufficient.&lt;/p&gt;&lt;p&gt;Again though, without being able to reproduce this it was all just a best-guess.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;on&amp;#95;a&amp;#95;better&amp;#95;note&quot;&gt;&lt;/a&gt;On a better note&lt;/h2&gt;&lt;p&gt;&lt;a href='http://spacemacs.org'&gt;Spacemacs'&lt;/a&gt; ability to convert the result of a &lt;code&gt;helm grep&lt;/code&gt; into an editable buffer which you can then edit made removing the many &lt;code&gt;&amp;#91;com.stuartsierra.component :as component&amp;#93;&lt;/code&gt; trivial :-). Gotta love spacemacs and &lt;a href='https://tuhdo.github.io/helm-intro.html'&gt;helm&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Oh, and &lt;a href='https://cursive-ide.com'&gt;Cursive&lt;/a&gt;'s excellent 'unused' code detection is worth its weight in gold.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;conclusion&quot;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;So what have I learnt?&lt;/p&gt;&lt;ul&gt;&lt;li&gt;sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity&lt;/li&gt;&lt;li&gt;if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved&lt;/li&gt;&lt;li&gt;not being able to reproduce a problem in production is terrifying&lt;/li&gt;&lt;li&gt;consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;I wonder why joys tomorrow will bring...&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Tue, 27 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-09-25-hello-again/

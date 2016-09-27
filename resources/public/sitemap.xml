@@ -5,7 +5,7 @@
 http://colinyates.co.uk404.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -13,7 +13,7 @@ http://colinyates.co.uk404.html
 http://colinyates.co.ukarchives/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -21,7 +21,7 @@ http://colinyates.co.ukarchives/index.html
 http://colinyates.co.ukauthors-output/Colin Yates/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -29,7 +29,7 @@ http://colinyates.co.ukauthors-output/Colin Yates/index.html
 http://colinyates.co.ukindex.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -37,7 +37,7 @@ http://colinyates.co.ukindex.html
 http://colinyates.co.ukpages-output/about/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -45,7 +45,15 @@ http://colinyates.co.ukpages-output/about/index.html
 http://colinyates.co.ukposts-output/2016-09-25-hello-again/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
+</lastmod>
+</url>
+<url>
+<loc>
+http://colinyates.co.ukposts-output/2016-09-27-lessons-learned/index.html
+</loc>
+<lastmod>
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -53,7 +61,7 @@ http://colinyates.co.ukposts-output/2016-09-25-hello-again/index.html
 http://colinyates.co.uktags/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -61,7 +69,31 @@ http://colinyates.co.uktags/index.html
 http://colinyates.co.uktags-output/broken promises/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
+</lastmod>
+</url>
+<url>
+<loc>
+http://colinyates.co.uktags-output/clojure/index.html
+</loc>
+<lastmod>
+2016-09-27
+</lastmod>
+</url>
+<url>
+<loc>
+http://colinyates.co.uktags-output/dev/index.html
+</loc>
+<lastmod>
+2016-09-27
+</lastmod>
+</url>
+<url>
+<loc>
+http://colinyates.co.uktags-output/java/index.html
+</loc>
+<lastmod>
+2016-09-27
 </lastmod>
 </url>
 <url>
@@ -69,7 +101,7 @@ http://colinyates.co.uktags-output/broken promises/index.html
 http://colinyates.co.uktags-output/redemption/index.html
 </loc>
 <lastmod>
-2016-09-25
+2016-09-27
 </lastmod>
 </url>
 </urlset>

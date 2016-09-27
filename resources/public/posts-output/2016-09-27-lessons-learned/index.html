@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Random musings: Lessons learned from Java and Clojure</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-27-lessons-learned/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Random musings</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="/">Home</a></li>
+                <li
+                ><a href="/archives/">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages-output/about/">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        More <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Links</li>
+                        <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                        <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Recent Posts</li>
+                        
+                        <li><a href="/posts-output/2016-09-27-lessons-learned/">Lessons learned from Java and Clojure</a></li>
+                        
+                        <li><a href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel!</a></li>
+                        
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Tags</li>
+                        
+                        <li><a href="/tags-output/clojure/">clojure</a></li>
+                        
+                        <li><a href="/tags-output/java/">java</a></li>
+                        
+                        <li><a href="/tags-output/dev/">dev</a></li>
+                        
+                        <li><a href="/tags-output/broken promises/">broken promises</a></li>
+                        
+                        <li><a href="/tags-output/redemption/">redemption</a></li>
+                        
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="content">
+                
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">27 September 2016</div>
+        
+    </div>
+    <h2>Lessons learned from Java and Clojure</h2>
+</div>
+<div>
+    
+    <h2><a name="a&#95;hard&#95;day"></a>A hard day</h2><p>I learned the following lessons today:</p><ul><li>Simplest is best</li><li>Evaluate your assumptions</li><li>Sometimes development is just <i>hard</i></li></ul><p>In a nutshell, our production app records UI errors and submits them to the server where they are pushed to the <code>error-handler</code>. Similarly, if an Exception is raised server side it is also pushed to the <code>error-handler</code>. However, the errors that had been captured were all ridiculously long stack traces with no references to any of my code.</p><p>It was clear that rendering (either printing out or serialising to EDN) was causing something to blow its stack, however the call-site just wasn't there!</p><p>The top of the stack trace:</p><pre><code class="java">java.lang.StackOverflowError: null
+ at java.util.regex.Pattern$GroupHead.match&#40;Pattern.java:4658&#41;
+ at java.util.regex.Pattern$Branch.match&#40;Pattern.java:4604&#41;
+ at java.util.regex.Pattern$Branch.match&#40;Pattern.java:4602&#41;
+ at java.util.regex.Pattern$BranchConn.match&#40;Pattern.java:4568&#41;
+ at java.util.regex.Pattern$GroupTail.match&#40;Pattern.java:4717&#41;
+ at java.util.regex.Pattern$Curly.match0&#40;Pattern.java:4279&#41;
+ at java.util.regex.Pattern$Curly.match&#40;Pattern.java:4234&#41;
+ at java.util.regex.Pattern$GroupHead.match&#40;Pattern.java:4658&#41;
+ at java.util.regex.Pattern$Branch.match&#40;Pattern.java:4604&#41;
+ at java.util.regex.Pattern$Branch.match&#40;Pattern.java:4602&#41;
+ at java.util.regex.Pattern$BmpCharProperty.match&#40;Pattern.java:3798&#41;
+ at java.util.regex.Pattern$Start.match&#40;Pattern.java:3461&#41;
+ at java.util.regex.Matcher.search&#40;Matcher.java:1248&#41;
+ at java.util.regex.Matcher.find&#40;Matcher.java:664&#41;
+ at java.util.Formatter.parse&#40;Formatter.java:2549&#41;
+ at java.util.Formatter.format&#40;Formatter.java:2501&#41;
+ at java.util.Formatter.format&#40;Formatter.java:2455&#41;
+ at java.lang.String.format&#40;String.java:2940&#41;
+ at clojure.core$format.invokeStatic&#40;core.clj:5533&#41;
+ at clojure.core$print&#95;tagged&#95;object.invokeStatic&#40;core&#95;print.clj:106&#41;
+ at clojure.core$print&#95;object.invokeStatic&#40;core&#95;print.clj:110&#41;
+ at clojure.core$fn&#95;&#95;6044.invokeStatic&#40;core&#95;print.clj:113&#41;
+ at clojure.core$fn&#95;&#95;6044.invoke&#40;core&#95;print.clj:113&#41;
+ at clojure.lang.MultiFn.invoke&#40;MultiFn.java:233&#41;
+ at clojure.core$pr&#95;on.invokeStatic&#40;core.clj:3572&#41;
+ at clojure.core$pr&#95;on.invoke&#40;core.clj:3566&#41;
+ at clojure.core$print&#95;map$fn&#95;&#95;6094.invoke&#40;core&#95;print.clj:212&#41;
+ at clojure.core$print&#95;sequential.invokeStatic&#40;core&#95;print.clj:59&#41;
+ at clojure.core$print&#95;map.invokeStatic&#40;core&#95;print.clj:208&#41;
+ at clojure.core$fn&#95;&#95;6097.invokeStatic&#40;core&#95;print.clj:217&#41;
+ at clojure.core$fn&#95;&#95;6097.invoke&#40;core&#95;print.clj:217&#41;
+ at clojure.lang.MultiFn.invoke&#40;MultiFn.java:233&#41;
+</code></pre><p>(<i>spot the repetition?</i>)</p><p>The bottom of the stack trace:</p><pre><code class="java"> at clojure.core$pr.invoke&#40;core.clj:3575&#41;
+ at clojure.lang.AFn.applyToHelper&#40;AFn.java:154&#41;
+ at clojure.lang.RestFn.applyTo&#40;RestFn.java:132&#41;
+ at clojure.core$apply.invokeStatic&#40;core.clj:646&#41;
+ at clojure.core$pr&#95;str.invokeStatic&#40;core.clj:4580&#41;
+ at clojure.core$pr&#95;str.doInvoke&#40;core.clj:4580&#41;
+ at clojure.lang.RestFn.invoke&#40;RestFn.java:408&#41;
+ at cider.nrepl.print&#95;method$eval53163$fn&#95;&#95;53164.invoke&#40;print&#95;method.clj:35&#41;
+ at clojure.lang.MultiFn.invoke&#40;MultiFn.java:233&#41;
+ at
+...
+</code></pre>NOTE: that ellipsis is actually in the stack trace itself, which is a big clue that it isn't complete.<p>Like all good engineers, after some navel gazing and talking to the duck I decided to call for <a href='https://groups.google.com/d/topic/clojure/H4s5a6enftA/discussion'>help</a>.</p><p>The great part was that I couldn't reproduce it locally....except I remember in the dim and distant past I saw a very similar stack trace when deploying the application with <code>DEBUG</code> logging. I recall that it was wrapped up with the excellent <a href='https://github.com/stuartsierra/component'>component</a> library, specifically during instantiation.</p><p>So, two different effects, onto the cause...</p><h3><a name="a&#95;minor&#95;diversion"></a>A minor diversion</h3><p>I had been meaning to rethink the <code>component</code> library due to two major pain-points:</p><ul><li>if a component crashes then it typically kills your system so a <code>&#40;reset&#41;</code> is necessary</li><li>sometimes <code>&#40;reset&#41;</code> doesn't work, particularly if you have <code>protocols</code> hanging around</li></ul><p>And a third minor point - I felt that the component library wasn't great when you had sub-systems. Ideally I would want to include my sub-system component (map) into an outer map but there was no support for nesting. The best you could do was lexical scoping, e.g. <code>{:inner/a ....}</code> which would be referenced by the outer system map.</p><p>And for completeness, I didn't actually have that much state but I did have an awful lot of <code>services</code>, each of which was defined as a record.</p><p>Ultimately, I decided that a simply <code>start</code> method which explicitly started the system in the correct order was sufficient.</p><p>A few hours hackery later and there was no sign of the <code>component</code> library, and instead of 100s of lines of boilerplate spread out of a number of <code>.system.clj</code> files I had a single <code>system.clj</code> file complete with type safe dependency injection.</p><p>I was very pleasantly surprised at how much complexity it removed - the most dangerous sort of complexity that sneaks in sideways so it never feels painful at any one time, but looking at the system as a whole you realise how much complexity there is.</p><p>Oh, and <code>&#40;reset&#41;</code> works fine now and if one of the services fails then no-worries, it all just works :-).</p><p>Anyway, back to the cause of the humongous stack trace.</p><h2><a name="stack&#95;traces"></a>Stack traces</h2><p>At first I was stumped as to what could be causing it. Thanks to two very friendly fellow Clojure devs I realised that actually what I was seeing was an incomplete picture, specifically I wasn't seeing the entire <i>depth</i> of the tree (thanks Ragnar Dahlen).</p><p>And indeed, Java has a <code>MaxJavaStackTraceDepth</code> property which dictates how many stack frames to include in a stack trace and is set to 1024 by default.</p><p>Unfortunately setting this to a larger value, or actually <code>-1</code> which disables the threshold didn't make any difference. Mainly because I couldn't reproduce it in the first place! But even if it did I wouldn't have been satisfied - it was simply pushing the problem further away, not removing it.</p><p>Thinking it through a bit more I realised that the <code>error-handler</code> serialises the entire state of the system and reports that alongside the error. Now, this <i>should</i> be safe to do so as there is very little cached on the server. However, the UI <code>error-handler</code> pushes its state to the server, and the UI state can be potentially huge...</p><p>So, a similar stack trace when serialising huge data structures in the <code>error-handler</code> and a huge stack trace when starting the <code>component system</code>. I see a theme....</p><p>And yep, tracing through the (now discarded) <code>component tree</code> I could see that in <code>DEBUG</code> mode I am mindlessly printing out something that could be unbounded.</p><p>The actual part of the code, if you are still reading :-), was in the <code>message handler</code> which contains a list of 'message handlers.' The <code>message handler</code> expects the handlers to be:</p><pre><code class="clojure">&#40;defprotocol IHandleMessages
+  &#40;id &#91;this&#93;&#41;
+  &#40;can-handle? &#91;this message&#93;&#41;
+  &#40;handle-message &#91;this message opts&#93;&#41;&#41;
+</code></pre><p>and when a <code>handler</code> was registered the <code>message handler</code> would <code>DEBUG</code> the <code>handler</code>. Changing that <code>DEBUG</code> to <code>&#40;api/id handler&#41;</code> should be sufficient.</p><p>Again though, without being able to reproduce this it was all just a best-guess.</p><h2><a name="on&#95;a&#95;better&#95;note"></a>On a better note</h2><p><a href='http://spacemacs.org'>Spacemacs'</a> ability to convert the result of a <code>helm grep</code> into an editable buffer which you can then edit made removing the many <code>&#91;com.stuartsierra.component :as component&#93;</code> trivial :-). Gotta love spacemacs and <a href='https://tuhdo.github.io/helm-intro.html'>helm</a>.</p><p>Oh, and <a href='https://cursive-ide.com'>Cursive</a>'s excellent 'unused' code detection is worth its weight in gold.</p><h2><a name="conclusion"></a>Conclusion</h2><p>So what have I learnt?</p><ul><li>sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity</li><li>if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved</li><li>not being able to reproduce a problem in production is terrifying</li><li>consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN</li></ul><p>I wonder why joys tomorrow will bring...</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags-output/clojure/">clojure</a>
+    
+    <a href="/tags-output/java/">java</a>
+    
+    <a href="/tags-output/dev/">dev</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel! &raquo;</a>
+        
+    </div>
+
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-27-lessons-learned/";
+            this.page.identifier = "Lessons learned from Java and Clojure";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
+</div>
+
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2016 Colin Yates
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+
