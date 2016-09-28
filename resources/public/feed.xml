@@ -12,11 +12,43 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Tue, 27 Sep 2016 23:11:25 +0100
+Wed, 28 Sep 2016 14:37:03 +0100
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-28-projectile-killing/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-28-projectile-killing/
+</link>
+<title>
+Killing a projectile project
+</title>
+<description>
+&lt;p&gt;&lt;a href='https://github.com/bbatsov/projectile'&gt;Projectile&lt;/a&gt; is an excellent library for managing 'projects' (where a project is typically a git repository).&lt;/p&gt;&lt;p&gt;Today I found a new tip - &lt;code&gt;projectile-kill-buffers&lt;/code&gt; which effectively removes the project from your current emacs session:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;man&quot;&gt;projectile-kill-buffers is an interactive autoloaded compiled Lisp function in
+‘projectile.el’.
+
+It is bound to SPC p k, M-m p k, C-c p k, &amp;lt;menu-bar&amp;gt; &amp;lt;tools&amp;gt; &amp;lt;Projectile&amp;gt; &amp;lt;Kill
+project buffers&amp;gt;.
+
+&amp;#40;projectile-kill-buffers&amp;#41;
+
+Kill all project buffers.
+
+&amp;#91;back&amp;#93;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is really useful if you are toggling between multiple projects and want to finish working on one of the projects. Simply visit a buffer with a file in that project and &lt;code&gt;SPC p k&lt;/code&gt;, confirm and all of the buffers related to that project disappear.&lt;/p&gt;&lt;p&gt;NOTE: it doesn't actually remove the project from emacs's session as you can still &lt;code&gt;SPC p p&lt;/code&gt; (&lt;code&gt;helm-projectile-switch-project&lt;/code&gt;) to the project.&lt;/p&gt;&lt;p&gt;That's all for now folks.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Wed, 28 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-09-27-lessons-learned/
@@ -76,7 +108,7 @@ Lessons learned from Java and Clojure
   &amp;#40;id &amp;#91;this&amp;#93;&amp;#41;
   &amp;#40;can-handle? &amp;#91;this message&amp;#93;&amp;#41;
   &amp;#40;handle-message &amp;#91;this message opts&amp;#93;&amp;#41;&amp;#41;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and when a &lt;code&gt;handler&lt;/code&gt; was registered the &lt;code&gt;message handler&lt;/code&gt; would &lt;code&gt;DEBUG&lt;/code&gt; the &lt;code&gt;handler&lt;/code&gt;. Changing that &lt;code&gt;DEBUG&lt;/code&gt; to &lt;code&gt;&amp;#40;api/id handler&amp;#41;&lt;/code&gt; should be sufficient.&lt;/p&gt;&lt;p&gt;Again though, without being able to reproduce this it was all just a best-guess.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;on&amp;#95;a&amp;#95;better&amp;#95;note&quot;&gt;&lt;/a&gt;On a better note&lt;/h2&gt;&lt;p&gt;&lt;a href='http://spacemacs.org'&gt;Spacemacs'&lt;/a&gt; ability to convert the result of a &lt;code&gt;helm grep&lt;/code&gt; into an editable buffer which you can then edit made removing the many &lt;code&gt;&amp;#91;com.stuartsierra.component :as component&amp;#93;&lt;/code&gt; trivial :-). Gotta love spacemacs and &lt;a href='https://tuhdo.github.io/helm-intro.html'&gt;helm&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Oh, and &lt;a href='https://cursive-ide.com'&gt;Cursive&lt;/a&gt;'s excellent 'unused' code detection is worth its weight in gold.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;conclusion&quot;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;So what have I learnt?&lt;/p&gt;&lt;ul&gt;&lt;li&gt;sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity&lt;/li&gt;&lt;li&gt;if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved&lt;/li&gt;&lt;li&gt;not being able to reproduce a problem in production is terrifying&lt;/li&gt;&lt;li&gt;consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;I wonder why joys tomorrow will bring...&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;and when a &lt;code&gt;handler&lt;/code&gt; was registered the &lt;code&gt;message handler&lt;/code&gt; would &lt;code&gt;DEBUG&lt;/code&gt; the &lt;code&gt;handler&lt;/code&gt;. Changing that &lt;code&gt;DEBUG&lt;/code&gt; to &lt;code&gt;&amp;#40;api/id handler&amp;#41;&lt;/code&gt; should be sufficient.&lt;/p&gt;&lt;p&gt;Again though, without being able to reproduce this it was all just a best-guess.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;on&amp;#95;a&amp;#95;better&amp;#95;note&quot;&gt;&lt;/a&gt;On a better note&lt;/h2&gt;&lt;p&gt;&lt;a href='http://spacemacs.org'&gt;Spacemacs'&lt;/a&gt; ability to convert the result of a &lt;code&gt;helm grep&lt;/code&gt; into an editable buffer which you can then edit made removing the many &lt;code&gt;&amp;#91;com.stuartsierra.component :as component&amp;#93;&lt;/code&gt; trivial :-). Gotta love spacemacs and &lt;a href='https://tuhdo.github.io/helm-intro.html'&gt;helm&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Oh, and &lt;a href='https://cursive-ide.com'&gt;Cursive&lt;/a&gt;'s excellent 'unused' code detection is worth its weight in gold.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;conclusion&quot;&gt;&lt;/a&gt;Conclusion&lt;/h2&gt;&lt;p&gt;So what have I learnt?&lt;/p&gt;&lt;ul&gt;&lt;li&gt;sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity&lt;/li&gt;&lt;li&gt;if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved&lt;/li&gt;&lt;li&gt;not being able to reproduce a problem in production is terrifying&lt;/li&gt;&lt;li&gt;consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;I wonder what joys tomorrow will bring...&lt;/p&gt;
 </description>
 <enclosure>
 

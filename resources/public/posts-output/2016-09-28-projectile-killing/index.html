@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Posts Tagged &quot;broken promises&quot;</title>
-    <link rel="canonical" href="http://colinyates.co.uk/tags-output/broken promises/">
+    <title>Random musings: Killing a projectile project</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-28-projectile-killing/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -97,17 +97,68 @@
         <div class="col-lg-12">
             <div id="content">
                 
-<div id="posts-by-tag">
-    <div id="page-header">
-        <h2>Posts Tagged &quot;broken promises&quot;</h2>
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">28 September 2016</div>
+        
     </div>
-    <ul>
+    <h2>Killing a projectile project</h2>
+</div>
+<div>
     
-        <li>
-            <a href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel!</a>
-        </li>
+    <p><a href='https://github.com/bbatsov/projectile'>Projectile</a> is an excellent library for managing 'projects' (where a project is typically a git repository).</p><p>Today I found a new tip - <code>projectile-kill-buffers</code> which effectively removes the project from your current emacs session:</p><pre><code class="man">projectile-kill-buffers is an interactive autoloaded compiled Lisp function in
+‘projectile.el’.
+
+It is bound to SPC p k, M-m p k, C-c p k, &lt;menu-bar&gt; &lt;tools&gt; &lt;Projectile&gt; &lt;Kill
+project buffers&gt;.
+
+&#40;projectile-kill-buffers&#41;
+
+Kill all project buffers.
+
+&#91;back&#93;
+
+</code></pre><p>It is really useful if you are toggling between multiple projects and want to finish working on one of the projects. Simply visit a buffer with a file in that project and <code>SPC p k</code>, confirm and all of the buffers related to that project disappear.</p><p>NOTE: it doesn't actually remove the project from emacs's session as you can still <code>SPC p p</code> (<code>helm-projectile-switch-project</code>) to the project.</p><p>That's all for now folks.</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
     
-    </ul>
+    <a href="/tags-output/tip/">tip</a>
+    
+    <a href="/tags-output/projectile/">projectile</a>
+    
+    <a href="/tags-output/emacs/">emacs</a>
+    
+    <a href="/tags-output/spacemacs/">spacemacs</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/posts-output/2016-09-27-lessons-learned/">Lessons learned from Java and Clojure &raquo;</a>
+        
+    </div>
+
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-28-projectile-killing/";
+            this.page.identifier = "Killing a projectile project";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
 </div>
 
             </div>

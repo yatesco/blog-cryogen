@@ -51,6 +51,8 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-09-28-projectile-killing/">Killing a projectile project</a></li>
+                        
                         <li><a href="/posts-output/2016-09-27-lessons-learned/">Lessons learned from Java and Clojure</a></li>
                         
                         <li><a href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel!</a></li>
@@ -60,6 +62,14 @@
                         
                         <li class="divider"></li>
                         <li class="dropdown-header">Tags</li>
+                        
+                        <li><a href="/tags-output/tip/">tip</a></li>
+                        
+                        <li><a href="/tags-output/projectile/">projectile</a></li>
+                        
+                        <li><a href="/tags-output/emacs/">emacs</a></li>
+                        
+                        <li><a href="/tags-output/spacemacs/">spacemacs</a></li>
                         
                         <li><a href="/tags-output/clojure/">clojure</a></li>
                         
@@ -145,7 +155,7 @@
   &#40;id &#91;this&#93;&#41;
   &#40;can-handle? &#91;this message&#93;&#41;
   &#40;handle-message &#91;this message opts&#93;&#41;&#41;
-</code></pre><p>and when a <code>handler</code> was registered the <code>message handler</code> would <code>DEBUG</code> the <code>handler</code>. Changing that <code>DEBUG</code> to <code>&#40;api/id handler&#41;</code> should be sufficient.</p><p>Again though, without being able to reproduce this it was all just a best-guess.</p><h2><a name="on&#95;a&#95;better&#95;note"></a>On a better note</h2><p><a href='http://spacemacs.org'>Spacemacs'</a> ability to convert the result of a <code>helm grep</code> into an editable buffer which you can then edit made removing the many <code>&#91;com.stuartsierra.component :as component&#93;</code> trivial :-). Gotta love spacemacs and <a href='https://tuhdo.github.io/helm-intro.html'>helm</a>.</p><p>Oh, and <a href='https://cursive-ide.com'>Cursive</a>'s excellent 'unused' code detection is worth its weight in gold.</p><h2><a name="conclusion"></a>Conclusion</h2><p>So what have I learnt?</p><ul><li>sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity</li><li>if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved</li><li>not being able to reproduce a problem in production is terrifying</li><li>consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN</li></ul><p>I wonder why joys tomorrow will bring...</p>
+</code></pre><p>and when a <code>handler</code> was registered the <code>message handler</code> would <code>DEBUG</code> the <code>handler</code>. Changing that <code>DEBUG</code> to <code>&#40;api/id handler&#41;</code> should be sufficient.</p><p>Again though, without being able to reproduce this it was all just a best-guess.</p><h2><a name="on&#95;a&#95;better&#95;note"></a>On a better note</h2><p><a href='http://spacemacs.org'>Spacemacs'</a> ability to convert the result of a <code>helm grep</code> into an editable buffer which you can then edit made removing the many <code>&#91;com.stuartsierra.component :as component&#93;</code> trivial :-). Gotta love spacemacs and <a href='https://tuhdo.github.io/helm-intro.html'>helm</a>.</p><p>Oh, and <a href='https://cursive-ide.com'>Cursive</a>'s excellent 'unused' code detection is worth its weight in gold.</p><h2><a name="conclusion"></a>Conclusion</h2><p>So what have I learnt?</p><ul><li>sometimes you don't need to follow the herd, and even simple libraries can cause incidental complexity</li><li>if you are seeing a nonsensical stack trace then no, Clojure isn't stupid, something else is getting involved</li><li>not being able to reproduce a problem in production is terrifying</li><li>consider whether your collaborator can be unbounded before mindlessly rendering it to the console or EDN</li></ul><p>I wonder what joys tomorrow will bring...</p>
 </div>
 
 <div id="post-tags">
@@ -161,6 +171,8 @@
 
 
     <div id="prev-next">
+        
+        <a href="/posts-output/2016-09-28-projectile-killing/">&laquo; Killing a projectile project</a>
         
         
         <a class="right" href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel! &raquo;</a>
