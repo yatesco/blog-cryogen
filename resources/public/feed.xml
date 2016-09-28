@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Wed, 28 Sep 2016 14:37:03 +0100
+Wed, 28 Sep 2016 18:39:03 +0100
 </lastBuildDate>
 <generator>
 clj-rss
@@ -41,6 +41,50 @@ Kill all project buffers.
 &amp;#91;back&amp;#93;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;It is really useful if you are toggling between multiple projects and want to finish working on one of the projects. Simply visit a buffer with a file in that project and &lt;code&gt;SPC p k&lt;/code&gt;, confirm and all of the buffers related to that project disappear.&lt;/p&gt;&lt;p&gt;NOTE: it doesn't actually remove the project from emacs's session as you can still &lt;code&gt;SPC p p&lt;/code&gt; (&lt;code&gt;helm-projectile-switch-project&lt;/code&gt;) to the project.&lt;/p&gt;&lt;p&gt;That's all for now folks.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Wed, 28 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-28-git-tagging-project/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-28-git-tagging-project/
+</link>
+<title>
+Git tagging your builds automatically
+</title>
+<description>
+&lt;p&gt;I need to write a much longer post to explain my thoughts on 'versioning' and what constitutes a release with today's trends of continuous integration, but for now, a simple tip.&lt;/p&gt;&lt;p&gt;I wanted a way to distinguish each &lt;i&gt;build&lt;/i&gt;, not each &lt;i&gt;release&lt;/i&gt; but each &lt;i&gt;build&lt;/i&gt;. There is one excellent source of truth for that which is your git repository.&lt;/p&gt;&lt;p&gt;Wouldn't it be great if each build contained a full git log of what went into it?.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;the&amp;#95;magic&quot;&gt;&lt;/a&gt;The magic&lt;/h2&gt;&lt;p&gt;We use &lt;a href='circleci.com'&gt;circleci&lt;/a&gt; (but it would be trivial to do with any decent continuous integration server) and before building we simply execute &lt;code&gt;git log &amp;ndash;oneline &amp;ndash;decorate &amp;ndash;graph &amp;gt; resources/public/glog.txt&lt;/code&gt;:&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;yaml&quot;&gt;machine:
+  java:
+    version: oraclejdk8
+
+## Customize dependencies
+dependencies:
+  cache&amp;#95;directories:
+    - &amp;quot;&amp;#126;/.m2&amp;quot;
+  pre:
+    - git fetch --tags
+
+test:
+  override:
+    - git log --oneline --decorate --graph &amp;gt; resources/public/glog.txt
+    - lein full-build-no-tests!
+    - mkdir -p $CIRCLE&amp;#95;TEST&amp;#95;REPORTS/junit/
+    - find . -type f -regex &amp;quot;.&amp;#42;/target/test-reports/.&amp;#42;xml&amp;quot; -exec cp {} $CIRCLE&amp;#95;TEST&amp;#95;REPORTS/junit/ \;
+    - cp target/&amp;#42;.war $CIRCLE&amp;#95;ARTIFACTS
+
+# this doesn't work so commented out
+# in favour of an explicit `cp` in the test: post: stage
+#general:
+#  artifacts:
+#    - &amp;quot;target/&amp;#42;.war&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;i&gt;(&lt;code&gt;resources\public&lt;/code&gt; is exposed from the root of the &lt;code&gt;lein war&lt;/code&gt; &lt;code&gt;WAR&lt;/code&gt; file)&lt;/i&gt;&lt;/p&gt;&lt;p&gt;This is of course only one way of doing it, but it was the 'Simplest Thing That Can Possibly Work'. And sure, it corrupts the working directory because &lt;code&gt;resources\public&lt;/code&gt; is under git version control, but it doesn't matter because &lt;code&gt;circleci&lt;/code&gt; containers are disregarded after every build.&lt;/p&gt;&lt;p&gt;That's all for now - why not enjoy some &lt;a href='https://www.youtube.com/watch?v=RUX2-N8cVMc'&gt;light entertainment :-)&lt;/a&gt;.&lt;/p&gt;
 </description>
 <enclosure>
 

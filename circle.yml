@@ -2,4 +2,5 @@ deployment:
   push_to_server:
     branch: master
     commands:
+      - git log --oneline --decorate --graph > resources/public/glog.txt
       - rsync -avz resources/public/ coliny@194.135.84.40:html/

@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Blogging, the sequel!</title>
-    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-25-hello-again/">
+    <title>Random musings: Git tagging your builds automatically</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-28-git-tagging-project/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -106,35 +106,64 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">25 September 2016</div>
+        <div class="col-lg-6">28 September 2016</div>
         
     </div>
-    <h2>Blogging, the sequel!</h2>
+    <h2>Git tagging your builds automatically</h2>
 </div>
 <div>
     
-    <h2><a name="a&#95;fresh&#95;start"></a>A fresh start</h2><p>So, er yeah. I haven't really blogged for a <i>long</i> time - this time it will be different. I promise.</p><p>Hmm, I am already sceptical. It is well known that 'trying harder' never works, so what is different this time? Well, I have some objectives which are <a href='https://en.wikipedia.org/wiki/SMART_criteria'>SMART</a>:</p><ul><li><strong>S</strong>pecific</li><li><strong>M</strong>easurable</li><li><strong>A</strong>greed upon</li><li><strong>R</strong>ealistic</li><li><strong>T</strong>ime-based</li></ul><p>In a democracy of 1 it is pretty easy to meet the 'Agreed upon' criteria. So, what is my goal? To publish one 'meaty' blog post a week. By 'meaty' I mean a reaction to some non-trivial event in real life, probably work related.</p><p>What sorts of things will I ramble on about? Primarily technical I think, specifically around the Functional Programming and Enterprise landscape.</p><p>I care very passionately about Software Engineering and critical thinking as oppose to doing it <code>because Google</code>. That will almost certainly creep in throughout the blog.</p><h2><a name="jekyll,&#95;so&#95;long"></a>Jekyll, so long</h2><p>My previous blog was built using the excellent <a href='https://jekyllrb.com'>jekyll</a>. The handful of posts can be found <a href='https://github.com/yatesco/yatesco.github.io'>on github</a>. I fully intended to use it, but having upgraded to MacOS Sierra, installing jekyll was an exercise in pain.</p><p><code>jekyll</code> itself had moved to using <code>bundler</code> which I don't object to at all. The thing I <i>do</i> object to though is a gazillion <code>gem install</code>s, failing on the somewhat infamous <a href='http://www.nokogiri.org/tutorials/installing_nokogiri.html'>Nokogiri</a>.</p><p>Their <a href='https://github.com/sparklemotion/nokogiri'>GitHub</a> issues list contains a number of helpful pointers when using <code>brew</code>, but unfortunately I am using <a href='https://www.macports.org'>macports</a> and after 3 hours or so of trying different incantations I gave up.</p><h2><a name="cryogen"></a>Cryogen</h2><p>I had noticed <a href='http://cryogenweb.org'>Cryogen</a> before but <code>jekyll</code> was sufficient at the time, now I thought it deserved another look. And I am glad I did. Features?:</p><ul><li>tags</li><li>feeds</li><li>markdown (or that funny AsciiDoc ;-)</li><li>ridiculously trivial <code>disqus</code> <a href='http://cryogenweb.org/docs/configuration.html'>integration</a></li><li>Clojure (which I use full time at work)</li><li>lein</li></ul><p>Some not-so-great bits:</p><ul><li>the site is generated (following convention) in <code>resources\public</code> so actually deploying the site requires an extra step or two. The solution can be as simple as having one git repo for the source and one for <code>resources\public</code> which <code>GitHub Pages</code> then serves.</li><li>the web site is generated automatically but you still need to refresh the web browser. I might investigate the most excellent <a href='https://github.com/bhauman/lein-figwheel'>figwheel</a> to see if that can be integrated</li><li>it doesn't support <code>org-mode</code>. I can hardly hold it to account for that, and given <code>org-mode</code>'s excellent export modes it should be trivial to sort it out.</li><li>the default theme means <code>literal</code> and <a href='https://www.google.co.uk/search?q=happy+cat&client=safari&rls=en&tbm=isch&tbo=u&source=univ&sa=X&ved=0ahUKEwj&ndash;dfIpKvPAhXqDcAKHY01BaAQsAQIHQ&biw=1324&bih=902'>links</a> aren't easily distinguished.</li></ul><p>An alternative to GitHub Pages is to host your own static server and <code>rsync</code> it across, which is what I am doing.</p><p>Actually, because my <code>yak shaver</code> was feeling particularly sharp I decided to use <a href='https://circleci.com'>circleci</a> to deploy it which was as <a href='https://github.com/yatesco/blog-cryogen/blob/master/circle.yml'>trivial</a> as:</p><pre><code>deployment:
-  push&#95;to&#95;server:
-    branch: master
-    commands:
-      - rsync -avz resources/public/ coliny@colinyates.co.uk:html/
-</code></pre><p><i>make sure to create a new key pair for your remote server, <code>ssh-copy-id</code> to your remote server and then add the private key to your <code>circleci</code> project</i></p><p>As the ever-growing engineer I notice a few upgrades to my process:</p><ul><li>rather than commit the entire <code>resources\public</code> I could just commit the <code>resources\templates</code> directory and have <code>circleci</code> run <code>lein run</code> before deployment</li><li>having the <code>rsync</code> call in <code>circle.yml</code> feels a bit yucky. Better to have a commited script which <code>circleci</code> calls.</li></ul><p>Anyways, it was relatively harmless and the blog is off to a flying start.</p><h3><a name="the&#95;future!"></a>The Future!</h3><p>Watch this space ;-).</p>
+    <p>I need to write a much longer post to explain my thoughts on 'versioning' and what constitutes a release with today's trends of continuous integration, but for now, a simple tip.</p><p>I wanted a way to distinguish each <i>build</i>, not each <i>release</i> but each <i>build</i>. There is one excellent source of truth for that which is your git repository.</p><p>Wouldn't it be great if each build contained a full git log of what went into it?.</p><h2><a name="the&#95;magic"></a>The magic</h2><p>We use <a href='circleci.com'>circleci</a> (but it would be trivial to do with any decent continuous integration server) and before building we simply execute <code>git log &ndash;oneline &ndash;decorate &ndash;graph &gt; resources/public/glog.txt</code>:</p><pre><code class="yaml">machine:
+  java:
+    version: oraclejdk8
+
+## Customize dependencies
+dependencies:
+  cache&#95;directories:
+    - &quot;&#126;/.m2&quot;
+  pre:
+    - git fetch --tags
+
+test:
+  override:
+    - git log --oneline --decorate --graph &gt; resources/public/glog.txt
+    - lein full-build-no-tests!
+    - mkdir -p $CIRCLE&#95;TEST&#95;REPORTS/junit/
+    - find . -type f -regex &quot;.&#42;/target/test-reports/.&#42;xml&quot; -exec cp {} $CIRCLE&#95;TEST&#95;REPORTS/junit/ \;
+    - cp target/&#42;.war $CIRCLE&#95;ARTIFACTS
+
+# this doesn't work so commented out
+# in favour of an explicit `cp` in the test: post: stage
+#general:
+#  artifacts:
+#    - &quot;target/&#42;.war&quot;
+</code></pre><p><i>(<code>resources\public</code> is exposed from the root of the <code>lein war</code> <code>WAR</code> file)</i></p><p>This is of course only one way of doing it, but it was the 'Simplest Thing That Can Possibly Work'. And sure, it corrupts the working directory because <code>resources\public</code> is under git version control, but it doesn't matter because <code>circleci</code> containers are disregarded after every build.</p><p>That's all for now - why not enjoy some <a href='https://www.youtube.com/watch?v=RUX2-N8cVMc'>light entertainment :-)</a>.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags-output/broken promises/">broken promises</a>
+    <a href="/tags-output/clojure/">clojure</a>
     
-    <a href="/tags-output/redemption/">redemption</a>
+    <a href="/tags-output/tip/">tip</a>
+    
+    <a href="/tags-output/ci/">ci</a>
+    
+    <a href="/tags-output/lein/">lein</a>
+    
+    <a href="/tags-output/dev/">dev</a>
+    
+    <a href="/tags-output/circleci/">circleci</a>
     
 </div>
 
 
     <div id="prev-next">
         
-        <a href="/posts-output/2016-09-27-lessons-learned/">&laquo; Lessons learned from Java and Clojure</a>
+        <a href="/posts-output/2016-09-28-projectile-killing/">&laquo; Killing a projectile project</a>
         
+        
+        <a class="right" href="/posts-output/2016-09-27-lessons-learned/">Lessons learned from Java and Clojure &raquo;</a>
         
     </div>
 
@@ -142,8 +171,8 @@
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         var disqus_config = function () {
-            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-25-hello-again/";
-            this.page.identifier = "Blogging, the sequel!";
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-28-git-tagging-project/";
+            this.page.identifier = "Git tagging your builds automatically";
         };
         (function() {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

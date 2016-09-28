@@ -23,5 +23,5 @@
  :ignored-files      [#"\.#.*" #".*\.swp$"]
  :posts-per-page     5
  :blocks-per-preview 2
- :previews?          true
+ :previews?          false
  :clean-urls?        true}
