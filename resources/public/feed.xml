@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Thu, 29 Sep 2016 12:17:49 +0100
+Thu, 29 Sep 2016 16:18:47 +0100
 </lastBuildDate>
 <generator>
 clj-rss
@@ -100,6 +100,133 @@ server {
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We had to use the 'bundle' crt because godaddy's SSLs signing authority isn't always recognised so the crt is actually the result of:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;bash
 cat &amp;lt;YOUR-SERVER&amp;gt;.crt gd&amp;#95;bundle.crt &amp;gt; &amp;lt;YOU-SERVER&amp;gt;&amp;#95;bundle.crt
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a few days usage I am very impressed. The web UI isn't great but it all seems to be very solid and reliable.&lt;/p&gt;&lt;p&gt;And wow, does it sync quickly! It uses &lt;a href='https://en.wikipedia.org/wiki/DeltaSync'&gt;delta syncing&lt;/a&gt; but the initial upload was really quick as well.&lt;/p&gt;&lt;p&gt;It also has a huge feature, which is sorely missing in a lot of these cloud servers, which is you can browser a library from your desktop client without it syncing, so it isn't going to overwhelm the pitifully small SSDs most laptops come with these days.&lt;/p&gt;&lt;p&gt;So yes, all in all, very pleased with it.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 29 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-29-circleci-phantomjs/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-29-circleci-phantomjs/
+</link>
+<title>
+Circleci, phantomjs
+</title>
+<description>
+&lt;p&gt;Another quick tip.&lt;/p&gt;&lt;p&gt;I use the excellent &lt;a href='https://github.com/emezeske/lein-cljsbuild'&gt;cljsbuild&lt;/a&gt; to compile and test our ClojureScript projects (and I can't believe how difficult it is to wire this stuff together in 2016!). To support continuous integration I use &lt;a href='http://phantomjs.org'&gt;phantomjs&lt;/a&gt; to provide the JavaScript environment.&lt;/p&gt;&lt;p&gt;Unfortunately circleci's environment doesn't have &lt;code&gt;phantomjs&lt;/code&gt; v2 available to it and v1 has some troubling properties. It turns out, after much googling and dead ends, that it is pretty trivial to get &lt;code&gt;phantomjs&lt;/code&gt; in your circleci environment, simply add:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;machine:
+  pre:
+    - sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;to your &lt;code&gt;circle.yml&lt;/code&gt; - thanks &lt;a href='https://discuss.circleci.com/t/add-phantomjs-2-1-1-to-the-platform/1755/3'&gt;kimh@circleci&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;lein-cljsbuild&quot;&gt;&lt;/a&gt;lein-cljsbuild&lt;/h2&gt;&lt;p&gt;The documentation on &lt;a href='https://github.com/emezeske/lein-cljsbuild/blob/master/doc/TESTING.md'&gt;github&lt;/a&gt; is sufficient and the &lt;a href='https://github.com/emezeske/lein-cljsbuild/tree/master/example-projects/advanced'&gt;advanced project&lt;/a&gt; contains all you need.&lt;/p&gt;&lt;p&gt;However, in brief (and note, this isn't exactly the same as the advanced project):&lt;/p&gt;&lt;p&gt;&lt;code&gt;project.clj&lt;/code&gt;:&lt;pre&gt;&lt;code&gt;&amp;#40;defproject &amp;lt;YOUR-COMPANY&amp;gt;/&amp;lt;YOUR-COMPANY&amp;gt;.util &amp;quot;0.4.1-SNAPSHOT&amp;quot;
+  :description &amp;quot;FIXME: write description&amp;quot;
+  :url &amp;quot;http://example.com/FIXME&amp;quot;
+  :license {:name &amp;quot;Eclipse Public License&amp;quot;
+            :url  &amp;quot;http://www.eclipse.org/legal/epl-v10.html&amp;quot;}
+  :dependencies &amp;#91;&amp;#91;org.clojure/clojure &amp;quot;1.8.0&amp;quot;&amp;#93;
+                 &amp;#91;org.clojure/clojurescript &amp;quot;1.9.216&amp;quot;&amp;#93;
+                 &amp;#91;org.clojure/tools.logging &amp;quot;0.3.1&amp;quot;&amp;#93;
+                 &amp;#91;ch.qos.logback/logback-classic &amp;quot;1.1.7&amp;quot;&amp;#93;
+                 &amp;#91;net.sourceforge.jtds/jtds &amp;quot;1.3.1&amp;quot;&amp;#93;
+                 &amp;#91;com.mchange/c3p0 &amp;quot;0.9.5.2&amp;quot;&amp;#93;
+                 &amp;#91;environ &amp;quot;1.1.0&amp;quot;&amp;#93;
+                 &amp;#91;com.lucasbradstreet/instaparse-cljs &amp;quot;1.4.1.2&amp;quot;&amp;#93;
+                 &amp;#91;prismatic/schema &amp;quot;1.1.3&amp;quot;&amp;#93;
+                 &amp;#91;org.clojure/java.jdbc &amp;quot;0.4.2&amp;quot;&amp;#93;
+                 &amp;#91;clj-time &amp;quot;0.12.0&amp;quot;&amp;#93;
+                 &amp;#91;com.andrewmcveigh/cljs-time &amp;quot;0.4.0&amp;quot;&amp;#93;&amp;#93;
+
+  :plugins &amp;#91;&amp;#91;lein-environ &amp;quot;1.1.0&amp;quot;&amp;#93;
+            &amp;#91;lein-wagon-ssh-external &amp;quot;0.1.0&amp;quot;&amp;#93;
+            &amp;#91;lein-cljsbuild &amp;quot;1.1.4&amp;quot;&amp;#93;&amp;#93;
+
+  :cljsbuild {:test-commands
+              {&amp;quot;unit&amp;quot; &amp;#91;&amp;quot;phantomjs&amp;quot;
+                       &amp;quot;phantom/unit-test.js&amp;quot;
+                       &amp;quot;resources/private/html/unit-test.html&amp;quot;&amp;#93;}
+              :builds {
+                       :prod
+                       {:source-paths &amp;#91;&amp;quot;src&amp;quot;&amp;#93;
+                        :compiler     {:output-to     &amp;quot;resources/public/js/main.js&amp;quot;
+                                       :optimizations :advanced
+                                       :pretty-print  false}}
+                       :test
+                       {:source-paths &amp;#91;&amp;quot;src&amp;quot; &amp;quot;test&amp;quot; &amp;quot;test-cljs&amp;quot;&amp;#93;
+                        :compiler     {:output-to     &amp;quot;resources/private/js/unit-test.js&amp;quot;
+                                       :optimizations :advanced
+                                       :pretty-print  false}}}}
+  ; Clean JS directories
+  :clean-targets &amp;#94;{:protect false} &amp;#91;&amp;quot;resources/private/js&amp;quot;
+                                    &amp;quot;resources/public/js&amp;quot;
+                                    :target-path&amp;#93;
+
+  :aliases {&amp;quot;clj-tests!&amp;quot;           &amp;#91;&amp;quot;do&amp;quot; &amp;quot;test&amp;quot;&amp;#93;
+            &amp;quot;cljs-tests!&amp;quot;          &amp;#91;&amp;quot;do&amp;quot; &amp;#91;&amp;quot;cljsbuild&amp;quot; &amp;quot;test&amp;quot;&amp;#93;&amp;#93;
+            &amp;quot;all-tests!&amp;quot;           &amp;#91;&amp;quot;do&amp;quot; &amp;quot;clj-tests!,&amp;quot; &amp;quot;cljs-tests!&amp;quot;&amp;#93;
+            &amp;quot;full-build-no-tests!&amp;quot; &amp;#91;&amp;quot;do&amp;quot; &amp;quot;clean&amp;quot;&amp;#93;
+            &amp;quot;full-build-cljs!&amp;quot;     &amp;#91;&amp;quot;do&amp;quot; &amp;quot;clean,&amp;quot; &amp;quot;cljs-tests!&amp;quot;&amp;#93;
+            &amp;quot;full-build!&amp;quot;          &amp;#91;&amp;quot;do&amp;quot; &amp;quot;clean,&amp;quot; &amp;quot;all-tests!&amp;quot;&amp;#93;
+            ;; TODO - circleci cannot access a MS SQL database so run as many tests as we can
+            &amp;quot;deploy!&amp;quot;              &amp;#91;&amp;quot;do&amp;quot; &amp;quot;full-build-cljs!&amp;quot;&amp;#93;}&amp;#41;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;phantom/unit-test.js&lt;/code&gt;:&lt;pre&gt;&lt;code&gt;var system = require&amp;#40;'system'&amp;#41;;
+var url,args;
+
+if &amp;#40;phantom.version.major &amp;gt; 1&amp;#41; {
+    args = system.args;
+    if &amp;#40;args.length &amp;lt; 2&amp;#41; {
+        system.stderr.write&amp;#40;'Expected a target URL parameter.'&amp;#41;;
+        phantom.exit&amp;#40;1&amp;#41;;
+    }
+    url = args&amp;#91;1&amp;#93;;
+} else {
+    args = phantom.args;
+    if &amp;#40;args.length &amp;lt; 1&amp;#41; {
+        system.stderr.write&amp;#40;'Expected a target URL parameter.'&amp;#41;;
+        phantom.exit&amp;#40;1&amp;#41;;
+    }
+    url = args&amp;#91;0&amp;#93;;
+}
+
+var page = require&amp;#40;'webpage'&amp;#41;.create&amp;#40;&amp;#41;;
+
+page.onConsoleMessage = function &amp;#40;message&amp;#41; {
+    console.log&amp;#40;&amp;quot;Test console: &amp;quot; + message&amp;#41;;
+};
+
+console.log&amp;#40;&amp;quot;Loading URL: &amp;quot; + url&amp;#41;;
+
+page.open&amp;#40;url, function &amp;#40;status&amp;#41; {
+    if &amp;#40;status !== &amp;quot;success&amp;quot;&amp;#41; {
+        console.log&amp;#40;'Failed to open ' + url&amp;#41;;
+        setTimeout&amp;#40;function&amp;#40;&amp;#41; { // https://github.com/ariya/phantomjs/issues/12697
+            phantom.exit&amp;#40;1&amp;#41;;
+        }, 0&amp;#41;;
+    }
+
+    page.evaluate&amp;#40;function&amp;#40;&amp;#41; {
+        &amp;lt;YOUR-COMPANY&amp;gt;.util.test.run&amp;#40;&amp;#41;;
+    }&amp;#41;;
+
+    setTimeout&amp;#40;function&amp;#40;&amp;#41; { // https://github.com/ariya/phantomjs/issues/12697
+        phantom.exit&amp;#40;0&amp;#41;;
+    }, 0&amp;#41;;
+}&amp;#41;;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;test-cljs/&amp;lt;YOUR-COMPANY&amp;gt;.util.test&lt;/code&gt;:&lt;pre&gt;&lt;code&gt;&amp;#40;ns &amp;lt;YOUR-COMPANY&amp;gt;.util.test
+  &amp;#40;:require &amp;#91;clojure.test :as t&amp;#93;
+            &amp;#91;&amp;lt;YOUR-COMPANY&amp;gt;.util.common-test&amp;#93;
+            &amp;#91;&amp;lt;YOUR-COMPANY&amp;gt;.util.hierarchy-test&amp;#93;
+            &amp;#91;&amp;lt;YOUR-COMPANY&amp;gt;.util.parser.time-test&amp;#93;&amp;#41;&amp;#41;
+
+&amp;#40;enable-console-print!&amp;#41;
+
+&amp;#40;defn &amp;#94;:export run &amp;#91;&amp;#93;
+  &amp;#40;.log js/console &amp;quot;Testing &amp;lt;YOUR-COMPANY&amp;gt;.util&amp;quot;&amp;#41;
+  &amp;#40;t/run-all-tests #&amp;quot;&amp;lt;YOUR-COMPANY&amp;gt;.util.&amp;#42;-test&amp;quot;&amp;#41;&amp;#41;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 </description>
 <enclosure>
 

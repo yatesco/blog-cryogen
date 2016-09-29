@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Random musings: Circleci, phantomjs</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-29-circleci-phantomjs/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css">
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Random musings</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="/">Home</a></li>
+                <li
+                ><a href="/archives/">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages-output/about/">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        More <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Links</li>
+                        <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                        <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Recent Posts</li>
+                        
+                        <li><a href="/posts-output/2016-09-29-pydio-seafile/">Secure file sharing in the cloud</a></li>
+                        
+                        <li><a href="/posts-output/2016-09-29-circleci-phantomjs/">Circleci, phantomjs</a></li>
+                        
+                        <li><a href="/posts-output/2016-09-28-projectile-killing/">Killing a projectile project</a></li>
+                        
+                        
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">Tags</li>
+                        
+                        <li><a href="/tags-output/cloud/">cloud</a></li>
+                        
+                        <li><a href="/tags-output/clojure/">clojure</a></li>
+                        
+                        <li><a href="/tags-output/tip/">tip</a></li>
+                        
+                        <li><a href="/tags-output/ci/">ci</a></li>
+                        
+                        <li><a href="/tags-output/broken promises/">broken promises</a></li>
+                        
+                        <li><a href="/tags-output/projectile/">projectile</a></li>
+                        
+                        <li><a href="/tags-output/cljs/">cljs</a></li>
+                        
+                        <li><a href="/tags-output/java/">java</a></li>
+                        
+                        <li><a href="/tags-output/lein/">lein</a></li>
+                        
+                        <li><a href="/tags-output/seafile/">seafile</a></li>
+                        
+                        <li><a href="/tags-output/dev/">dev</a></li>
+                        
+                        <li><a href="/tags-output/emacs/">emacs</a></li>
+                        
+                        <li><a href="/tags-output/spacemacs/">spacemacs</a></li>
+                        
+                        <li><a href="/tags-output/phantomjs/">phantomjs</a></li>
+                        
+                        <li><a href="/tags-output/circleci/">circleci</a></li>
+                        
+                        <li><a href="/tags-output/cljsbuild/">cljsbuild</a></li>
+                        
+                        <li><a href="/tags-output/pydio/">pydio</a></li>
+                        
+                        <li><a href="/tags-output/redemption/">redemption</a></li>
+                        
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="content">
+                
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">29 September 2016</div>
+        
+    </div>
+    <h2>Circleci, phantomjs</h2>
+</div>
+<div>
+    
+    <p>Another quick tip.</p><p>I use the excellent <a href='https://github.com/emezeske/lein-cljsbuild'>cljsbuild</a> to compile and test our ClojureScript projects (and I can't believe how difficult it is to wire this stuff together in 2016!). To support continuous integration I use <a href='http://phantomjs.org'>phantomjs</a> to provide the JavaScript environment.</p><p>Unfortunately circleci's environment doesn't have <code>phantomjs</code> v2 available to it and v1 has some troubling properties. It turns out, after much googling and dead ends, that it is pretty trivial to get <code>phantomjs</code> in your circleci environment, simply add:</p><pre><code>machine:
+  pre:
+    - sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+</code></pre><p>to your <code>circle.yml</code> - thanks <a href='https://discuss.circleci.com/t/add-phantomjs-2-1-1-to-the-platform/1755/3'>kimh@circleci</a>.</p><h2><a name="lein-cljsbuild"></a>lein-cljsbuild</h2><p>The documentation on <a href='https://github.com/emezeske/lein-cljsbuild/blob/master/doc/TESTING.md'>github</a> is sufficient and the <a href='https://github.com/emezeske/lein-cljsbuild/tree/master/example-projects/advanced'>advanced project</a> contains all you need.</p><p>However, in brief (and note, this isn't exactly the same as the advanced project):</p><p><code>project.clj</code>:<pre><code>&#40;defproject &lt;YOUR-COMPANY&gt;/&lt;YOUR-COMPANY&gt;.util &quot;0.4.1-SNAPSHOT&quot;
+  :description &quot;FIXME: write description&quot;
+  :url &quot;http://example.com/FIXME&quot;
+  :license {:name &quot;Eclipse Public License&quot;
+            :url  &quot;http://www.eclipse.org/legal/epl-v10.html&quot;}
+  :dependencies &#91;&#91;org.clojure/clojure &quot;1.8.0&quot;&#93;
+                 &#91;org.clojure/clojurescript &quot;1.9.216&quot;&#93;
+                 &#91;org.clojure/tools.logging &quot;0.3.1&quot;&#93;
+                 &#91;ch.qos.logback/logback-classic &quot;1.1.7&quot;&#93;
+                 &#91;net.sourceforge.jtds/jtds &quot;1.3.1&quot;&#93;
+                 &#91;com.mchange/c3p0 &quot;0.9.5.2&quot;&#93;
+                 &#91;environ &quot;1.1.0&quot;&#93;
+                 &#91;com.lucasbradstreet/instaparse-cljs &quot;1.4.1.2&quot;&#93;
+                 &#91;prismatic/schema &quot;1.1.3&quot;&#93;
+                 &#91;org.clojure/java.jdbc &quot;0.4.2&quot;&#93;
+                 &#91;clj-time &quot;0.12.0&quot;&#93;
+                 &#91;com.andrewmcveigh/cljs-time &quot;0.4.0&quot;&#93;&#93;
+
+  :plugins &#91;&#91;lein-environ &quot;1.1.0&quot;&#93;
+            &#91;lein-wagon-ssh-external &quot;0.1.0&quot;&#93;
+            &#91;lein-cljsbuild &quot;1.1.4&quot;&#93;&#93;
+
+  :cljsbuild {:test-commands
+              {&quot;unit&quot; &#91;&quot;phantomjs&quot;
+                       &quot;phantom/unit-test.js&quot;
+                       &quot;resources/private/html/unit-test.html&quot;&#93;}
+              :builds {
+                       :prod
+                       {:source-paths &#91;&quot;src&quot;&#93;
+                        :compiler     {:output-to     &quot;resources/public/js/main.js&quot;
+                                       :optimizations :advanced
+                                       :pretty-print  false}}
+                       :test
+                       {:source-paths &#91;&quot;src&quot; &quot;test&quot; &quot;test-cljs&quot;&#93;
+                        :compiler     {:output-to     &quot;resources/private/js/unit-test.js&quot;
+                                       :optimizations :advanced
+                                       :pretty-print  false}}}}
+  ; Clean JS directories
+  :clean-targets &#94;{:protect false} &#91;&quot;resources/private/js&quot;
+                                    &quot;resources/public/js&quot;
+                                    :target-path&#93;
+
+  :aliases {&quot;clj-tests!&quot;           &#91;&quot;do&quot; &quot;test&quot;&#93;
+            &quot;cljs-tests!&quot;          &#91;&quot;do&quot; &#91;&quot;cljsbuild&quot; &quot;test&quot;&#93;&#93;
+            &quot;all-tests!&quot;           &#91;&quot;do&quot; &quot;clj-tests!,&quot; &quot;cljs-tests!&quot;&#93;
+            &quot;full-build-no-tests!&quot; &#91;&quot;do&quot; &quot;clean&quot;&#93;
+            &quot;full-build-cljs!&quot;     &#91;&quot;do&quot; &quot;clean,&quot; &quot;cljs-tests!&quot;&#93;
+            &quot;full-build!&quot;          &#91;&quot;do&quot; &quot;clean,&quot; &quot;all-tests!&quot;&#93;
+            ;; TODO - circleci cannot access a MS SQL database so run as many tests as we can
+            &quot;deploy!&quot;              &#91;&quot;do&quot; &quot;full-build-cljs!&quot;&#93;}&#41;
+ </code></pre></p><p><code>phantom/unit-test.js</code>:<pre><code>var system = require&#40;'system'&#41;;
+var url,args;
+
+if &#40;phantom.version.major &gt; 1&#41; {
+    args = system.args;
+    if &#40;args.length &lt; 2&#41; {
+        system.stderr.write&#40;'Expected a target URL parameter.'&#41;;
+        phantom.exit&#40;1&#41;;
+    }
+    url = args&#91;1&#93;;
+} else {
+    args = phantom.args;
+    if &#40;args.length &lt; 1&#41; {
+        system.stderr.write&#40;'Expected a target URL parameter.'&#41;;
+        phantom.exit&#40;1&#41;;
+    }
+    url = args&#91;0&#93;;
+}
+
+var page = require&#40;'webpage'&#41;.create&#40;&#41;;
+
+page.onConsoleMessage = function &#40;message&#41; {
+    console.log&#40;&quot;Test console: &quot; + message&#41;;
+};
+
+console.log&#40;&quot;Loading URL: &quot; + url&#41;;
+
+page.open&#40;url, function &#40;status&#41; {
+    if &#40;status !== &quot;success&quot;&#41; {
+        console.log&#40;'Failed to open ' + url&#41;;
+        setTimeout&#40;function&#40;&#41; { // https://github.com/ariya/phantomjs/issues/12697
+            phantom.exit&#40;1&#41;;
+        }, 0&#41;;
+    }
+
+    page.evaluate&#40;function&#40;&#41; {
+        &lt;YOUR-COMPANY&gt;.util.test.run&#40;&#41;;
+    }&#41;;
+
+    setTimeout&#40;function&#40;&#41; { // https://github.com/ariya/phantomjs/issues/12697
+        phantom.exit&#40;0&#41;;
+    }, 0&#41;;
+}&#41;;
+ </code></pre></p><p><code>test-cljs/&lt;YOUR-COMPANY&gt;.util.test</code>:<pre><code>&#40;ns &lt;YOUR-COMPANY&gt;.util.test
+  &#40;:require &#91;clojure.test :as t&#93;
+            &#91;&lt;YOUR-COMPANY&gt;.util.common-test&#93;
+            &#91;&lt;YOUR-COMPANY&gt;.util.hierarchy-test&#93;
+            &#91;&lt;YOUR-COMPANY&gt;.util.parser.time-test&#93;&#41;&#41;
+
+&#40;enable-console-print!&#41;
+
+&#40;defn &#94;:export run &#91;&#93;
+  &#40;.log js/console &quot;Testing &lt;YOUR-COMPANY&gt;.util&quot;&#41;
+  &#40;t/run-all-tests #&quot;&lt;YOUR-COMPANY&gt;.util.&#42;-test&quot;&#41;&#41;
+ </code></pre></p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags-output/tip/">tip</a>
+    
+    <a href="/tags-output/cljs/">cljs</a>
+    
+    <a href="/tags-output/lein/">lein</a>
+    
+    <a href="/tags-output/phantomjs/">phantomjs</a>
+    
+    <a href="/tags-output/circleci/">circleci</a>
+    
+    <a href="/tags-output/cljsbuild/">cljsbuild</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        <a href="/posts-output/2016-09-29-pydio-seafile/">&laquo; Secure file sharing in the cloud</a>
+        
+        
+        <a class="right" href="/posts-output/2016-09-28-projectile-killing/">Killing a projectile project &raquo;</a>
+        
+    </div>
+
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-29-circleci-phantomjs/";
+            this.page.identifier = "Circleci, phantomjs";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
+</div>
+
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2016 Colin Yates
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+
