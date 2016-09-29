@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Posts Tagged &quot;broken promises&quot;</title>
-    <link rel="canonical" href="http://colinyates.co.uk/tags-output/broken promises/">
+    <title>Random musings: Deprecated warnings from plumatic schema</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-09-29-prismatic-schema/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -123,17 +123,72 @@
         <div class="col-lg-12">
             <div id="content">
                 
-<div id="posts-by-tag">
-    <div id="page-header">
-        <h2>Posts Tagged &quot;broken promises&quot;</h2>
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">29 September 2016</div>
+        
     </div>
-    <ul>
+    <h2>Deprecated warnings from plumatic schema</h2>
+</div>
+<div>
     
-        <li>
-            <a href="/posts-output/2016-09-25-hello-again/">Blogging, the sequel!</a>
-        </li>
+    <p>If you aren't already using <a href='https://github.com/plumatic/schema'>plumatic's schema</a> then I <strong>strongly</strong> recommend you do.</p><p><i>(when did they stop being 'Prismatic' and become 'Plumatic'? Oh well)</i></p><p>The reason why will have to be another blog post, this is simply to say that is you are using <code>both</code> or <code>either</code> then you will get a bunch of <code>deprecated</code> warnings.</p><p>The simple, not really thinking about it solution is to use <code>constrained</code> instead of <code>both</code> and <code>conditional</code> instead of <code>either</code>.</p><p>Examples:<pre><code class="clojure">&#40;s/both &#91;s/Int&#93; &#40;s/pred seq&#41;&#41;
+=&gt;
+&#40;s/constrained seq &#91;s/Int&#93;&#41;
+ </code></pre></p><p>and</p><pre><code class="clojure">&#40;def ToggleA {:toggle &#40;s/eq :a&#41; :value s/Int}&#41;
+&#40;def ToggleB {:toggle &#40;s/eq :b&#41; :other-field s/Int}&#41;
+&#40;s/either ToggleA ToggleB&#41;
+=&gt;
+&#40;s/conditional #&#40;= :a &#40;:toggle %&#41;&#41; ToggleA #&#40;= :b &#40;:toggle %&#41;&#41; ToggleB&#41;
+=&gt;
+&#40;s/conditional #&#40;= :a &#40;:toggle %&#41;&#41; ToggleA :else ToggleB&#41;
+</code></pre><p>Hope that helps.</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
     
-    </ul>
+    <a href="/tags-output/clojure/">clojure</a>
+    
+    <a href="/tags-output/cljs/">cljs</a>
+    
+    <a href="/tags-output/schema/">schema</a>
+    
+    <a href="/tags-output/plumatic/">plumatic</a>
+    
+    <a href="/tags-output/prismatic/">prismatic</a>
+    
+    <a href="/tags-output/clojurescript/">clojurescript</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        <a href="/posts-output/2016-09-29-pydio-seafile/">&laquo; Secure file sharing in the cloud</a>
+        
+        
+        <a class="right" href="/posts-output/2016-09-29-circleci-phantomjs/">Circleci, phantomjs &raquo;</a>
+        
+    </div>
+
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-09-29-prismatic-schema/";
+            this.page.identifier = "Deprecated warnings from plumatic schema";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
 </div>
 
             </div>

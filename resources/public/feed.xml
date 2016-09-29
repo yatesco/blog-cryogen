@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Thu, 29 Sep 2016 16:18:47 +0100
+Thu, 29 Sep 2016 17:22:27 +0100
 </lastBuildDate>
 <generator>
 clj-rss
@@ -100,6 +100,36 @@ server {
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We had to use the 'bundle' crt because godaddy's SSLs signing authority isn't always recognised so the crt is actually the result of:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;bash
 cat &amp;lt;YOUR-SERVER&amp;gt;.crt gd&amp;#95;bundle.crt &amp;gt; &amp;lt;YOU-SERVER&amp;gt;&amp;#95;bundle.crt
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a few days usage I am very impressed. The web UI isn't great but it all seems to be very solid and reliable.&lt;/p&gt;&lt;p&gt;And wow, does it sync quickly! It uses &lt;a href='https://en.wikipedia.org/wiki/DeltaSync'&gt;delta syncing&lt;/a&gt; but the initial upload was really quick as well.&lt;/p&gt;&lt;p&gt;It also has a huge feature, which is sorely missing in a lot of these cloud servers, which is you can browser a library from your desktop client without it syncing, so it isn't going to overwhelm the pitifully small SSDs most laptops come with these days.&lt;/p&gt;&lt;p&gt;So yes, all in all, very pleased with it.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 29 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-29-prismatic-schema/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-29-prismatic-schema/
+</link>
+<title>
+Deprecated warnings from plumatic schema
+</title>
+<description>
+&lt;p&gt;If you aren't already using &lt;a href='https://github.com/plumatic/schema'&gt;plumatic's schema&lt;/a&gt; then I &lt;strong&gt;strongly&lt;/strong&gt; recommend you do.&lt;/p&gt;&lt;p&gt;&lt;i&gt;(when did they stop being 'Prismatic' and become 'Plumatic'? Oh well)&lt;/i&gt;&lt;/p&gt;&lt;p&gt;The reason why will have to be another blog post, this is simply to say that is you are using &lt;code&gt;both&lt;/code&gt; or &lt;code&gt;either&lt;/code&gt; then you will get a bunch of &lt;code&gt;deprecated&lt;/code&gt; warnings.&lt;/p&gt;&lt;p&gt;The simple, not really thinking about it solution is to use &lt;code&gt;constrained&lt;/code&gt; instead of &lt;code&gt;both&lt;/code&gt; and &lt;code&gt;conditional&lt;/code&gt; instead of &lt;code&gt;either&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;Examples:&lt;pre&gt;&lt;code class=&quot;clojure&quot;&gt;&amp;#40;s/both &amp;#91;s/Int&amp;#93; &amp;#40;s/pred seq&amp;#41;&amp;#41;
+=&amp;gt;
+&amp;#40;s/constrained seq &amp;#91;s/Int&amp;#93;&amp;#41;
+ &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;&lt;p&gt;and&lt;/p&gt;&lt;pre&gt;&lt;code class=&quot;clojure&quot;&gt;&amp;#40;def ToggleA {:toggle &amp;#40;s/eq :a&amp;#41; :value s/Int}&amp;#41;
+&amp;#40;def ToggleB {:toggle &amp;#40;s/eq :b&amp;#41; :other-field s/Int}&amp;#41;
+&amp;#40;s/either ToggleA ToggleB&amp;#41;
+=&amp;gt;
+&amp;#40;s/conditional #&amp;#40;= :a &amp;#40;:toggle %&amp;#41;&amp;#41; ToggleA #&amp;#40;= :b &amp;#40;:toggle %&amp;#41;&amp;#41; ToggleB&amp;#41;
+=&amp;gt;
+&amp;#40;s/conditional #&amp;#40;= :a &amp;#40;:toggle %&amp;#41;&amp;#41; ToggleA :else ToggleB&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Hope that helps.&lt;/p&gt;
 </description>
 <enclosure>
 
