@@ -12,11 +12,102 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Wed, 28 Sep 2016 18:39:03 +0100
+Thu, 29 Sep 2016 12:17:49 +0100
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-09-29-pydio-seafile/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-09-29-pydio-seafile/
+</link>
+<title>
+Secure file sharing in the cloud
+</title>
+<description>
+&lt;p&gt;We occasionally need to share sensitive files with our clients: new deployment bundles, test data etc. Due to the sensitive nature of our work we &lt;i&gt;must&lt;/i&gt; have the following:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;strong usernames/passwords&lt;/li&gt;&lt;li&gt;no client installation so a decent web UI is necessary&lt;/li&gt;&lt;li&gt;encryption in transit and at rest&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;And as I will be administering it, it must also:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;be trivial to install and upgrade&lt;/li&gt;&lt;li&gt;not break when you upgrade the OS&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;As this is an experiment I want to self-host (as that increases security somewhat) and all the hosted options I have looked at are either too expensive or too cumbersome.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;pydio&quot;&gt;&lt;/a&gt;Pydio&lt;/h2&gt;&lt;p&gt;For a while I used &lt;a href='https://pydio.com'&gt;pydio&lt;/a&gt; and it was fine. Installation was tricky (although it has gotten much better recently) but once it was working it was pretty solid.&lt;/p&gt;&lt;p&gt;It did the following very well:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;a good Linux citizen, config files in the right places for the distribution&lt;/li&gt;&lt;li&gt;very rounded web UI&lt;/li&gt;&lt;li&gt;all the files are stored 'as-is' so last-resort backup is as simple as rsync&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;The major downsides however:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;everything is stored under www-data and permissions are at the application level&lt;/li&gt;&lt;li&gt;upgrading Ubuntu to the latest LTS broke it horribly, probably because PHP changed significantly&lt;/li&gt;&lt;li&gt;sharing between clients never seemed to work properly so we had to copy the same release artifacts between accounts&lt;/li&gt;&lt;li&gt;the pydio admin would need to issue a username and password which the client never bothered to change&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;However, other than those issues (which are all well documented) pydio was fine for sharing via the web.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;seafile&quot;&gt;&lt;/a&gt;Seafile&lt;/h2&gt;&lt;p&gt;I noticed &lt;a href='https://www.seafile.com/en/home/'&gt;seafile&lt;/a&gt; when I was first evaluating solutions a while ago. It seemed more focused at file sharing/synchronising than cloud sharing so I dismissed it. However, it seems to have matured nicely and offers a lot out of the box:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;everything is a &lt;a href='https://www.seafile.com/en/help/libraries/'&gt;library&lt;/a&gt; which you can share with others&lt;/li&gt;&lt;li&gt;libraries can be &lt;a href='https://www.seafile.com/en/help/encrypted_libraries/'&gt;encrypted&lt;/a&gt; (although there are serious concerns over its encryption)&lt;/li&gt;&lt;li&gt;users were invited with an email and password which they were forced to change&lt;/li&gt;&lt;li&gt;uploads and downloads could be done with &lt;a href='https://www.seafile.com/en/help/share/'&gt;security-by-obfuscation&lt;/a&gt; URLs which could be password protected and expired&lt;/li&gt;&lt;li&gt;their &lt;a href='https://www.seafile.com/en/help/install/'&gt;desktop client&lt;/a&gt; allows you to sync locally or browse remotely on a library by library basis&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;The installation was a peach, the simplest (backup) non-trivial software I have ever installed. It was literally get a fresh debian/ubuntu machine and then run the &lt;a href='https://github.com/seafile/seafile-server-installer'&gt;installation script.&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;After that it was a case of regenerating the SSL and installing it by editing (on debian at least) &lt;code&gt;/etc/nginx/conf.d/seafile.conf&lt;/code&gt; to point to the key and the crt:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;server {
+  listen       80;
+  server&amp;#95;name  &amp;quot;&amp;quot;;
+  return 301 https://$http&amp;#95;host$request&amp;#95;uri;
+}
+
+server {
+  listen 443;
+  server&amp;#95;name  &amp;quot;&amp;quot;;
+
+### START - THIS IS WHAT YOU NEED TO CHANGE ###
+  ssl on;
+  ssl&amp;#95;certificate /etc/ssl/certs/&amp;lt;YOUR-SERVER&amp;gt;&amp;#95;bundle.crt; # /etc/nginx/ssl/seafile.crt;
+  ssl&amp;#95;certificate&amp;#95;key /etc/ssl/private/&amp;lt;YOUR-SERVER&amp;gt;.key; # /etc/nginx/ssl/seafile.key;
+### END - THIS IS WHAT YOU NEED TO CHANGE ###
+
+  proxy&amp;#95;set&amp;#95;header X-Forwarded-For $remote&amp;#95;addr;
+
+  location / {
+    fastcgi&amp;#95;pass    127.0.0.1:8000;
+    fastcgi&amp;#95;param   SCRIPT&amp;#95;FILENAME     $document&amp;#95;root$fastcgi&amp;#95;script&amp;#95;name;
+    fastcgi&amp;#95;param   PATH&amp;#95;INFO           $fastcgi&amp;#95;script&amp;#95;name;
+    fastcgi&amp;#95;param   SERVER&amp;#95;PROTOCOL     $server&amp;#95;protocol;
+    fastcgi&amp;#95;param   QUERY&amp;#95;STRING        $query&amp;#95;string;
+    fastcgi&amp;#95;param   REQUEST&amp;#95;METHOD      $request&amp;#95;method;
+    fastcgi&amp;#95;param   CONTENT&amp;#95;TYPE        $content&amp;#95;type;
+    fastcgi&amp;#95;param   CONTENT&amp;#95;LENGTH      $content&amp;#95;length;
+    fastcgi&amp;#95;param   SERVER&amp;#95;ADDR         $server&amp;#95;addr;
+    fastcgi&amp;#95;param   SERVER&amp;#95;PORT         $server&amp;#95;port;
+    fastcgi&amp;#95;param   SERVER&amp;#95;NAME         $server&amp;#95;name;
+    fastcgi&amp;#95;param   REMOTE&amp;#95;ADDR         $remote&amp;#95;addr;
+    fastcgi&amp;#95;param   HTTPS               on;
+    fastcgi&amp;#95;param   HTTP&amp;#95;SCHEME         https;
+    access&amp;#95;log      /var/log/nginx/seahub.access.log;
+    error&amp;#95;log       /var/log/nginx/seahub.error.log;
+  }
+
+  location /seafhttp {
+    rewrite &amp;#94;/seafhttp&amp;#40;.&amp;#42;&amp;#41;$ $1 break;
+    proxy&amp;#95;pass http://127.0.0.1:8082;
+    client&amp;#95;max&amp;#95;body&amp;#95;size 0;
+    proxy&amp;#95;connect&amp;#95;timeout  36000s;
+    proxy&amp;#95;read&amp;#95;timeout  36000s;
+    proxy&amp;#95;send&amp;#95;timeout  36000s;
+  }
+
+  location /media {
+    root /opt/seafile/seafile-server-latest/seahub;
+  }
+
+  location /seafdav {
+    fastcgi&amp;#95;pass    127.0.0.1:8080;
+    fastcgi&amp;#95;param   SCRIPT&amp;#95;FILENAME     $document&amp;#95;root$fastcgi&amp;#95;script&amp;#95;name;
+    fastcgi&amp;#95;param   PATH&amp;#95;INFO           $fastcgi&amp;#95;script&amp;#95;name;
+    fastcgi&amp;#95;param   SERVER&amp;#95;PROTOCOL     $server&amp;#95;protocol;
+    fastcgi&amp;#95;param   QUERY&amp;#95;STRING        $query&amp;#95;string;
+    fastcgi&amp;#95;param   REQUEST&amp;#95;METHOD      $request&amp;#95;method;
+    fastcgi&amp;#95;param   CONTENT&amp;#95;TYPE        $content&amp;#95;type;
+    fastcgi&amp;#95;param   CONTENT&amp;#95;LENGTH      $content&amp;#95;length;
+    fastcgi&amp;#95;param   SERVER&amp;#95;ADDR         $server&amp;#95;addr;
+    fastcgi&amp;#95;param   SERVER&amp;#95;PORT         $server&amp;#95;port;
+    fastcgi&amp;#95;param   SERVER&amp;#95;NAME         $server&amp;#95;name;
+    fastcgi&amp;#95;param   REMOTE&amp;#95;ADDR         $remote&amp;#95;addr;
+    fastcgi&amp;#95;param   HTTPS               on;
+    client&amp;#95;max&amp;#95;body&amp;#95;size 0;
+    access&amp;#95;log      /var/log/nginx/seafdav.access.log;
+    error&amp;#95;log       /var/log/nginx/seafdav.error.log;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We had to use the 'bundle' crt because godaddy's SSLs signing authority isn't always recognised so the crt is actually the result of:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;bash
+cat &amp;lt;YOUR-SERVER&amp;gt;.crt gd&amp;#95;bundle.crt &amp;gt; &amp;lt;YOU-SERVER&amp;gt;&amp;#95;bundle.crt
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a few days usage I am very impressed. The web UI isn't great but it all seems to be very solid and reliable.&lt;/p&gt;&lt;p&gt;And wow, does it sync quickly! It uses &lt;a href='https://en.wikipedia.org/wiki/DeltaSync'&gt;delta syncing&lt;/a&gt; but the initial upload was really quick as well.&lt;/p&gt;&lt;p&gt;It also has a huge feature, which is sorely missing in a lot of these cloud servers, which is you can browser a library from your desktop client without it syncing, so it isn't going to overwhelm the pitifully small SSDs most laptops come with these days.&lt;/p&gt;&lt;p&gt;So yes, all in all, very pleased with it.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 29 Sep 2016 00:00:00 +0100
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-09-28-projectile-killing/
