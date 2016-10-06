@@ -12,11 +12,31 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Thu, 29 Sep 2016 17:22:27 +0100
+Thu, 06 Oct 2016 21:02:12 +0100
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-10-06-just-checking-in/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-10-06-just-checking-in/
+</link>
+<title>
+Been a while
+</title>
+<description>
+&lt;p&gt;So.... how have you all been? It has been a worryingly long time since I last saw you all ;-)&lt;/p&gt;&lt;p&gt;Life seems to be doing all it can to stop me blogging, so this is 'fly by' blog post to keep me in rhythm.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;&lt;a href='https://www.seafile.com'&gt;seafile&lt;/a&gt;&quot;&gt;&lt;/a&gt;&lt;a href='https://www.seafile.com'&gt;seafile&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Wow, this is rocking my world big time - it is great. Disappointed there isn't a 'one-way sync TO the server' as that would replace my use of &lt;code&gt;rsync&lt;/code&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;&lt;a href='https://www.plex.tv'&gt;plex&lt;/a&gt;&quot;&gt;&lt;/a&gt;&lt;a href='https://www.plex.tv'&gt;plex&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Where have you been all my life? Closely following seafile in 'things that make me smile', Plex is awesome for managing your media. Sort of :-) - CDs are a dream, rip them, and the magic of internet-accessible-tag-libraries will pull down cover art, organise them etc. &lt;/p&gt;&lt;p&gt;Doing the same for TV shows or DVDs....not so much. Rip a DVD to MKV format (google makemkv if you don't have a solution already) and it will produce a number of 'titleXX' files.&lt;/p&gt;&lt;p&gt;Import those into Plex (or any media file really) and all sorts of fun, insane and just wrong things will happen.&lt;/p&gt;&lt;p&gt;When you name the titles properly then again, it works like magic. Click on the file icon and you get a lovely full page view of the file, specials, extras etc. with full page cover art pulled from the internet.&lt;/p&gt;&lt;p&gt;I did this with my 'Lost' DVDs and when you click on one of them you get some lovely spooky music.&lt;/p&gt;&lt;p&gt;Very cool. But you have to work at it a bit.&lt;/p&gt;&lt;p&gt;And, if you have close to half a TB of (legally owned!) stuff, it can take a while to upload over Virgin's abysmally small upload speeds.&lt;/p&gt;&lt;p&gt;What else?....er...nope, that's it.&lt;/p&gt;&lt;p&gt;Oooh, actually, before you go - check out Plex's beta 'Cloud' &lt;a href='https://www.engadget.com/2016/09/26/plex-cloud-online-server/'&gt;offering&lt;/a&gt;. Can't wait for that to get out of beta.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 06 Oct 2016 00:00:00 +0100
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-09-29-pydio-seafile/

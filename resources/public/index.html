@@ -51,11 +51,11 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-10-06-just-checking-in/">Been a while</a></li>
+                        
                         <li><a href="/posts-output/2016-09-29-pydio-seafile/">Secure file sharing in the cloud</a></li>
                         
                         <li><a href="/posts-output/2016-09-29-prismatic-schema/">Deprecated warnings from plumatic schema</a></li>
-                        
-                        <li><a href="/posts-output/2016-09-29-circleci-phantomjs/">Circleci, phantomjs</a></li>
                         
                         
 
@@ -91,6 +91,8 @@
                         
                         <li><a href="/tags-output/plumatic/">plumatic</a></li>
                         
+                        <li><a href="/tags-output/discipline/">discipline</a></li>
+                        
                         <li><a href="/tags-output/spacemacs/">spacemacs</a></li>
                         
                         <li><a href="/tags-output/phantomjs/">phantomjs</a></li>
@@ -102,6 +104,8 @@
                         <li><a href="/tags-output/prismatic/">prismatic</a></li>
                         
                         <li><a href="/tags-output/pydio/">pydio</a></li>
+                        
+                        <li><a href="/tags-output/blogging/">blogging</a></li>
                         
                         <li><a href="/tags-output/redemption/">redemption</a></li>
                         
@@ -126,109 +130,38 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">29 September 2016</div>
+        <div class="col-lg-6">06 October 2016</div>
         
     </div>
-    <h2>Secure file sharing in the cloud</h2>
+    <h2>Been a while</h2>
 </div>
 <div>
     
-    <p>We occasionally need to share sensitive files with our clients: new deployment bundles, test data etc. Due to the sensitive nature of our work we <i>must</i> have the following:</p><ul><li>strong usernames/passwords</li><li>no client installation so a decent web UI is necessary</li><li>encryption in transit and at rest</li></ul><p>And as I will be administering it, it must also:</p><ul><li>be trivial to install and upgrade</li><li>not break when you upgrade the OS</li></ul><p>As this is an experiment I want to self-host (as that increases security somewhat) and all the hosted options I have looked at are either too expensive or too cumbersome.</p><h2><a name="pydio"></a>Pydio</h2><p>For a while I used <a href='https://pydio.com'>pydio</a> and it was fine. Installation was tricky (although it has gotten much better recently) but once it was working it was pretty solid.</p><p>It did the following very well:</p><ul><li>a good Linux citizen, config files in the right places for the distribution</li><li>very rounded web UI</li><li>all the files are stored 'as-is' so last-resort backup is as simple as rsync</li></ul><p>The major downsides however:</p><ul><li>everything is stored under www-data and permissions are at the application level</li><li>upgrading Ubuntu to the latest LTS broke it horribly, probably because PHP changed significantly</li><li>sharing between clients never seemed to work properly so we had to copy the same release artifacts between accounts</li><li>the pydio admin would need to issue a username and password which the client never bothered to change</li></ul><p>However, other than those issues (which are all well documented) pydio was fine for sharing via the web.</p><h2><a name="seafile"></a>Seafile</h2><p>I noticed <a href='https://www.seafile.com/en/home/'>seafile</a> when I was first evaluating solutions a while ago. It seemed more focused at file sharing/synchronising than cloud sharing so I dismissed it. However, it seems to have matured nicely and offers a lot out of the box:</p><ul><li>everything is a <a href='https://www.seafile.com/en/help/libraries/'>library</a> which you can share with others</li><li>libraries can be <a href='https://www.seafile.com/en/help/encrypted_libraries/'>encrypted</a> (although there are serious concerns over its encryption)</li><li>users were invited with an email and password which they were forced to change</li><li>uploads and downloads could be done with <a href='https://www.seafile.com/en/help/share/'>security-by-obfuscation</a> URLs which could be password protected and expired</li><li>their <a href='https://www.seafile.com/en/help/install/'>desktop client</a> allows you to sync locally or browse remotely on a library by library basis</li></ul><p>The installation was a peach, the simplest (backup) non-trivial software I have ever installed. It was literally get a fresh debian/ubuntu machine and then run the <a href='https://github.com/seafile/seafile-server-installer'>installation script.</a>.</p><p>After that it was a case of regenerating the SSL and installing it by editing (on debian at least) <code>/etc/nginx/conf.d/seafile.conf</code> to point to the key and the crt:</p><pre><code>server {
-  listen       80;
-  server&#95;name  &quot;&quot;;
-  return 301 https://$http&#95;host$request&#95;uri;
-}
-
-server {
-  listen 443;
-  server&#95;name  &quot;&quot;;
-
-### START - THIS IS WHAT YOU NEED TO CHANGE ###
-  ssl on;
-  ssl&#95;certificate /etc/ssl/certs/&lt;YOUR-SERVER&gt;&#95;bundle.crt; # /etc/nginx/ssl/seafile.crt;
-  ssl&#95;certificate&#95;key /etc/ssl/private/&lt;YOUR-SERVER&gt;.key; # /etc/nginx/ssl/seafile.key;
-### END - THIS IS WHAT YOU NEED TO CHANGE ###
-
-  proxy&#95;set&#95;header X-Forwarded-For $remote&#95;addr;
-
-  location / {
-    fastcgi&#95;pass    127.0.0.1:8000;
-    fastcgi&#95;param   SCRIPT&#95;FILENAME     $document&#95;root$fastcgi&#95;script&#95;name;
-    fastcgi&#95;param   PATH&#95;INFO           $fastcgi&#95;script&#95;name;
-    fastcgi&#95;param   SERVER&#95;PROTOCOL     $server&#95;protocol;
-    fastcgi&#95;param   QUERY&#95;STRING        $query&#95;string;
-    fastcgi&#95;param   REQUEST&#95;METHOD      $request&#95;method;
-    fastcgi&#95;param   CONTENT&#95;TYPE        $content&#95;type;
-    fastcgi&#95;param   CONTENT&#95;LENGTH      $content&#95;length;
-    fastcgi&#95;param   SERVER&#95;ADDR         $server&#95;addr;
-    fastcgi&#95;param   SERVER&#95;PORT         $server&#95;port;
-    fastcgi&#95;param   SERVER&#95;NAME         $server&#95;name;
-    fastcgi&#95;param   REMOTE&#95;ADDR         $remote&#95;addr;
-    fastcgi&#95;param   HTTPS               on;
-    fastcgi&#95;param   HTTP&#95;SCHEME         https;
-    access&#95;log      /var/log/nginx/seahub.access.log;
-    error&#95;log       /var/log/nginx/seahub.error.log;
-  }
-
-  location /seafhttp {
-    rewrite &#94;/seafhttp&#40;.&#42;&#41;$ $1 break;
-    proxy&#95;pass http://127.0.0.1:8082;
-    client&#95;max&#95;body&#95;size 0;
-    proxy&#95;connect&#95;timeout  36000s;
-    proxy&#95;read&#95;timeout  36000s;
-    proxy&#95;send&#95;timeout  36000s;
-  }
-
-  location /media {
-    root /opt/seafile/seafile-server-latest/seahub;
-  }
-
-  location /seafdav {
-    fastcgi&#95;pass    127.0.0.1:8080;
-    fastcgi&#95;param   SCRIPT&#95;FILENAME     $document&#95;root$fastcgi&#95;script&#95;name;
-    fastcgi&#95;param   PATH&#95;INFO           $fastcgi&#95;script&#95;name;
-    fastcgi&#95;param   SERVER&#95;PROTOCOL     $server&#95;protocol;
-    fastcgi&#95;param   QUERY&#95;STRING        $query&#95;string;
-    fastcgi&#95;param   REQUEST&#95;METHOD      $request&#95;method;
-    fastcgi&#95;param   CONTENT&#95;TYPE        $content&#95;type;
-    fastcgi&#95;param   CONTENT&#95;LENGTH      $content&#95;length;
-    fastcgi&#95;param   SERVER&#95;ADDR         $server&#95;addr;
-    fastcgi&#95;param   SERVER&#95;PORT         $server&#95;port;
-    fastcgi&#95;param   SERVER&#95;NAME         $server&#95;name;
-    fastcgi&#95;param   REMOTE&#95;ADDR         $remote&#95;addr;
-    fastcgi&#95;param   HTTPS               on;
-    client&#95;max&#95;body&#95;size 0;
-    access&#95;log      /var/log/nginx/seafdav.access.log;
-    error&#95;log       /var/log/nginx/seafdav.error.log;
-  }
-}
-</code></pre><p>We had to use the 'bundle' crt because godaddy's SSLs signing authority isn't always recognised so the crt is actually the result of:</p><pre><code>bash
-cat &lt;YOUR-SERVER&gt;.crt gd&#95;bundle.crt &gt; &lt;YOU-SERVER&gt;&#95;bundle.crt
-</code></pre><p>After a few days usage I am very impressed. The web UI isn't great but it all seems to be very solid and reliable.</p><p>And wow, does it sync quickly! It uses <a href='https://en.wikipedia.org/wiki/DeltaSync'>delta syncing</a> but the initial upload was really quick as well.</p><p>It also has a huge feature, which is sorely missing in a lot of these cloud servers, which is you can browser a library from your desktop client without it syncing, so it isn't going to overwhelm the pitifully small SSDs most laptops come with these days.</p><p>So yes, all in all, very pleased with it.</p>
+    <p>So.... how have you all been? It has been a worryingly long time since I last saw you all ;-)</p><p>Life seems to be doing all it can to stop me blogging, so this is 'fly by' blog post to keep me in rhythm.</p><h2><a name="<a href='https://www.seafile.com'>seafile</a>"></a><a href='https://www.seafile.com'>seafile</a></h2><p>Wow, this is rocking my world big time - it is great. Disappointed there isn't a 'one-way sync TO the server' as that would replace my use of <code>rsync</code>.</p><h2><a name="<a href='https://www.plex.tv'>plex</a>"></a><a href='https://www.plex.tv'>plex</a></h2><p>Where have you been all my life? Closely following seafile in 'things that make me smile', Plex is awesome for managing your media. Sort of :-) - CDs are a dream, rip them, and the magic of internet-accessible-tag-libraries will pull down cover art, organise them etc. </p><p>Doing the same for TV shows or DVDs....not so much. Rip a DVD to MKV format (google makemkv if you don't have a solution already) and it will produce a number of 'titleXX' files.</p><p>Import those into Plex (or any media file really) and all sorts of fun, insane and just wrong things will happen.</p><p>When you name the titles properly then again, it works like magic. Click on the file icon and you get a lovely full page view of the file, specials, extras etc. with full page cover art pulled from the internet.</p><p>I did this with my 'Lost' DVDs and when you click on one of them you get some lovely spooky music.</p><p>Very cool. But you have to work at it a bit.</p><p>And, if you have close to half a TB of (legally owned!) stuff, it can take a while to upload over Virgin's abysmally small upload speeds.</p><p>What else?....er...nope, that's it.</p><p>Oooh, actually, before you go - check out Plex's beta 'Cloud' <a href='https://www.engadget.com/2016/09/26/plex-cloud-online-server/'>offering</a>. Can't wait for that to get out of beta.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags-output/cloud/">cloud</a>
-    
     <a href="/tags-output/seafile/">seafile</a>
     
-    <a href="/tags-output/pydio/">pydio</a>
+    <a href="/tags-output/discipline/">discipline</a>
+    
+    <a href="/tags-output/blogging/">blogging</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts-output/2016-09-29-pydio-seafile/#disqus_thread">View Comments</a>
+        <a href="/posts-output/2016-10-06-just-checking-in/#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-09-29-prismatic-schema/">Deprecated warnings from plumatic schema &raquo;</a>
+        <a class="right" href="/posts-output/2016-09-29-pydio-seafile/">Secure file sharing in the cloud &raquo;</a>
         
     </div>
 </div>
