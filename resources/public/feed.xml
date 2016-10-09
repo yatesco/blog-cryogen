@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Sun, 09 Oct 2016 13:38:55 +0100
+Sun, 09 Oct 2016 14:20:48 +0100
 </lastBuildDate>
 <generator>
 clj-rss
@@ -28,7 +28,7 @@ http://colinyates.co.uk/posts-output/2016-10-09-seafile-library-history/
 Seafile history
 </title>
 <description>
-&lt;p&gt;Another fly-by post.&lt;/p&gt;&lt;p&gt;&lt;a href='https://www.seafile.com/en/home/'&gt;Seafile&lt;/a&gt; has a really neat 'history' browser - on the web site you will see a little clock icon when viewing a library. If you click this you can navigate to a point-in-time and then either restore the entire library, a folder or a file from that snapshot.&lt;/p&gt;&lt;p&gt;Neat huh - unfortunately it is only on the web, not the local sync client - I wonder if the client doesn't have all the required meta-data.&lt;/p&gt;&lt;p&gt;It is also blindingly quick.&lt;/p&gt;&lt;p&gt;I achieved a very similar thing at work using event-streams - the 'historical view' was literally just a fold over all events up to that point in time - but that is going to have to wait for another day :-).&lt;/p&gt;&lt;p&gt;(P.S. Lame I know, but I haven't figured out how to add pictures to the blog yet - shame.)&lt;/p&gt;
+&lt;p&gt;(&lt;i&gt;NOTE: updated to include images&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;Another fly-by post.&lt;/p&gt;&lt;p&gt;&lt;a href='https://www.seafile.com/en/home/'&gt;Seafile&lt;/a&gt; has a really neat 'history' browser - on the web site you will see a little clock icon when viewing a library. If you click this you can navigate to a point-in-time and then either restore the entire library, a folder or a file from that snapshot.&lt;/p&gt;&lt;p&gt;For example, from the list of libraries:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/library-list.png&quot; alt=&quot;library list&quot; /&gt;&lt;/p&gt;&lt;p&gt;pick a library:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/in-library.png&quot; alt=&quot;a library&quot; /&gt;&lt;/p&gt;&lt;p&gt;click on the history icon:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/history-library.png&quot; alt=&quot;list of snapshots&quot; /&gt;&lt;/p&gt;&lt;p&gt;choose a snapshot:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/history-folder.png&quot; alt=&quot;folders in that snapshot&quot; /&gt;&lt;/p&gt;&lt;p&gt;navigate as you wish:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/history-nested-folder.png&quot; alt=&quot;nested folders&quot; /&gt;&lt;/p&gt;&lt;p&gt;then either restore or download the file:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/seafile-history/history-file.png&quot; alt=&quot;a file&quot; /&gt;&lt;/p&gt;&lt;p&gt;Neat huh - unfortunately it is only on the web, not the local sync client - I wonder if the client doesn't have all the required meta-data.&lt;/p&gt;&lt;p&gt;It is also blindingly quick.&lt;/p&gt;&lt;p&gt;I achieved a very similar thing at work using event-streams - the 'historical view' was literally just a fold over all events up to that point in time - but that is going to have to wait for another day :-).&lt;/p&gt;
 </description>
 <enclosure>
 
