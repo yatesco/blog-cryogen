@@ -12,11 +12,31 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Sun, 09 Oct 2016 14:20:48 +0100
+Sun, 16 Oct 2016 12:21:18 +0100
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-10-16-cancelling-an-online-dot-net-server/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-10-16-cancelling-an-online-dot-net-server/
+</link>
+<title>
+Cancelling an online.net server
+</title>
+<description>
+&lt;p&gt;I have found &lt;a href='https://online.net'&gt;Online.net&lt;/a&gt; great in terms of provisioning time, capability of their UI, customer service etc.&lt;/p&gt;&lt;p&gt;&lt;i&gt;(I have also found some not-so-nice things: setup-costs, cannot use your own Windows license, unclear documentation on whether your server can access the RPN etc. but let's not spoil a nice day :-))&lt;/i&gt;&lt;/p&gt;&lt;p&gt;Anyway, I needed to grab a server to dump my private &lt;a href='http://xenserver.org'&gt;XenServer&lt;/a&gt; (brilliant) cloud when I moved it from &lt;a href='http://ovh.co.uk'&gt;OVH&lt;/a&gt; (er, not so brilliant). Now the migration has finished I needed to cancel the server....ur...how? A web search has a number of reponses but most of them point to the old UI.&lt;/p&gt;&lt;p&gt;Turns out it ISN'T in any obvious place, you know, like next to your list of servers or on the server page itself, but is (cunningly :-() hidden away in your 'Billing' section.&lt;/p&gt;&lt;p&gt;So....logon to your console and click on the little down arrow next to your username in the top right:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/01-console.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;then click on the down arrow:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/02-click-on-name.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;click on 'Services' in the drop down:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/03-list-of-services.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;pick 'Details' next to the server in question:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/04-terminate-button.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;click on the 'Terminate' button:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/05-terminate-confirm.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;and provide a reason:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/img/cancel-online-server/06-termination-explanation.png&quot; alt=&quot;the console&quot; /&gt;&lt;/p&gt;&lt;p&gt;That's it.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Sun, 16 Oct 2016 00:00:00 +0100
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-10-09-seafile-library-history/
