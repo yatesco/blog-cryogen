@@ -51,11 +51,11 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-11-10-helm-ag-ignore-files/">Restricting ag to certain files</a></li>
+                        
                         <li><a href="/posts-output/2016-11-08-abstractions/">The power of an abstraction</a></li>
                         
                         <li><a href="/posts-output/2016-10-16-cancelling-an-online-dot-net-server/">Cancelling an online.net server</a></li>
-                        
-                        <li><a href="/posts-output/2016-10-09-seafile-library-history/">Seafile history</a></li>
                         
                         
 
@@ -87,6 +87,8 @@
                         
                         <li><a href="/tags-output/lein/">lein</a></li>
                         
+                        <li><a href="/tags-output/helm/">helm</a></li>
+                        
                         <li><a href="/tags-output/seafile/">seafile</a></li>
                         
                         <li><a href="/tags-output/tv/">tv</a></li>
@@ -100,6 +102,8 @@
                         <li><a href="/tags-output/discipline/">discipline</a></li>
                         
                         <li><a href="/tags-output/spacemacs/">spacemacs</a></li>
+                        
+                        <li><a href="/tags-output/ag/">ag</a></li>
                         
                         <li><a href="/tags-output/phantomjs/">phantomjs</a></li>
                         
@@ -142,36 +146,44 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">November 8, 2016</div>
+        <div class="col-lg-6">November 10, 2016</div>
         
     </div>
-    <h2>The power of an abstraction</h2>
+    <h2>Restricting ag to certain files</h2>
 </div>
 <div>
     
-    <p>I see a lot of code bases getting into a mess through an inappropriate use of abstraction. Like many things in the Software Engineering industry, it is a tool which is in wide-spread use, learned from poor examples and not particularly well understood.</p><p>For me, the best definition of an abstraction, and I apologise for not crediting whoever coined this phrase (<i>it may well have been me in my yuff :-) but I am pretty sure I read it somewhere</i>):</p><blockquote><p> an abstraction is a name that allows you to more meaningfully and accurately discuss something </p></blockquote><p>That's it. A simple name. Although, if you have been around long enough you will realise that naming things is actually really hard.</p><p>Implicit in the above statement is the notion that an abstraction is a composite of detail. The abstraction is synonymous with all of the rules, behaviours, properties, interactions, lifecycles etc. of the thing it represents.</p><p>How does this differ from 'mere' categorisation? For me (which is my way of saying I am probably wrong), categorisation is a function of what you can see and touch <i>now</i>. Abstraction is about identifying a new <i>thing</i>. Categorisation is about things as they are, abstraction is about what might be.</p><p>Another perspective is that an abstraction is a citizen of the <i>ubiquitous language</i>.</p><h2><a name="what&#95;is&#95;an&#95;abstraction&#95;not?"></a>What is an abstraction not?</h2><p>An abstraction is not simply the normalising of characteristics or properties. 'Everything to do with validation becomes IAmValidatable' is too blunt a hammer.</p><p>Also, abstraction is not everything represented by an Interface or protocol. Every abstraction doesn't require an Interface or protocol, some abstractions might not even be mentioned in your code (although if they aren't in the model itself then I might start asking questions).</p><p>By definitions, good abstractions aren't ambiguous. They mean one thing and only one thing.</p><h2><a name="what&#95;does&#95;an&#95;abstraction&#95;buy&#95;us?"></a>What does an abstraction buy us?</h2><p>A well-formed abstraction is worth its weight in gold. A poor abstraction is less than worthless - it will almost certain lead to ambiguity and miscommunication down the line. The benefits:</p><ul><li>clarity and richness in the ubiquitous language</li><li>reduction of ambiguity when talking about the abstraction</li><li>reduction in the amount of detail needed when talking about what the abstraction represents</li></ul><p>As you can see, abstractions are all about communication.</p><h2><a name="a&#95;good&#95;name&#95;for&#95;an&#95;abstraction?"></a>A good name for an abstraction?</h2><p>I kid you not when I tell you that the best name for an abstraction may well be 'wibble' or 'bloobies' or 'gwenters'. What is this language I am using? What secret sauce have I drunk? Aren't they all meaningless?</p><p>Yes. Absolutely. That is the point!</p><p>If I am trying to convey some complex information to you, and I can't quite put my finger on it but both you and I recognise the shape of it, the <i>worst</i> thing we could do is come up with a label that implies more than we mean. In those situations yes, I have talked about 'wibbles' to a client. And yes, they also thought I was nuts until I explained the problem.</p><p>Later on, when the abstraction became clearer we came up with a wonderful abstraction - it was clear, concise, normalised (in that it didn't mean anything else) and was <i>slightly</i> different to what we had been discussing earlier.</p><p>Some good examples of abstractions you might run into?</p><ul><li>transaction:  clearly defined boundaries and semantics and represents something real and useful</li><li>sequence: a small, well defined concept and is realised by many things (lists, vectors, dictionaries etc.)</li><li>session: similar to transaction</li></ul><p>The list is almost endless. The more you look the more you see abstractions.</p><h2><a name="a&#95;bad&#95;name&#95;for&#95;an&#95;abstraction"></a>A bad name for an abstraction</h2><p>The worst example of an abstraction (by which I mean an insufficiency in its value as a means of communication) I have seen is in the Healthcare Environment. 'Patient', as you might expect, is used a lot. The problem is that it has different and distinct <i>meanings</i> in different contexts. The abstraction 'patient' means:</p><ul><li>a body: a set of demographics who the Healthcare system interacts with</li><li>an appointment: "which patients do you have? I have a 10:30 and a 12:30"</li><li>composite: the composite of appointments that a single 'body' has had</li></ul><p> Now, careful! I am not saying that different perspectives of a domain concept is a bad thing. DDD absolutely advocates this. This isn't that. This is an example where the same term represents distinct concepts. Person and Appointment, or maybe Interaction would be better names. The Appointment/Interaction would have a link to Person, but they are clearly different things.</p><p> For clarity, DDD suggests that different bounded contexts will care about different aspects of the same thing. So accounting might care about the costs associated with the previous interactions of a Person and only require their unique identifier. The medical team might only care about the previous interactions to identify drug dependencies etc. They are all different parts of the same thing.</p><h2><a name="aren't&#95;abstractions&#95;all&#95;wishy&#95;washy&#95;and&#95;result&#95;in&#95;levels&#95;of&#95;indirection?"></a>Aren't abstractions all wishy washy and result in levels of indirection?</h2><p>No, abstractions don't <i>have</i> to be ephemeral. They <i>absolutely are <strong>not</strong></i> simply a level of indirection. If anything, an abstraction removes levels of (conceptual) indirection by bringing some notion closer to you.</p><p>That said, there is sometimes a gap between the concrete and the correct configuration of an abstraction. Consider a request for datasetX. If the server has a model of datasetX then there is no distance. However, if the server uses abstractions of 'data points' and 'relations' and 'criteria', and datasetX is a configuration of those abstractions wired together then yes, that is distance. But it <i>isn't</i> distance between the concrete and the abstraction, it is the <i>configuration</i> of the abstraction that represents the concrete.</p><h2><a name="great,&#95;so&#95;i&#95;can&#95;create&#95;abstractions"></a>Great, so I can create abstractions</h2><p>Of course you can, and almost certainly you already have. However, be ruthless. Ensure that at all times everybody has the same understanding of an abstraction otherwise it is worse than useless. Does it matter if everybody has the <i>wrong</i> understanding? Of course, but consistency and clarity are the objective here, not licensing the semantic police to be pains in the backsides.</p><h2><a name="hang&#95;on,&#95;isn't&#95;this&#95;really&#95;about&#95;the&#95;ubiquitous&#95;language"></a>Hang on, isn't this really about the ubiquitous language</h2><p>Yes, it is really. The main point is that the name you come up with has to be part of the ubiquitous language and therefore inherits all the benefits. In 6 months time you may not know <i>why</i> those 6 different rules are applicable here. If you realise it is because they are relevant for a 'Highly interactive customer' then it all makes sense (where 'Highly interactive customer' is the abstraction).</p><h2><a name="parting&#95;words"></a>Parting words</h2><p>In summary, an abstraction is not a programming construct, it is a thinking and communicating construct. It is a citizen of the ubiquitous domain whose only purpose is to clarify meaning. An ambiguous abstraction is dangerous.</p>
+    <p><a href='https://github.com/ggreer/the_silver_searcher'>ag</a> is great and searches through your code base in the blink of an eye. Coupled with <a href='https://github.com/syohex/emacs-helm-ag'>helm</a> it makes for a great experience finding things. If run in a <code>git</code> project then it helpfully ignores those in your <code>.gitignore</code> file.</p><p>However, in most projects I have files with different extensions, maybe some <code>.md</code> for documentation, some <code>.html</code> for published documentation, <code>.clj</code>, <code>.cljs</code>, <code>.cljc</code>, <code>.js</code> etc. I often know in which files the thing I am searching for lives, but I hadn't figured out a way to restrict <code>ag</code>.</p><p>That isn't quite right - you can restrict <code>ag</code> at the command line with <code>-G&lt;backslash&gt;.&lt;ext&gt;</code> so <code>ag -G&lt;backslash&gt;.cljs DEBT</code> will find the (unfortunately many) instances of code that I consider technical debt.</p><p>(<i>NOTE: Unfortunately I can't figure out how to escape the backslash (&#92;) in code blocks so the literal text is "ag -G&#92;.cljs"</i>)</p><p>This works great, but in spacemacs these sorts of configuration switches are typically mapped to keys.</p><p>Reading the really useful spacemacs FAQ <a href='https://github.com/syl20bnr/spacemacs/blob/master/doc/FAQ.org#use-helm-ag-to-search-only-in-files-of-a-certain-type'>tells you</a> that what you type in the helm input is passed straight through to <code>ag</code>.</p><p>So, next time I need to feel depressed I can search (<code>SPC s p</code>) for "DEBT" or, if I only want to feel generally low then I can search for <code>-G&lt;backslash&gt;.clj DEBT</code> :-)</p><p>Have a great day all.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
+    <a href="/tags-output/tip/">tip</a>
+    
+    <a href="/tags-output/helm/">helm</a>
+    
     <a href="/tags-output/dev/">dev</a>
     
-    <a href="/tags-output/abstraction/">abstraction</a>
+    <a href="/tags-output/emacs/">emacs</a>
+    
+    <a href="/tags-output/spacemacs/">spacemacs</a>
+    
+    <a href="/tags-output/ag/">ag</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts-output/2016-11-08-abstractions/#disqus_thread">View Comments</a>
+        <a href="/posts-output/2016-11-10-helm-ag-ignore-files/#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-10-16-cancelling-an-online-dot-net-server/">Cancelling an online.net server &raquo;</a>
+        <a class="right" href="/posts-output/2016-11-08-abstractions/">The power of an abstraction &raquo;</a>
         
     </div>
 </div>

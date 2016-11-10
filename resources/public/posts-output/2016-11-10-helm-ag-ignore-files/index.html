@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Tags</title>
-    <link rel="canonical" href="http://colinyates.co.uk/tags/">
+    <title>Random musings: Restricting ag to certain files</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-11-10-helm-ag-ignore-files/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -143,78 +143,60 @@
         <div class="col-lg-12">
             <div id="content">
                 
-<div id="tags-page">
-    <div id="page-header">
-        <h2>Tags</h2>
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">November 10, 2016</div>
+        
+    </div>
+    <h2>Restricting ag to certain files</h2>
+</div>
+<div>
+    
+    <p><a href='https://github.com/ggreer/the_silver_searcher'>ag</a> is great and searches through your code base in the blink of an eye. Coupled with <a href='https://github.com/syohex/emacs-helm-ag'>helm</a> it makes for a great experience finding things. If run in a <code>git</code> project then it helpfully ignores those in your <code>.gitignore</code> file.</p><p>However, in most projects I have files with different extensions, maybe some <code>.md</code> for documentation, some <code>.html</code> for published documentation, <code>.clj</code>, <code>.cljs</code>, <code>.cljc</code>, <code>.js</code> etc. I often know in which files the thing I am searching for lives, but I hadn't figured out a way to restrict <code>ag</code>.</p><p>That isn't quite right - you can restrict <code>ag</code> at the command line with <code>-G&lt;backslash&gt;.&lt;ext&gt;</code> so <code>ag -G&lt;backslash&gt;.cljs DEBT</code> will find the (unfortunately many) instances of code that I consider technical debt.</p><p>(<i>NOTE: Unfortunately I can't figure out how to escape the backslash (&#92;) in code blocks so the literal text is "ag -G&#92;.cljs"</i>)</p><p>This works great, but in spacemacs these sorts of configuration switches are typically mapped to keys.</p><p>Reading the really useful spacemacs FAQ <a href='https://github.com/syl20bnr/spacemacs/blob/master/doc/FAQ.org#use-helm-ag-to-search-only-in-files-of-a-certain-type'>tells you</a> that what you type in the helm input is passed straight through to <code>ag</code>.</p><p>So, next time I need to feel depressed I can search (<code>SPC s p</code>) for "DEBT" or, if I only want to feel generally low then I can search for <code>-G&lt;backslash&gt;.clj DEBT</code> :-)</p><p>Have a great day all.</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags-output/tip/">tip</a>
+    
+    <a href="/tags-output/helm/">helm</a>
+    
+    <a href="/tags-output/dev/">dev</a>
+    
+    <a href="/tags-output/emacs/">emacs</a>
+    
+    <a href="/tags-output/spacemacs/">spacemacs</a>
+    
+    <a href="/tags-output/ag/">ag</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/posts-output/2016-11-08-abstractions/">The power of an abstraction &raquo;</a>
+        
     </div>
 
-    <ul>
-        
-        <li><a href="/tags-output/cloud/">cloud</a></li>
-        
-        <li><a href="/tags-output/clojure/">clojure</a></li>
-        
-        <li><a href="/tags-output/tip/">tip</a></li>
-        
-        <li><a href="/tags-output/ci/">ci</a></li>
-        
-        <li><a href="/tags-output/servers/">servers</a></li>
-        
-        <li><a href="/tags-output/broken promises/">broken promises</a></li>
-        
-        <li><a href="/tags-output/projectile/">projectile</a></li>
-        
-        <li><a href="/tags-output/cljs/">cljs</a></li>
-        
-        <li><a href="/tags-output/schema/">schema</a></li>
-        
-        <li><a href="/tags-output/java/">java</a></li>
-        
-        <li><a href="/tags-output/lost/">lost</a></li>
-        
-        <li><a href="/tags-output/lein/">lein</a></li>
-        
-        <li><a href="/tags-output/helm/">helm</a></li>
-        
-        <li><a href="/tags-output/seafile/">seafile</a></li>
-        
-        <li><a href="/tags-output/tv/">tv</a></li>
-        
-        <li><a href="/tags-output/dev/">dev</a></li>
-        
-        <li><a href="/tags-output/emacs/">emacs</a></li>
-        
-        <li><a href="/tags-output/plumatic/">plumatic</a></li>
-        
-        <li><a href="/tags-output/discipline/">discipline</a></li>
-        
-        <li><a href="/tags-output/spacemacs/">spacemacs</a></li>
-        
-        <li><a href="/tags-output/ag/">ag</a></li>
-        
-        <li><a href="/tags-output/phantomjs/">phantomjs</a></li>
-        
-        <li><a href="/tags-output/circleci/">circleci</a></li>
-        
-        <li><a href="/tags-output/cljsbuild/">cljsbuild</a></li>
-        
-        <li><a href="/tags-output/prismatic/">prismatic</a></li>
-        
-        <li><a href="/tags-output/pydio/">pydio</a></li>
-        
-        <li><a href="/tags-output/online.net/">online.net</a></li>
-        
-        <li><a href="/tags-output/blogging/">blogging</a></li>
-        
-        <li><a href="/tags-output/infrastructure/">infrastructure</a></li>
-        
-        <li><a href="/tags-output/abstraction/">abstraction</a></li>
-        
-        <li><a href="/tags-output/redemption/">redemption</a></li>
-        
-        <li><a href="/tags-output/clojurescript/">clojurescript</a></li>
-        
-    </ul>
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-11-10-helm-ag-ignore-files/";
+            this.page.identifier = "Restricting ag to certain files";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
 </div>
 
             </div>

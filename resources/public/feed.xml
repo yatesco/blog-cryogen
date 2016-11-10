@@ -12,11 +12,31 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Tue, 08 Nov 2016 09:53:28 +0000
+Thu, 10 Nov 2016 10:49:05 +0000
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-11-10-helm-ag-ignore-files/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-11-10-helm-ag-ignore-files/
+</link>
+<title>
+Restricting ag to certain files
+</title>
+<description>
+&lt;p&gt;&lt;a href='https://github.com/ggreer/the_silver_searcher'&gt;ag&lt;/a&gt; is great and searches through your code base in the blink of an eye. Coupled with &lt;a href='https://github.com/syohex/emacs-helm-ag'&gt;helm&lt;/a&gt; it makes for a great experience finding things. If run in a &lt;code&gt;git&lt;/code&gt; project then it helpfully ignores those in your &lt;code&gt;.gitignore&lt;/code&gt; file.&lt;/p&gt;&lt;p&gt;However, in most projects I have files with different extensions, maybe some &lt;code&gt;.md&lt;/code&gt; for documentation, some &lt;code&gt;.html&lt;/code&gt; for published documentation, &lt;code&gt;.clj&lt;/code&gt;, &lt;code&gt;.cljs&lt;/code&gt;, &lt;code&gt;.cljc&lt;/code&gt;, &lt;code&gt;.js&lt;/code&gt; etc. I often know in which files the thing I am searching for lives, but I hadn't figured out a way to restrict &lt;code&gt;ag&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;That isn't quite right - you can restrict &lt;code&gt;ag&lt;/code&gt; at the command line with &lt;code&gt;-G&amp;lt;backslash&amp;gt;.&amp;lt;ext&amp;gt;&lt;/code&gt; so &lt;code&gt;ag -G&amp;lt;backslash&amp;gt;.cljs DEBT&lt;/code&gt; will find the (unfortunately many) instances of code that I consider technical debt.&lt;/p&gt;&lt;p&gt;(&lt;i&gt;NOTE: Unfortunately I can't figure out how to escape the backslash (&amp;#92;) in code blocks so the literal text is &quot;ag -G&amp;#92;.cljs&quot;&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;This works great, but in spacemacs these sorts of configuration switches are typically mapped to keys.&lt;/p&gt;&lt;p&gt;Reading the really useful spacemacs FAQ &lt;a href='https://github.com/syl20bnr/spacemacs/blob/master/doc/FAQ.org#use-helm-ag-to-search-only-in-files-of-a-certain-type'&gt;tells you&lt;/a&gt; that what you type in the helm input is passed straight through to &lt;code&gt;ag&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;So, next time I need to feel depressed I can search (&lt;code&gt;SPC s p&lt;/code&gt;) for &quot;DEBT&quot; or, if I only want to feel generally low then I can search for &lt;code&gt;-G&amp;lt;backslash&amp;gt;.clj DEBT&lt;/code&gt; :-)&lt;/p&gt;&lt;p&gt;Have a great day all.&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 10 Nov 2016 00:00:00 +0000
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-11-08-abstractions/
