@@ -12,11 +12,65 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Thu, 10 Nov 2016 10:49:05 +0000
+Fri, 11 Nov 2016 11:13:43 +0000
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-11-11-speeding-up-clojurescript/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-11-11-speeding-up-clojurescript/
+</link>
+<title>
+Adding go-faster stripes to ClojureScript compilation
+</title>
+<description>
+&lt;p&gt;If you are using &lt;a href='https://github.com/clojure/clojurescript'&gt;ClojureScript&lt;/a&gt; (and if not, why not? :-) then I &lt;strong&gt;strongly&lt;/strong&gt; recommend you enable &lt;a href='https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build'&gt;parallel build&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;I mistakenly thought this meant that it would run separate &lt;i&gt;builds&lt;/i&gt; in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.&lt;/p&gt;&lt;p&gt;(&lt;i&gt;Also, to be crystal clear, this isn't going to do anything to your &lt;/i&gt;runtime&lt;i&gt; performance, only the &lt;/i&gt;build&lt;i&gt; time.&lt;/i&gt;)&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;awesome&amp;#95;sauce&amp;#95;-&amp;#95;speed&amp;#95;me&amp;#95;up!&quot;&gt;&lt;/a&gt;Awesome sauce - speed me up!&lt;/h2&gt;&lt;p&gt;It is as simple as adding it to your &lt;code&gt;compiler&lt;/code&gt; options in your &lt;code&gt;cljsbuild&lt;/code&gt; config:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;clojure
+:cljsbuild {:test-commands
+              ;; Test command for running the unit tests in &amp;quot;test-cljs&amp;quot; &amp;#40;see below&amp;#41;.
+              ;; $ lein cljsbuild test
+              ;; NOTE: this does not call health/bootstrap as that causes errors, hence cljs-dev and cljs-prod
+              {&amp;quot;unit&amp;quot; &amp;#91;&amp;quot;phantomjs&amp;quot;
+                       &amp;quot;phantom/unit-test.js&amp;quot;
+                       &amp;quot;resources/private/html/unit-test.html&amp;quot;&amp;#93;}
+              :builds
+              {:test {:source-paths &amp;#91;&amp;quot;src/clj&amp;quot; &amp;quot;src/clj-prod&amp;quot; &amp;quot;src/cljc&amp;quot; &amp;quot;src/cljs&amp;quot; &amp;quot;src/cljs-prod&amp;quot;&amp;#93;
+                      :compiler     {:parallel-build true
+                                     :output-to      &amp;quot;resources/private/js/unit-test.js&amp;quot;
+                                     :output-dir     &amp;quot;resources/private/js/out&amp;quot;
+                                     :optimizations  :whitespace
+                                     :pretty-print   true}}
+               :dev  {:source-paths &amp;#91;&amp;quot;src/clj&amp;quot; &amp;quot;src/clj-prod&amp;quot; &amp;quot;src/cljc&amp;quot; &amp;quot;src/cljs&amp;quot; &amp;quot;src/cljs-prod&amp;quot;&amp;#93;
+                      :figwheel     {:on-jsload      &amp;quot;health.bootstrap/run-render&amp;quot;
+                                     :websocket-host :js-client-host}
+                      :compiler     {:main                 health.core
+                                     :parallel-build       true
+                                     :output-to            &amp;quot;resources/public/compiled/js/app.js&amp;quot;
+                                     :output-dir           &amp;quot;resources/public/compiled/js/out&amp;quot;
+                                     :asset-path           &amp;quot;compiled/js/out&amp;quot;
+                                     :source-map-timestamp true}}
+               :prod {:source-paths &amp;#91;&amp;quot;src/clj&amp;quot; &amp;quot;src/clj-prod&amp;quot; &amp;quot;src/cljc&amp;quot; &amp;quot;src/cljs&amp;quot; &amp;quot;src/cljs-prod&amp;quot;&amp;#93;
+                      :compiler     {:main           health.core
+                                     :parallel-build true
+                                     :output-to      &amp;quot;resources/public/compiled/js/app.js&amp;quot;
+                                     :optimizations  :advanced
+                                     ;; for debugging
+                                     :pretty-print   true
+                                     :pseudo-names   true
+                                     ;; for debugging
+                                     }}}}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(&lt;i&gt;NOTE: I only added it to the &lt;code&gt;:dev&lt;/code&gt; build but I guess you could add it to each build if you wanted to&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;Anecdotally (meaning I can't be bothered to time it properly) it sped up my build by about 300% - yep, that much. Restarting the REPL in the lovely CIDER is no longer an excuse to go and grab some coffee.&lt;/p&gt;&lt;p&gt;Have a great day!&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Fri, 11 Nov 2016 00:00:00 +0000
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-11-10-helm-ag-ignore-files/

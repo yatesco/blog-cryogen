@@ -51,11 +51,11 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-11-11-speeding-up-clojurescript/">Adding go-faster stripes to ClojureScript compilation</a></li>
+                        
                         <li><a href="/posts-output/2016-11-10-helm-ag-ignore-files/">Restricting ag to certain files</a></li>
                         
                         <li><a href="/posts-output/2016-11-08-abstractions/">The power of an abstraction</a></li>
-                        
-                        <li><a href="/posts-output/2016-10-16-cancelling-an-online-dot-net-server/">Cancelling an online.net server</a></li>
                         
                         
 
@@ -146,14 +146,48 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">November 10, 2016</div>
+        <div class="col-lg-6">November 11, 2016</div>
         
     </div>
-    <h2>Restricting ag to certain files</h2>
+    <h2>Adding go-faster stripes to ClojureScript compilation</h2>
 </div>
 <div>
     
-    <p><a href='https://github.com/ggreer/the_silver_searcher'>ag</a> is great and searches through your code base in the blink of an eye. Coupled with <a href='https://github.com/syohex/emacs-helm-ag'>helm</a> it makes for a great experience finding things. If run in a <code>git</code> project then it helpfully ignores those in your <code>.gitignore</code> file.</p><p>However, in most projects I have files with different extensions, maybe some <code>.md</code> for documentation, some <code>.html</code> for published documentation, <code>.clj</code>, <code>.cljs</code>, <code>.cljc</code>, <code>.js</code> etc. I often know in which files the thing I am searching for lives, but I hadn't figured out a way to restrict <code>ag</code>.</p><p>That isn't quite right - you can restrict <code>ag</code> at the command line with <code>-G&lt;backslash&gt;.&lt;ext&gt;</code> so <code>ag -G&lt;backslash&gt;.cljs DEBT</code> will find the (unfortunately many) instances of code that I consider technical debt.</p><p>(<i>NOTE: Unfortunately I can't figure out how to escape the backslash (&#92;) in code blocks so the literal text is "ag -G&#92;.cljs"</i>)</p><p>This works great, but in spacemacs these sorts of configuration switches are typically mapped to keys.</p><p>Reading the really useful spacemacs FAQ <a href='https://github.com/syl20bnr/spacemacs/blob/master/doc/FAQ.org#use-helm-ag-to-search-only-in-files-of-a-certain-type'>tells you</a> that what you type in the helm input is passed straight through to <code>ag</code>.</p><p>So, next time I need to feel depressed I can search (<code>SPC s p</code>) for "DEBT" or, if I only want to feel generally low then I can search for <code>-G&lt;backslash&gt;.clj DEBT</code> :-)</p><p>Have a great day all.</p>
+    <p>If you are using <a href='https://github.com/clojure/clojurescript'>ClojureScript</a> (and if not, why not? :-) then I <strong>strongly</strong> recommend you enable <a href='https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build'>parallel build</a>.</p><p>I mistakenly thought this meant that it would run separate <i>builds</i> in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.</p><p>(<i>Also, to be crystal clear, this isn't going to do anything to your </i>runtime<i> performance, only the </i>build<i> time.</i>)</p><h2><a name="awesome&#95;sauce&#95;-&#95;speed&#95;me&#95;up!"></a>Awesome sauce - speed me up!</h2><p>It is as simple as adding it to your <code>compiler</code> options in your <code>cljsbuild</code> config:</p><pre><code>clojure
+:cljsbuild {:test-commands
+              ;; Test command for running the unit tests in &quot;test-cljs&quot; &#40;see below&#41;.
+              ;; $ lein cljsbuild test
+              ;; NOTE: this does not call health/bootstrap as that causes errors, hence cljs-dev and cljs-prod
+              {&quot;unit&quot; &#91;&quot;phantomjs&quot;
+                       &quot;phantom/unit-test.js&quot;
+                       &quot;resources/private/html/unit-test.html&quot;&#93;}
+              :builds
+              {:test {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
+                      :compiler     {:parallel-build true
+                                     :output-to      &quot;resources/private/js/unit-test.js&quot;
+                                     :output-dir     &quot;resources/private/js/out&quot;
+                                     :optimizations  :whitespace
+                                     :pretty-print   true}}
+               :dev  {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
+                      :figwheel     {:on-jsload      &quot;health.bootstrap/run-render&quot;
+                                     :websocket-host :js-client-host}
+                      :compiler     {:main                 health.core
+                                     :parallel-build       true
+                                     :output-to            &quot;resources/public/compiled/js/app.js&quot;
+                                     :output-dir           &quot;resources/public/compiled/js/out&quot;
+                                     :asset-path           &quot;compiled/js/out&quot;
+                                     :source-map-timestamp true}}
+               :prod {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
+                      :compiler     {:main           health.core
+                                     :parallel-build true
+                                     :output-to      &quot;resources/public/compiled/js/app.js&quot;
+                                     :optimizations  :advanced
+                                     ;; for debugging
+                                     :pretty-print   true
+                                     :pseudo-names   true
+                                     ;; for debugging
+                                     }}}}
+</code></pre><p>(<i>NOTE: I only added it to the <code>:dev</code> build but I guess you could add it to each build if you wanted to</i>)</p><p>Anecdotally (meaning I can't be bothered to time it properly) it sped up my build by about 300% - yep, that much. Restarting the REPL in the lovely CIDER is no longer an excuse to go and grab some coffee.</p><p>Have a great day!</p>
 </div>
 
 <div id="post-tags">
@@ -161,29 +195,27 @@
     
     <a href="/tags-output/tip/">tip</a>
     
-    <a href="/tags-output/helm/">helm</a>
+    <a href="/tags-output/cljs/">cljs</a>
     
     <a href="/tags-output/dev/">dev</a>
     
-    <a href="/tags-output/emacs/">emacs</a>
+    <a href="/tags-output/cljsbuild/">cljsbuild</a>
     
-    <a href="/tags-output/spacemacs/">spacemacs</a>
-    
-    <a href="/tags-output/ag/">ag</a>
+    <a href="/tags-output/clojurescript/">clojurescript</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts-output/2016-11-10-helm-ag-ignore-files/#disqus_thread">View Comments</a>
+        <a href="/posts-output/2016-11-11-speeding-up-clojurescript/#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-11-08-abstractions/">The power of an abstraction &raquo;</a>
+        <a class="right" href="/posts-output/2016-11-10-helm-ag-ignore-files/">Restricting ag to certain files &raquo;</a>
         
     </div>
 </div>

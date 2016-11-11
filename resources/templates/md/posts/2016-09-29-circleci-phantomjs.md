@@ -1,6 +1,6 @@
 {:title "Circleci, phantomjs"
  :layout :post
- :tags  ["circleci" "tip" "phantomjs" "lein" "cljsbuild" "cljs"]}
+ :tags  ["circleci" "tip" "phantomjs" "lein" "cljsbuild" "cljs" "clojurescript"]}
 
 Another quick tip.
 
