@@ -12,7 +12,7 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Fri, 11 Nov 2016 11:13:43 +0000
+Fri, 11 Nov 2016 13:27:36 +0000
 </lastBuildDate>
 <generator>
 clj-rss
@@ -28,7 +28,7 @@ http://colinyates.co.uk/posts-output/2016-11-11-speeding-up-clojurescript/
 Adding go-faster stripes to ClojureScript compilation
 </title>
 <description>
-&lt;p&gt;If you are using &lt;a href='https://github.com/clojure/clojurescript'&gt;ClojureScript&lt;/a&gt; (and if not, why not? :-) then I &lt;strong&gt;strongly&lt;/strong&gt; recommend you enable &lt;a href='https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build'&gt;parallel build&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;I mistakenly thought this meant that it would run separate &lt;i&gt;builds&lt;/i&gt; in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.&lt;/p&gt;&lt;p&gt;(&lt;i&gt;Also, to be crystal clear, this isn't going to do anything to your &lt;/i&gt;runtime&lt;i&gt; performance, only the &lt;/i&gt;build&lt;i&gt; time.&lt;/i&gt;)&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;awesome&amp;#95;sauce&amp;#95;-&amp;#95;speed&amp;#95;me&amp;#95;up!&quot;&gt;&lt;/a&gt;Awesome sauce - speed me up!&lt;/h2&gt;&lt;p&gt;It is as simple as adding it to your &lt;code&gt;compiler&lt;/code&gt; options in your &lt;code&gt;cljsbuild&lt;/code&gt; config:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;clojure
+&lt;p&gt;If you are using &lt;a href='https://github.com/clojure/clojurescript'&gt;ClojureScript&lt;/a&gt; (and if not, why not? :-)) then I &lt;strong&gt;strongly&lt;/strong&gt; recommend you enable &lt;a href='https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build'&gt;parallel build&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;I mistakenly thought this meant that it would run separate &lt;i&gt;builds&lt;/i&gt; in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.&lt;/p&gt;&lt;p&gt;(&lt;i&gt;Also, to be crystal clear, this isn't going to do anything to your &lt;/i&gt;runtime&lt;i&gt; performance, only the &lt;/i&gt;build&lt;i&gt; time.&lt;/i&gt;)&lt;/p&gt;&lt;h2&gt;&lt;a name=&quot;awesome&amp;#95;sauce&amp;#95;-&amp;#95;speed&amp;#95;me&amp;#95;up!&quot;&gt;&lt;/a&gt;Awesome sauce - speed me up!&lt;/h2&gt;&lt;p&gt;It is as simple as adding it to your &lt;code&gt;compiler&lt;/code&gt; options in your &lt;code&gt;cljsbuild&lt;/code&gt; config:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;clojure
 :cljsbuild {:test-commands
               ;; Test command for running the unit tests in &amp;quot;test-cljs&amp;quot; &amp;#40;see below&amp;#41;.
               ;; $ lein cljsbuild test

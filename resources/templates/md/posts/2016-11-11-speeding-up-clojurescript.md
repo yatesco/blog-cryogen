@@ -2,7 +2,7 @@
  :layout :post
  :tags  ["dev" "tip" "clojurescript" "cljs" "cljsbuild"]}
 
-If you are using [ClojureScript](https://github.com/clojure/clojurescript) (and if not, why not? :-) then I **strongly** recommend you enable [parallel build](https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build).
+If you are using [ClojureScript](https://github.com/clojure/clojurescript) (and if not, why not? :-)) then I **strongly** recommend you enable [parallel build](https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build).
 
 I mistakenly thought this meant that it would run separate _builds_ in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.
 
