@@ -51,11 +51,11 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-11-17-a-moan-about-apple/">The rotting Apple</a></li>
+                        
                         <li><a href="/posts-output/2016-11-11-speeding-up-clojurescript/">Adding go-faster stripes to ClojureScript compilation</a></li>
                         
                         <li><a href="/posts-output/2016-11-10-helm-ag-ignore-files/">Restricting ag to certain files</a></li>
-                        
-                        <li><a href="/posts-output/2016-11-08-abstractions/">The power of an abstraction</a></li>
                         
                         
 
@@ -64,6 +64,10 @@
                         <li class="dropdown-header">Tags</li>
                         
                         <li><a href="/tags-output/cloud/">cloud</a></li>
+                        
+                        <li><a href="/tags-output/ux/">ux</a></li>
+                        
+                        <li><a href="/tags-output/apple/">apple</a></li>
                         
                         <li><a href="/tags-output/clojure/">clojure</a></li>
                         
@@ -88,6 +92,8 @@
                         <li><a href="/tags-output/lein/">lein</a></li>
                         
                         <li><a href="/tags-output/helm/">helm</a></li>
+                        
+                        <li><a href="/tags-output/moan/">moan</a></li>
                         
                         <li><a href="/tags-output/seafile/">seafile</a></li>
                         
@@ -146,76 +152,38 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">November 11, 2016</div>
+        <div class="col-lg-6">November 17, 2016</div>
         
     </div>
-    <h2>Adding go-faster stripes to ClojureScript compilation</h2>
+    <h2>The rotting Apple</h2>
 </div>
 <div>
     
-    <p>If you are using <a href='https://github.com/clojure/clojurescript'>ClojureScript</a> (and if not, why not? :-)) then I <strong>strongly</strong> recommend you enable <a href='https://github.com/clojure/clojurescript/wiki/Compiler-Options#parallel-build'>parallel build</a>.</p><p>I mistakenly thought this meant that it would run separate <i>builds</i> in parallel, but no, it is far cleverer and more useful than that, it builds a single build in parallel.</p><p>(<i>Also, to be crystal clear, this isn't going to do anything to your </i>runtime<i> performance, only the </i>build<i> time.</i>)</p><h2><a name="awesome&#95;sauce&#95;-&#95;speed&#95;me&#95;up!"></a>Awesome sauce - speed me up!</h2><p>It is as simple as adding it to your <code>compiler</code> options in your <code>cljsbuild</code> config:</p><pre><code>clojure
-:cljsbuild {:test-commands
-              ;; Test command for running the unit tests in &quot;test-cljs&quot; &#40;see below&#41;.
-              ;; $ lein cljsbuild test
-              ;; NOTE: this does not call health/bootstrap as that causes errors, hence cljs-dev and cljs-prod
-              {&quot;unit&quot; &#91;&quot;phantomjs&quot;
-                       &quot;phantom/unit-test.js&quot;
-                       &quot;resources/private/html/unit-test.html&quot;&#93;}
-              :builds
-              {:test {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
-                      :compiler     {:parallel-build true
-                                     :output-to      &quot;resources/private/js/unit-test.js&quot;
-                                     :output-dir     &quot;resources/private/js/out&quot;
-                                     :optimizations  :whitespace
-                                     :pretty-print   true}}
-               :dev  {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
-                      :figwheel     {:on-jsload      &quot;health.bootstrap/run-render&quot;
-                                     :websocket-host :js-client-host}
-                      :compiler     {:main                 health.core
-                                     :parallel-build       true
-                                     :output-to            &quot;resources/public/compiled/js/app.js&quot;
-                                     :output-dir           &quot;resources/public/compiled/js/out&quot;
-                                     :asset-path           &quot;compiled/js/out&quot;
-                                     :source-map-timestamp true}}
-               :prod {:source-paths &#91;&quot;src/clj&quot; &quot;src/clj-prod&quot; &quot;src/cljc&quot; &quot;src/cljs&quot; &quot;src/cljs-prod&quot;&#93;
-                      :compiler     {:main           health.core
-                                     :parallel-build true
-                                     :output-to      &quot;resources/public/compiled/js/app.js&quot;
-                                     :optimizations  :advanced
-                                     ;; for debugging
-                                     :pretty-print   true
-                                     :pseudo-names   true
-                                     ;; for debugging
-                                     }}}}
-</code></pre><p>(<i>NOTE: I only added it to the <code>:dev</code> build but I guess you could add it to each build if you wanted to</i>)</p><p>Anecdotally (meaning I can't be bothered to time it properly) it sped up my build by about 300% - yep, that much. Restarting the REPL in the lovely CIDER is no longer an excuse to go and grab some coffee.</p><p>Have a great day!</p>
+    <p>I don't usually moan publicly as it never does any good and misery likes company. However, I am having a bad day, this is my personal blog and so Apple is the target.</p><p>When I first started using computers the major contenders were DOS, NextStep or Apple I (or II?). There were also Linux variants such as the venerable twm and fvwm. I think Gnome 1 was just rising up as well.</p><p>I loved NextStep with a passion. I also remember sinking <i>days</i> into configuring my Linux X Windows config file. The first time I saw XWindows appear running FVWM and an xterm at 800x640 resolution was a moment to remember.</p><p>But NextStep, that was where it was at. Everything just made so much sense - the paradigms were intuitive and it just worked.</p><p>Roll on a few years and Apple re-appeared with a reputation for 'just working'. Windows 95 hinted at what we could do but it exposed so much technical complexity it was just a pain. Sure, the online update was great but it just never worked well. Apple was a complete contrast to that. There was nothing to configure, it all just worked. Plug in a camera - sure, a new mouse - fine. Of course, they needed to be Apple 'certified' but fine.</p><p>Like NextStep (which is of course no coincidence), the desktop paradigms just worked (OK, we won't talk about the horror of dragging your floppy disk to the rubbish bin to eject it).</p><p>I still liked Linux because I liked to tinker, and Apple hardware was far too expensive.</p><p>Around the time of OSX I bought into the ecosystem. The first iPhone was incredible to behold, it really was. The first OSX laptop was just magical.</p><p>I continued to like Linux but more and more of my head and heart share was going to OSX.</p><p>Then Apple took the pretty revolutionary step of not charging for OSes which bought a ton of loyalty from me. Not because of the money (there is always a way to give Apple money) but because it really showed that they cared about their users.</p><p>And everything still kept working seamlessly.</p><p>Then the MacBook Pro came along - then onboard SSD, retina etc. It just kept getting better.</p><p>So, the moan?</p><p>Well, Apple has always been a bit of walled garden, that is part of the territory and probably a necessary condition for the perceived quality (oooh, perceived, getting snippy now). But in recent years things just aren't as coherent or seamless as they used to be.</p><p>The ridiculousness of the iCloud 'app specific' file storage. The pain of getting the (close to 1TB) of photos out of iCloud. The pitifully small 8GB storage on iPhones and the failure for iCloud photos optimisation to actually, you know, free up space.</p><p>Rather than paradigms making sense and everything being seamless, we now have a mix of 'stateful' and 'stateless' apps (i.e. close the window and some apps will keep running, others will terminate) <i>within the Apple core products</i>.</p><p>Two major UI changes in as many releases (the change of font and the introduction of the flat theme). The horror of skeuomorphism, but even worse; inconsistent skeuomorphism.</p><p>Rather than Apple leading the market by implementing the next thing we all need (even if we didn't realise it) they seem to have become a short-sighted, 'throw things out there and see what sticks' software company. If I wanted that I would be in the Microsoft camp. Oh wait, actually, Windows 10 is pretty neat. Sure - Microsoft were terrible 'user partners' (which is what a software provider should always be) with the <strong>very</strong> dodgy upgrade practice, but when you swallow that and actually use Windows 10, yeah, it is pretty good.</p><p>The other big turn-off for me was the ridiculous price they charged for specific hardware components. I don't mind paying more for my premium laptop, I do mind paying extortionately more than market price to upgrade its components. Oh, and not being able to upgrade <i>anything</i> post market? That stinks of money grabbing.</p><p>I could maybe swallow all of this if Apple's quality was there but to be blunt, it just isn't. I moved to macOS Sierra a while after it was released, but things just didn't feel as smooth or consistent. Some apps crash (iPhotos for example consistently crashed). I have since moved back to El Capitan and iPhotos still doesn't work. Sometimes it refuses to sync, other times it just crashes.</p><p>Then there are the bug bears that have always irritated me, but have always been quieted due to the good points. Things like browsing network shares. Or being able to start another instance/open a new window of a running application from the dock without having to right click.</p><p>The icing on the (very nasty tasting) cake was the pitiful service Apple have provided to us professionals. A maximum of 16GB in 2016 on their top of the range hardware? Really? Losing <i>all</i> standard ports. Oh, we get a freaky little touch screen thing at the top of the keyboard.</p><p>Hardware is supposed to <i>evolve</i>, not become more restrictive.</p><p>So, after this wall of moan what do I use? I still use El Capitan on my 2014 macbook pro. Not because it is perfect, far from it. But it is still the closest thing to a professional Linux machine I can find.</p><p>I was tempted by Windows 10 and Unbuntu on Windows but it just isn't as integrated as I would like. Ironically I get a better integration experience running Windows 10 in Parallels. Either OS can talk seamlessly to the other OS.</p><p>So yes, I am still here. But I am no longer here because I want to be, only because moving to Linux would be just a little bit too painful now and Windows 10 is still Windows :-) (I have always found Windows XP and 10 painful on the eyes). Windows 7 is the most tempting, but for a while Windows 7 has failed to update itself. I am <i>sure</i> Microsoft hasn't done this on purpose to encourage everybody to upgrade to 10. Nope, of course not.</p><p>The key distinction now though, is I now longer use Apple <i>because</i> of its eco-system and OS. I use it <i>despite</i> the OS. No more iCloud, Apple Music etc. It is little more than a (still pretty beautiful) window manager.</p><p>The most damning summation I can give is that after years of suggesting to my technophobic in-laws that they <i>upgrade</i> to OS I am now encouraging them to stay on Windows 10. OSX nor macOS cater to either professionals or beginners. iPhone - sure, for ever, but desktops/laptops - nope.</p><p>Moan over - go read something positive.</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags-output/tip/">tip</a>
+    <a href="/tags-output/ux/">ux</a>
     
-    <a href="/tags-output/cljs/">cljs</a>
+    <a href="/tags-output/apple/">apple</a>
     
-    <a href="/tags-output/dev/">dev</a>
-    
-    <a href="/tags-output/cljsbuild/">cljsbuild</a>
-    
-    <a href="/tags-output/clojurescript/">clojurescript</a>
+    <a href="/tags-output/moan/">moan</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts-output/2016-11-11-speeding-up-clojurescript/#disqus_thread">View Comments</a>
+        <a href="/posts-output/2016-11-17-a-moan-about-apple/#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-11-10-helm-ag-ignore-files/">Restricting ag to certain files &raquo;</a>
+        <a class="right" href="/posts-output/2016-11-11-speeding-up-clojurescript/">Adding go-faster stripes to ClojureScript compilation &raquo;</a>
         
     </div>
 </div>
