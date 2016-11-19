@@ -10,3 +10,6 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 .nrepl-port
+/resources/.DS_Store
+/.DS_Store
+/resources/templates/.DS_Store
