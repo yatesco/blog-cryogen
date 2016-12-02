@@ -12,11 +12,55 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Sat, 19 Nov 2016 21:07:31 +0000
+Fri, 02 Dec 2016 10:45:22 +0000
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-12-02-lein-manage-dependant-project/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-12-02-lein-manage-dependant-project/
+</link>
+<title>
+Managing dependant projects with lein
+</title>
+<description>
+&lt;p&gt;I &lt;i&gt;strongly&lt;/i&gt; believe that ignorance is one of the most powerful tools we should employ when we build software. As a mechanism to enforce de-coupling it is great. What?! Huh?! No, I haven't lost the plot (any more than usual), I simply mean that I strive to build small components that are as ignorant as possible. The opposite of ignorance is knowledge and the more knowledge a component has the more coupled it is.&lt;/p&gt;&lt;p&gt;So, when it comes to Clojure I tend to have multiple lightweight projects, but unfortunately they can't be released publicly as they are all commercially sensitive. So how do I manage them?&lt;/p&gt;&lt;p&gt;Despite the mass of disconnected and incomplete material on the web it is actually straight forward (for &lt;a href='http://leiningen.org/'&gt;lein&lt;/a&gt;) thanks to the fact &lt;code&gt;lein&lt;/code&gt; talks &lt;code&gt;maven&lt;/code&gt;. Maven uses &lt;a href='https://maven.apache.org/wagon/'&gt;&lt;code&gt;wagons&lt;/code&gt;&lt;/a&gt; as a transport abstraction to push and pull files around. So we simply need to find a &lt;code&gt;wagon&lt;/code&gt; implementation that &lt;code&gt;lein&lt;/code&gt; understands and hook it up.&lt;/p&gt;&lt;p&gt;There are various &lt;code&gt;wagon&lt;/code&gt; implementations, and I figure most people would use Amazon's &lt;a href='https://aws.amazon.com/s3/'&gt;S3&lt;/a&gt; and there &lt;a href='https://github.com/s3-wagon-private/s3-wagon-private'&gt;are&lt;/a&gt; &lt;a href='https://github.com/pjstadig/lein-maven-s3-wagon'&gt;plugins&lt;/a&gt; for that. Just to be contrary I want to use our private servers. Thankfully there is also an SSH &lt;a href='https://github.com/ToBeReplaced/lein-wagon-ssh-external'&gt;implementation&lt;/a&gt; which works a treat.&lt;/p&gt;&lt;p&gt;Using it couldn't be simpler:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;make sure any machine that needs to access the server (e.g. your local build machine and CI server) has access via SSH keys&lt;/li&gt;&lt;li&gt;in the project you want to deploy add the plugin to &lt;code&gt;:plugins&lt;/code&gt; section of your &lt;code&gt;project.clj&lt;/code&gt;&lt;/li&gt;&lt;li&gt;define your repository by adding it to your &lt;code&gt;:repositories&lt;/code&gt; sequence in your &lt;code&gt;project.clj&lt;/code&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Now you can &lt;code&gt;lein deploy &amp;lt;your-repository&amp;gt;&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;In the project that needs to access the previously deployed project add the same &lt;code&gt;plugin&lt;/code&gt; and &lt;code&gt;repository&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;As an example, if &lt;code&gt;project-a&lt;/code&gt; needs to be deployed to the SSH server its &lt;code&gt;project.clj&lt;/code&gt; might look like:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defproject my-company/project-a &amp;quot;0.4.1&amp;quot;
+  :dependencies &amp;#91;
+  ...
+  &amp;#93;
+
+  :plugins &amp;#91;&amp;#91;lein-wagon-ssh-external &amp;quot;0.1.0&amp;quot;&amp;#93;&amp;#93;
+
+  :repositories &amp;#91;&amp;#91;&amp;quot;my-repo&amp;quot; {:url           &amp;quot;scp://some.valid.host/with/a/valid/path&amp;quot;
+                             :username      &amp;quot;the-user-who-is-authenticated-by-your-key&amp;quot;
+                             :sign-releases false}&amp;#93;&amp;#93;
+
+  :aliases {
+            ...
+            &amp;quot;deploy!&amp;quot; &amp;#91;&amp;quot;do&amp;quot; &amp;quot;full-build-cljs!&amp;quot; &amp;#91;&amp;quot;deploy&amp;quot; &amp;quot;my-repo&amp;quot;&amp;#93;&amp;#93;
+            }&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;(&lt;i&gt;NOTE: I didn't bother signing our internal releases, so I added &lt;code&gt;:sign-releases false&lt;/code&gt;.&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;To allow &lt;code&gt;project-b&lt;/code&gt; to access &lt;code&gt;project-a&lt;/code&gt;:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;&amp;#40;defproject my-company/project-b &amp;quot;0.1-SNAPSHOT&amp;quot;
+  :dependencies &amp;#91;
+   &amp;#91;my-company/project-a &amp;quot;0.4.1&amp;quot;&amp;#93;
+  &amp;#93;
+
+  :plugins &amp;#91;&amp;#91;lein-wagon-ssh-external &amp;quot;0.1.0&amp;quot;&amp;#93;&amp;#93;
+
+  :repositories &amp;#91;&amp;#91;&amp;quot;my-repo&amp;quot; {:url      &amp;quot;scp://some.valid.host/with/a/valid/path&amp;quot;
+                             :username &amp;quot;the-user-who-is-authenticated-by-your-key&amp;quot;}&amp;#93;&amp;#93;&amp;#41;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Simple as that :-).&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Fri, 02 Dec 2016 00:00:00 +0000
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-11-18-nas-fun/

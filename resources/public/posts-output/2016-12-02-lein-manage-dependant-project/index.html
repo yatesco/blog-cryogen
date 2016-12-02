@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Random musings: Posts Tagged &quot;storage&quot;</title>
-    <link rel="canonical" href="http://colinyates.co.uk/tags-output/storage/">
+    <title>Random musings: Managing dependant projects with lein</title>
+    <link rel="canonical" href="http://colinyates.co.uk/posts-output/2016-12-02-lein-manage-dependant-project/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700' rel='stylesheet'
           type='text/css'>
@@ -159,17 +159,80 @@
         <div class="col-lg-12">
             <div id="content">
                 
-<div id="posts-by-tag">
-    <div id="page-header">
-        <h2>Posts Tagged &quot;storage&quot;</h2>
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">December 2, 2016</div>
+        
     </div>
-    <ul>
+    <h2>Managing dependant projects with lein</h2>
+</div>
+<div>
     
-        <li>
-            <a href="/posts-output/2016-11-18-nas-fun/">NAS fun</a>
-        </li>
+    <p>I <i>strongly</i> believe that ignorance is one of the most powerful tools we should employ when we build software. As a mechanism to enforce de-coupling it is great. What?! Huh?! No, I haven't lost the plot (any more than usual), I simply mean that I strive to build small components that are as ignorant as possible. The opposite of ignorance is knowledge and the more knowledge a component has the more coupled it is.</p><p>So, when it comes to Clojure I tend to have multiple lightweight projects, but unfortunately they can't be released publicly as they are all commercially sensitive. So how do I manage them?</p><p>Despite the mass of disconnected and incomplete material on the web it is actually straight forward (for <a href='http://leiningen.org/'>lein</a>) thanks to the fact <code>lein</code> talks <code>maven</code>. Maven uses <a href='https://maven.apache.org/wagon/'><code>wagons</code></a> as a transport abstraction to push and pull files around. So we simply need to find a <code>wagon</code> implementation that <code>lein</code> understands and hook it up.</p><p>There are various <code>wagon</code> implementations, and I figure most people would use Amazon's <a href='https://aws.amazon.com/s3/'>S3</a> and there <a href='https://github.com/s3-wagon-private/s3-wagon-private'>are</a> <a href='https://github.com/pjstadig/lein-maven-s3-wagon'>plugins</a> for that. Just to be contrary I want to use our private servers. Thankfully there is also an SSH <a href='https://github.com/ToBeReplaced/lein-wagon-ssh-external'>implementation</a> which works a treat.</p><p>Using it couldn't be simpler:</p><ol><li>make sure any machine that needs to access the server (e.g. your local build machine and CI server) has access via SSH keys</li><li>in the project you want to deploy add the plugin to <code>:plugins</code> section of your <code>project.clj</code></li><li>define your repository by adding it to your <code>:repositories</code> sequence in your <code>project.clj</code></li></ol><p>Now you can <code>lein deploy &lt;your-repository&gt;</code>.</p><p>In the project that needs to access the previously deployed project add the same <code>plugin</code> and <code>repository</code>.</p><p>As an example, if <code>project-a</code> needs to be deployed to the SSH server its <code>project.clj</code> might look like:</p><pre><code>&#40;defproject my-company/project-a &quot;0.4.1&quot;
+  :dependencies &#91;
+  ...
+  &#93;
+
+  :plugins &#91;&#91;lein-wagon-ssh-external &quot;0.1.0&quot;&#93;&#93;
+
+  :repositories &#91;&#91;&quot;my-repo&quot; {:url           &quot;scp://some.valid.host/with/a/valid/path&quot;
+                             :username      &quot;the-user-who-is-authenticated-by-your-key&quot;
+                             :sign-releases false}&#93;&#93;
+
+  :aliases {
+            ...
+            &quot;deploy!&quot; &#91;&quot;do&quot; &quot;full-build-cljs!&quot; &#91;&quot;deploy&quot; &quot;my-repo&quot;&#93;&#93;
+            }&#41;
+</code></pre><p>(<i>NOTE: I didn't bother signing our internal releases, so I added <code>:sign-releases false</code>.</i>)</p><p>To allow <code>project-b</code> to access <code>project-a</code>:</p><pre><code>&#40;defproject my-company/project-b &quot;0.1-SNAPSHOT&quot;
+  :dependencies &#91;
+   &#91;my-company/project-a &quot;0.4.1&quot;&#93;
+  &#93;
+
+  :plugins &#91;&#91;lein-wagon-ssh-external &quot;0.1.0&quot;&#93;&#93;
+
+  :repositories &#91;&#91;&quot;my-repo&quot; {:url      &quot;scp://some.valid.host/with/a/valid/path&quot;
+                             :username &quot;the-user-who-is-authenticated-by-your-key&quot;}&#93;&#93;&#41;
+</code></pre><p>Simple as that :-).</p>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
     
-    </ul>
+    <a href="/tags-output/clojure/">clojure</a>
+    
+    <a href="/tags-output/lein/">lein</a>
+    
+    <a href="/tags-output/dev/">dev</a>
+    
+    <a href="/tags-output/maven/">maven</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/posts-output/2016-11-18-nas-fun/">NAS fun &raquo;</a>
+        
+    </div>
+
+    
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_config = function () {
+            this.page.url = "http://colinyates.co.uk/posts-output/2016-12-02-lein-manage-dependant-project/";
+            this.page.identifier = "Managing dependant projects with lein";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//colinyates123.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    
+
+
 </div>
 
             </div>
