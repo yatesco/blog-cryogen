@@ -12,11 +12,37 @@ http://colinyates.co.uk
 Random musics of a confused mind
 </description>
 <lastBuildDate>
-Fri, 02 Dec 2016 10:45:22 +0000
+Thu, 08 Dec 2016 17:33:01 +0000
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+http://colinyates.co.uk/posts-output/2016-12-08-unraid-and-ssh-keys/
+</guid>
+<link>
+http://colinyates.co.uk/posts-output/2016-12-08-unraid-and-ssh-keys/
+</link>
+<title>
+SSH Keys and unRAID
+</title>
+<description>
+&lt;p&gt;I wanted to &lt;code&gt;rsync&lt;/code&gt; some data directly to and from my &lt;a href='https://lime-technology.com'&gt;unRAID&lt;/a&gt; server. (And yes, the eagle eyed amongst you will remember I moved away from it &lt;a href='https://colinyates.co.uk/posts-output/2016-11-18-nas-fun/'&gt;previously&lt;/a&gt;. I'm back, but that's for another post.)&lt;/p&gt;&lt;p&gt;The problem is that &lt;code&gt;sshd&lt;/code&gt; is a pig about permissions and whilst &lt;code&gt;unRAID&lt;/code&gt; does come with some persistent SSH keys, because of the underlying file system (exFAT or FAT32) the permissions are too strict.&lt;/p&gt;&lt;p&gt;So, what to do?&lt;/p&gt;&lt;p&gt;Well, as I am sure you know, SSH is all about two files, a private one you own and protect and a public one which you can give out willy-nilly. &lt;i&gt;Usually&lt;/i&gt; those are &lt;code&gt;.ssh/id&amp;#95;rsa&lt;/code&gt; and &lt;code&gt;.ssh/id&amp;#95;rsa.pub&lt;/code&gt; but they can actually come from anywhere. &lt;/p&gt;&lt;p&gt;The plan is therefore straightforward:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Find a sensible file system&lt;/li&gt;&lt;li&gt;Generate a new SSH key pair onto that file system&lt;/li&gt;&lt;li&gt;Copy the &lt;code&gt;.pub&lt;/code&gt; to the client machine&lt;/li&gt;&lt;li&gt;&lt;code&gt;ssh&lt;/code&gt; using that key&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;Specifically I am  &lt;code&gt;rsync&lt;/code&gt;ing, but let's create the keys first.&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;generate&amp;#95;the&amp;#95;keys&amp;#95;and&amp;#95;secure&amp;#95;them&quot;&gt;&lt;/a&gt;Generate the keys and secure them&lt;/h1&gt;&lt;p&gt;Given &lt;code&gt;unRAID&lt;/code&gt; is all about your shares, and those shares live on an XFS filesystem, why not choose a (very secure and not public!) share? I therefore created one share called &quot;vault&quot;, locked it down in &lt;code&gt;unRAID&lt;/code&gt; and created the relevant keys: &lt;pre&gt;&lt;code&gt;mkdir /mnt/user/Vault
+ssh-keygen -t RSA -f /mnt/user/Value/clientA
+ &lt;/code&gt;&lt;/pre&gt; (&lt;i&gt;make sure you don't use a passkey for the SSH keys themselves&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;This creates &lt;code&gt;/mnt/user/Vault/clientA&lt;/code&gt; and &lt;code&gt;/mnt/user/Value/clientA.pub&lt;/code&gt;. The &lt;code&gt;.pub&lt;/code&gt; is the public key you can throw around with abandon. The one without the &lt;code&gt;.pub&lt;/code&gt; is your private one which you want to wrap in tinfoil and put in a locked box.&lt;/p&gt;&lt;p&gt;The permissions for both should be no more than 0600 (user read and write only), but &lt;code&gt;ssh-keygen&lt;/code&gt; does that automatically. If not then a &lt;code&gt;chmod 0600 &amp;lt;clientA&amp;gt;&amp;#42;&lt;/code&gt; will suffice.&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;copy&amp;#95;the&amp;#95;&lt;code&gt;.pub&lt;/code&gt;&amp;#95;to&amp;#95;the&amp;#95;client&amp;#95;machine&quot;&gt;&lt;/a&gt;Copy the &lt;code&gt;.pub&lt;/code&gt; to the client machine&lt;/h1&gt;&lt;p&gt;Simple as &lt;code&gt;ssh-copy-id -l &amp;lt;the remote user&amp;gt; -i /mnt/user/Vault/clientA.pub &amp;lt;the remote server&amp;gt;&lt;/code&gt; . Note you are copying the &lt;code&gt;.pub&lt;/code&gt;lic key, not the private one! Enter the password and that if it all goes well that is the last time you need to enter that password ;-).&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;ssh&amp;#95;using&amp;#95;that&amp;#95;key&quot;&gt;&lt;/a&gt;SSH using that key&lt;/h1&gt;&lt;p&gt;A subsequent &lt;code&gt;ssh -l &amp;lt;the remote user&amp;gt; -i /mnt/user/Vault/clientA.pub &amp;lt;the remote server&amp;gt;&lt;/code&gt; should get you in immediately. &lt;/p&gt;&lt;p&gt;Great, but what has this got to do with &lt;code&gt;rsync&lt;/code&gt;? Well, &lt;code&gt;rsync&lt;/code&gt; and &lt;i&gt;many&lt;/i&gt; other things work over &lt;code&gt;ssh&lt;/code&gt;. All we need to do is tell &lt;code&gt;rsync&lt;/code&gt; which key to use:&lt;pre&gt;&lt;code&gt;rsync -avz --stats --progress --rsh=&amp;quot;ssh -l &amp;lt;the remote user&amp;gt; -i /mnt/user/Vault/clientA&amp;quot; &amp;lt;the remote IP&amp;gt;:&amp;lt;the path you want to retrieve&amp;gt; &amp;lt;the local dir the remote dir will sync to&amp;gt; 
+ &lt;/code&gt;&lt;/pre&gt; &lt;i&gt;(note, you want to reference your private key here&lt;/i&gt;)&lt;/p&gt;&lt;p&gt;So, if my remote username is &quot;bobby&quot;, the server is called &quot;bobserver&quot;, the remote directory is &quot;/opt/photos&quot; and it is going be stored into &lt;code&gt;/mnt/user/BobsBackup&lt;/code&gt; I would do the following:&lt;pre&gt;&lt;code&gt;ssh-keygen -t rsa -f /mnt/user/Vault/bobby
+ssh-copy-id -i /mnt/user/Vault/bobby.pub bobby@bobserver
+rsync -avz --stats --progress -rsh=&amp;quot;ssh -l bobby -i /mnt/user/Vault/bobby&amp;quot; bobserver:/opt/photos /mnt/user/BobsBackup
+ &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;&lt;p&gt;The next job is to add a &lt;code&gt;cron&lt;/code&gt; job to do the &lt;code&gt;rsync&lt;/code&gt; at a regular schedule. That is a post for another day (trivially editing &lt;code&gt;/boot/config/go&lt;/code&gt; really, but my tea is ready :-))&lt;/p&gt;&lt;h1&gt;&lt;a name=&quot;a&amp;#95;variation&quot;&gt;&lt;/a&gt;A variation&lt;/h1&gt;&lt;p&gt;If you didn't want to create your keys on a share then the alternative would be to edit &lt;code&gt;/boot/config/go&lt;/code&gt; to copy the keys (maybe even the already existing &lt;code&gt;/boot/config/ssh/&amp;#42;.keys&lt;/code&gt;) onto a sensible file system, &lt;code&gt;chmod 0600&lt;/code&gt; them and then reference those.&lt;/p&gt;&lt;p&gt;Great - go for it :-).&lt;/p&gt;
+</description>
+<enclosure>
+
+</enclosure>
+<pubDate>
+Thu, 08 Dec 2016 00:00:00 +0000
+</pubDate>
+</item>
 <item>
 <guid>
 http://colinyates.co.uk/posts-output/2016-12-02-lein-manage-dependant-project/

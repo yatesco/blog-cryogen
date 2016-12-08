@@ -51,11 +51,11 @@
                         <li class="divider"></li>
                         <li class="dropdown-header">Recent Posts</li>
                         
+                        <li><a href="/posts-output/2016-12-08-unraid-and-ssh-keys/">SSH Keys and unRAID</a></li>
+                        
                         <li><a href="/posts-output/2016-12-02-lein-manage-dependant-project/">Managing dependant projects with lein</a></li>
                         
                         <li><a href="/posts-output/2016-11-18-nas-fun/">NAS fun</a></li>
-                        
-                        <li><a href="/posts-output/2016-11-17-a-moan-about-apple/">The rotting Apple</a></li>
                         
                         
 
@@ -99,6 +99,8 @@
                         
                         <li><a href="/tags-output/moan/">moan</a></li>
                         
+                        <li><a href="/tags-output/unraid/">unraid</a></li>
+                        
                         <li><a href="/tags-output/seafile/">seafile</a></li>
                         
                         <li><a href="/tags-output/drivepool/">drivepool</a></li>
@@ -135,6 +137,8 @@
                         
                         <li><a href="/tags-output/blogging/">blogging</a></li>
                         
+                        <li><a href="/tags-output/ssh/">ssh</a></li>
+                        
                         <li><a href="/tags-output/infrastructure/">infrastructure</a></li>
                         
                         <li><a href="/tags-output/abstraction/">abstraction</a></li>
@@ -162,64 +166,42 @@
 <div id="post">
     <div class="post-header">
     <div id="post-meta" class="row">
-        <div class="col-lg-6">December 2, 2016</div>
+        <div class="col-lg-6">08 December 2016</div>
         
     </div>
-    <h2>Managing dependant projects with lein</h2>
+    <h2>SSH Keys and unRAID</h2>
 </div>
 <div>
     
-    <p>I <i>strongly</i> believe that ignorance is one of the most powerful tools we should employ when we build software. As a mechanism to enforce de-coupling it is great. What?! Huh?! No, I haven't lost the plot (any more than usual), I simply mean that I strive to build small components that are as ignorant as possible. The opposite of ignorance is knowledge and the more knowledge a component has the more coupled it is.</p><p>So, when it comes to Clojure I tend to have multiple lightweight projects, but unfortunately they can't be released publicly as they are all commercially sensitive. So how do I manage them?</p><p>Despite the mass of disconnected and incomplete material on the web it is actually straight forward (for <a href='http://leiningen.org/'>lein</a>) thanks to the fact <code>lein</code> talks <code>maven</code>. Maven uses <a href='https://maven.apache.org/wagon/'><code>wagons</code></a> as a transport abstraction to push and pull files around. So we simply need to find a <code>wagon</code> implementation that <code>lein</code> understands and hook it up.</p><p>There are various <code>wagon</code> implementations, and I figure most people would use Amazon's <a href='https://aws.amazon.com/s3/'>S3</a> and there <a href='https://github.com/s3-wagon-private/s3-wagon-private'>are</a> <a href='https://github.com/pjstadig/lein-maven-s3-wagon'>plugins</a> for that. Just to be contrary I want to use our private servers. Thankfully there is also an SSH <a href='https://github.com/ToBeReplaced/lein-wagon-ssh-external'>implementation</a> which works a treat.</p><p>Using it couldn't be simpler:</p><ol><li>make sure any machine that needs to access the server (e.g. your local build machine and CI server) has access via SSH keys</li><li>in the project you want to deploy add the plugin to <code>:plugins</code> section of your <code>project.clj</code></li><li>define your repository by adding it to your <code>:repositories</code> sequence in your <code>project.clj</code></li></ol><p>Now you can <code>lein deploy &lt;your-repository&gt;</code>.</p><p>In the project that needs to access the previously deployed project add the same <code>plugin</code> and <code>repository</code>.</p><p>As an example, if <code>project-a</code> needs to be deployed to the SSH server its <code>project.clj</code> might look like:</p><pre><code>&#40;defproject my-company/project-a &quot;0.4.1&quot;
-  :dependencies &#91;
-  ...
-  &#93;
-
-  :plugins &#91;&#91;lein-wagon-ssh-external &quot;0.1.0&quot;&#93;&#93;
-
-  :repositories &#91;&#91;&quot;my-repo&quot; {:url           &quot;scp://some.valid.host/with/a/valid/path&quot;
-                             :username      &quot;the-user-who-is-authenticated-by-your-key&quot;
-                             :sign-releases false}&#93;&#93;
-
-  :aliases {
-            ...
-            &quot;deploy!&quot; &#91;&quot;do&quot; &quot;full-build-cljs!&quot; &#91;&quot;deploy&quot; &quot;my-repo&quot;&#93;&#93;
-            }&#41;
-</code></pre><p>(<i>NOTE: I didn't bother signing our internal releases, so I added <code>:sign-releases false</code>.</i>)</p><p>To allow <code>project-b</code> to access <code>project-a</code>:</p><pre><code>&#40;defproject my-company/project-b &quot;0.1-SNAPSHOT&quot;
-  :dependencies &#91;
-   &#91;my-company/project-a &quot;0.4.1&quot;&#93;
-  &#93;
-
-  :plugins &#91;&#91;lein-wagon-ssh-external &quot;0.1.0&quot;&#93;&#93;
-
-  :repositories &#91;&#91;&quot;my-repo&quot; {:url      &quot;scp://some.valid.host/with/a/valid/path&quot;
-                             :username &quot;the-user-who-is-authenticated-by-your-key&quot;}&#93;&#93;&#41;
-</code></pre><p>Simple as that :-).</p>
+    <p>I wanted to <code>rsync</code> some data directly to and from my <a href='https://lime-technology.com'>unRAID</a> server. (And yes, the eagle eyed amongst you will remember I moved away from it <a href='https://colinyates.co.uk/posts-output/2016-11-18-nas-fun/'>previously</a>. I'm back, but that's for another post.)</p><p>The problem is that <code>sshd</code> is a pig about permissions and whilst <code>unRAID</code> does come with some persistent SSH keys, because of the underlying file system (exFAT or FAT32) the permissions are too strict.</p><p>So, what to do?</p><p>Well, as I am sure you know, SSH is all about two files, a private one you own and protect and a public one which you can give out willy-nilly. <i>Usually</i> those are <code>.ssh/id&#95;rsa</code> and <code>.ssh/id&#95;rsa.pub</code> but they can actually come from anywhere. </p><p>The plan is therefore straightforward:</p><ol><li>Find a sensible file system</li><li>Generate a new SSH key pair onto that file system</li><li>Copy the <code>.pub</code> to the client machine</li><li><code>ssh</code> using that key</li></ol><p>Specifically I am  <code>rsync</code>ing, but let's create the keys first.</p><h1><a name="generate&#95;the&#95;keys&#95;and&#95;secure&#95;them"></a>Generate the keys and secure them</h1><p>Given <code>unRAID</code> is all about your shares, and those shares live on an XFS filesystem, why not choose a (very secure and not public!) share? I therefore created one share called "vault", locked it down in <code>unRAID</code> and created the relevant keys: <pre><code>mkdir /mnt/user/Vault
+ssh-keygen -t RSA -f /mnt/user/Value/clientA
+ </code></pre> (<i>make sure you don't use a passkey for the SSH keys themselves</i>)</p><p>This creates <code>/mnt/user/Vault/clientA</code> and <code>/mnt/user/Value/clientA.pub</code>. The <code>.pub</code> is the public key you can throw around with abandon. The one without the <code>.pub</code> is your private one which you want to wrap in tinfoil and put in a locked box.</p><p>The permissions for both should be no more than 0600 (user read and write only), but <code>ssh-keygen</code> does that automatically. If not then a <code>chmod 0600 &lt;clientA&gt;&#42;</code> will suffice.</p><h1><a name="copy&#95;the&#95;<code>.pub</code>&#95;to&#95;the&#95;client&#95;machine"></a>Copy the <code>.pub</code> to the client machine</h1><p>Simple as <code>ssh-copy-id -l &lt;the remote user&gt; -i /mnt/user/Vault/clientA.pub &lt;the remote server&gt;</code> . Note you are copying the <code>.pub</code>lic key, not the private one! Enter the password and that if it all goes well that is the last time you need to enter that password ;-).</p><h1><a name="ssh&#95;using&#95;that&#95;key"></a>SSH using that key</h1><p>A subsequent <code>ssh -l &lt;the remote user&gt; -i /mnt/user/Vault/clientA.pub &lt;the remote server&gt;</code> should get you in immediately. </p><p>Great, but what has this got to do with <code>rsync</code>? Well, <code>rsync</code> and <i>many</i> other things work over <code>ssh</code>. All we need to do is tell <code>rsync</code> which key to use:<pre><code>rsync -avz --stats --progress --rsh=&quot;ssh -l &lt;the remote user&gt; -i /mnt/user/Vault/clientA&quot; &lt;the remote IP&gt;:&lt;the path you want to retrieve&gt; &lt;the local dir the remote dir will sync to&gt; 
+ </code></pre> <i>(note, you want to reference your private key here</i>)</p><p>So, if my remote username is "bobby", the server is called "bobserver", the remote directory is "/opt/photos" and it is going be stored into <code>/mnt/user/BobsBackup</code> I would do the following:<pre><code>ssh-keygen -t rsa -f /mnt/user/Vault/bobby
+ssh-copy-id -i /mnt/user/Vault/bobby.pub bobby@bobserver
+rsync -avz --stats --progress -rsh=&quot;ssh -l bobby -i /mnt/user/Vault/bobby&quot; bobserver:/opt/photos /mnt/user/BobsBackup
+ </code></pre></p><p>The next job is to add a <code>cron</code> job to do the <code>rsync</code> at a regular schedule. That is a post for another day (trivially editing <code>/boot/config/go</code> really, but my tea is ready :-))</p><h1><a name="a&#95;variation"></a>A variation</h1><p>If you didn't want to create your keys on a share then the alternative would be to edit <code>/boot/config/go</code> to copy the keys (maybe even the already existing <code>/boot/config/ssh/&#42;.keys</code>) onto a sensible file system, <code>chmod 0600</code> them and then reference those.</p><p>Great - go for it :-).</p>
 </div>
 
 <div id="post-tags">
     <b>Tags: </b>
     
-    <a href="/tags-output/clojure/">clojure</a>
+    <a href="/tags-output/unraid/">unraid</a>
     
-    <a href="/tags-output/lein/">lein</a>
-    
-    <a href="/tags-output/dev/">dev</a>
-    
-    <a href="/tags-output/maven/">maven</a>
+    <a href="/tags-output/ssh/">ssh</a>
     
 </div>
 
 
     
     <div id="comments">
-        <a href="/posts-output/2016-12-02-lein-manage-dependant-project/#disqus_thread">View Comments</a>
+        <a href="/posts-output/2016-12-08-unraid-and-ssh-keys/#disqus_thread">View Comments</a>
     </div>
     
 
     <div id="prev-next">
         
         
-        <a class="right" href="/posts-output/2016-11-18-nas-fun/">NAS fun &raquo;</a>
+        <a class="right" href="/posts-output/2016-12-02-lein-manage-dependant-project/">Managing dependant projects with lein &raquo;</a>
         
     </div>
 </div>
